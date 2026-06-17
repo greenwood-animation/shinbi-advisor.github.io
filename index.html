@@ -25,8 +25,8 @@
       }
       #unity-canvas {
         display: block;
-        width: 960px;
-        height: 600px;
+        width: 1920px;
+        height: 1080px;
       }
       #unity-loading-bar {
         position: absolute;
@@ -73,7 +73,7 @@
     </div>
 
     <div id="unity-container">
-      <canvas id="unity-canvas" width="960" height="600"></canvas>
+      <canvas id="unity-canvas" width="1920" height="1080"></canvas>
       <div id="unity-loading-bar">
         <div id="unity-logo"></div>
         <div id="unity-progress-bar-empty">
@@ -92,8 +92,8 @@
       var container = document.querySelector("#unity-container");
       var isMobile  = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-      var BASE_W = 960;
-      var BASE_H = 600;
+      var BASE_W = 1920;
+      var BASE_H = 1080;
 
       function resize() {
         var W = window.innerWidth;
