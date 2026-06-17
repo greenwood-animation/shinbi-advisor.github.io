@@ -52,12 +52,12 @@
       }
 
       var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/02.loader.js";
+      var loaderUrl = buildUrl + "/03.loader.js";
       var config = {
         arguments: [],
-        dataUrl: buildUrl + "/02.data",
-        frameworkUrl: buildUrl + "/02.framework.js",
-        codeUrl: buildUrl + "/02.wasm",
+        dataUrl: buildUrl + "/03.data",
+        frameworkUrl: buildUrl + "/03.framework.js",
+        codeUrl: buildUrl + "/03.wasm",
         streamingAssetsUrl: "StreamingAssets",
         companyName: "DefaultCompany",
         productName: "shinbi-advisor",
@@ -118,7 +118,7 @@
               }).then((unityInstance) => {
                 document.querySelector("#unity-loading-bar").style.display = "none";
                 document.querySelector("#unity-fullscreen-button").onclick = () => {
-                  unityInstance.SetFullscreen(1);
+                  document.makeFullscreen('unity-container');
                 };
 
               }).catch((message) => {
