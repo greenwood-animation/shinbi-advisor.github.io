@@ -134,6 +134,7 @@ function showScreen(name) {
   document.querySelectorAll(".screen").forEach((s) => s.classList.remove("is-active"));
   $(`#screen-${name}`).classList.add("is-active");
   window.scrollTo({ top: 0, behavior: "smooth" });
+  if (name === "menu" && DATA) speak(DATA.intro || "");
 }
 
 init();
