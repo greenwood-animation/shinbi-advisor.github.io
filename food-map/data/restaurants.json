@@ -41,7 +41,7 @@
         },
         {
           "name": "명진전복",
-          "x": 78, "y": 28,
+          "x": 78, "y": 30,
           "rating": "4.3",
           "address": "제주 제주시 구좌읍 해맞이해안로 1282",
           "hours": "09:30 영업 시작",
@@ -55,16 +55,412 @@
         }
       ]
     },
-    { "id": "bomaljuk", "name": "보말죽", "emoji": "🥣", "image": "assets/menus/bomaljuk.png", "desc": "제주 갯바위에서 캔 보말로 끓인 고소한 죽. 바다 내음 가득한 제주 보양식이야.", "restaurants": [] },
-    { "id": "okdom", "name": "옥돔 구이", "emoji": "🐟", "image": "assets/menus/okdom.png", "desc": "제주 대표 생선 옥돔을 노릇하게 구운 별미. 담백하고 살이 부드러워.", "restaurants": [] },
-    { "id": "godeungeo", "name": "고등어 구이", "emoji": "🐠", "image": "assets/menus/godeungeo.png", "desc": "제주 앞바다 고등어를 통째로 구워낸 든든한 한 끼.", "restaurants": [] },
-    { "id": "bomal-kalguksu", "name": "보말 칼국수", "emoji": "🍜", "image": "assets/menus/bomal-kalguksu.png", "desc": "보말과 톳을 넣어 시원하게 끓인 제주식 칼국수.", "restaurants": [] },
-    { "id": "hoe", "name": "회", "emoji": "🍣", "image": "assets/menus/hoe.png", "desc": "그날 잡은 제주 활어로 즐기는 싱싱한 회 한 접시.", "restaurants": [] },
-    { "id": "seonggae-guk", "name": "성게 미역국", "emoji": "🍲", "image": "assets/menus/seonggae-guk.png", "desc": "성게의 진한 풍미가 우러난 깊고 시원한 미역국.", "restaurants": [] },
-    { "id": "seonggae-bibim", "name": "성게 비빔밥", "emoji": "🍚", "image": "assets/menus/seonggae-bibim.png", "desc": "노란 성게알을 듬뿍 올린 고소한 비빔밥.", "restaurants": [] },
-    { "id": "galchi", "name": "갈치 조림", "emoji": "🍲", "image": "assets/menus/galchi.png", "desc": "제주 은갈치를 무와 함께 칼칼하게 졸여낸 밥도둑.", "restaurants": [] },
-    { "id": "haemul-ramen", "name": "해물 라면", "emoji": "🍜", "image": "assets/menus/haemul-ramen.png", "desc": "전복·홍합·새우를 가득 넣은 시원한 해물라면.", "restaurants": [] },
-    { "id": "mulhoe", "name": "물회", "emoji": "🥗", "image": "assets/menus/mulhoe.png", "desc": "새콤달콤 육수에 회를 말아먹는 여름 별미.", "restaurants": [] },
-    { "id": "obunjak", "name": "오분작 뚝배기", "emoji": "🍲", "image": "assets/menus/obunjak.png", "desc": "제주 오분자기를 넣어 끓인 진한 뚝배기.", "restaurants": [] }
+    {
+      "id": "bomaljuk",
+      "name": "보말죽",
+      "emoji": "🥣",
+      "image": "assets/menus/bomaljuk.png",
+      "desc": "제주 갯바위에서 캔 보말로 끓인 고소한 죽. 바다 내음 가득한 제주 보양식이야.",
+      "restaurants": [
+        {
+          "name": "해녀촌 보말집",
+          "x": 25, "y": 38,
+          "rating": "4.1",
+          "address": "제주 제주시 애월읍 애월해안로 134",
+          "hours": "09:00 영업 시작",
+          "phone": "064-799-1234",
+          "photo": "",
+          "menu": [
+            { "name": "보말죽", "price": "12,000" },
+            { "name": "보말칼국수", "price": "10,000" }
+          ],
+          "naverPlaceUrl": "https://map.naver.com/p/search/애월 보말죽"
+        },
+        {
+          "name": "성산보말마당",
+          "x": 80, "y": 45,
+          "rating": "4.0",
+          "address": "제주 서귀포시 성산읍 일출로 256",
+          "hours": "08:30 영업 시작",
+          "phone": "064-784-5678",
+          "photo": "",
+          "menu": [
+            { "name": "보말죽", "price": "13,000" },
+            { "name": "전복보말죽", "price": "16,000" }
+          ],
+          "naverPlaceUrl": "https://map.naver.com/p/search/성산 보말죽"
+        }
+      ]
+    },
+    {
+      "id": "okdom",
+      "name": "옥돔 구이",
+      "emoji": "🐟",
+      "image": "assets/menus/okdom.png",
+      "desc": "제주 대표 생선 옥돔을 노릇하게 구운 별미. 담백하고 살이 부드러워.",
+      "restaurants": [
+        {
+          "name": "제주옥돔식당",
+          "x": 45, "y": 30,
+          "rating": "4.4",
+          "address": "제주 제주시 탑동로 12",
+          "hours": "11:00 영업 시작",
+          "phone": "064-751-2222",
+          "photo": "",
+          "menu": [
+            { "name": "옥돔구이정식", "price": "18,000" },
+            { "name": "옥돔미역국", "price": "14,000" }
+          ],
+          "naverPlaceUrl": "https://map.naver.com/p/search/제주 옥돔구이"
+        },
+        {
+          "name": "모슬포옥돔집",
+          "x": 22, "y": 60,
+          "rating": "4.2",
+          "address": "제주 서귀포시 대정읍 하모항구로 51",
+          "hours": "10:30 영업 시작",
+          "phone": "064-794-3333",
+          "photo": "",
+          "menu": [
+            { "name": "옥돔구이", "price": "20,000" },
+            { "name": "갈치구이", "price": "22,000" }
+          ],
+          "naverPlaceUrl": "https://map.naver.com/p/search/모슬포 옥돔"
+        }
+      ]
+    },
+    {
+      "id": "godeungeo",
+      "name": "고등어 구이",
+      "emoji": "🐠",
+      "image": "assets/menus/godeungeo.png",
+      "desc": "제주 앞바다 고등어를 통째로 구워낸 든든한 한 끼.",
+      "restaurants": [
+        {
+          "name": "제주은희네해장국 고등어",
+          "x": 50, "y": 33,
+          "rating": "4.3",
+          "address": "제주 제주시 동광로 38",
+          "hours": "07:00 영업 시작",
+          "phone": "064-757-4444",
+          "photo": "",
+          "menu": [
+            { "name": "고등어구이정식", "price": "15,000" },
+            { "name": "고등어조림", "price": "16,000" }
+          ],
+          "naverPlaceUrl": "https://map.naver.com/p/search/제주 고등어구이"
+        },
+        {
+          "name": "중문고등어쌈밥",
+          "x": 48, "y": 64,
+          "rating": "4.1",
+          "address": "제주 서귀포시 중문관광로 110",
+          "hours": "11:00 영업 시작",
+          "phone": "064-738-5555",
+          "photo": "",
+          "menu": [
+            { "name": "고등어쌈밥", "price": "17,000" },
+            { "name": "갈치쌈밥", "price": "19,000" }
+          ],
+          "naverPlaceUrl": "https://map.naver.com/p/search/중문 고등어쌈밥"
+        }
+      ]
+    },
+    {
+      "id": "bomal-kalguksu",
+      "name": "보말 칼국수",
+      "emoji": "🍜",
+      "image": "assets/menus/bomal-kalguksu.png",
+      "desc": "보말과 톳을 넣어 시원하게 끓인 제주식 칼국수.",
+      "restaurants": [
+        {
+          "name": "자매국수 보말집",
+          "x": 38, "y": 32,
+          "rating": "4.2",
+          "address": "제주 제주시 삼성로 67",
+          "hours": "09:00 영업 시작",
+          "phone": "064-727-6666",
+          "photo": "",
+          "menu": [
+            { "name": "보말칼국수", "price": "9,000" },
+            { "name": "보말죽", "price": "12,000" }
+          ],
+          "naverPlaceUrl": "https://map.naver.com/p/search/제주 보말칼국수"
+        },
+        {
+          "name": "한림보말손칼국수",
+          "x": 22, "y": 42,
+          "rating": "4.0",
+          "address": "제주 제주시 한림읍 한림해안로 100",
+          "hours": "10:00 영업 시작",
+          "phone": "064-796-7777",
+          "photo": "",
+          "menu": [
+            { "name": "보말칼국수", "price": "10,000" },
+            { "name": "톳칼국수", "price": "10,000" }
+          ],
+          "naverPlaceUrl": "https://map.naver.com/p/search/한림 보말칼국수"
+        }
+      ]
+    },
+    {
+      "id": "hoe",
+      "name": "회",
+      "emoji": "🍣",
+      "image": "assets/menus/hoe.png",
+      "desc": "그날 잡은 제주 활어로 즐기는 싱싱한 회 한 접시.",
+      "restaurants": [
+        {
+          "name": "제주항 활어회센터",
+          "x": 40, "y": 29,
+          "rating": "4.3",
+          "address": "제주 제주시 임항로 217",
+          "hours": "11:00 영업 시작",
+          "phone": "064-722-8888",
+          "photo": "",
+          "menu": [
+            { "name": "모듬회 (소)", "price": "50,000" },
+            { "name": "한치회", "price": "30,000" }
+          ],
+          "naverPlaceUrl": "https://map.naver.com/p/search/제주항 활어회"
+        },
+        {
+          "name": "서귀포 어시장횟집",
+          "x": 52, "y": 67,
+          "rating": "4.4",
+          "address": "제주 서귀포시 서문로 29번길 7",
+          "hours": "12:00 영업 시작",
+          "phone": "064-732-9999",
+          "photo": "",
+          "menu": [
+            { "name": "자리돔회", "price": "20,000" },
+            { "name": "모듬회 (중)", "price": "70,000" }
+          ],
+          "naverPlaceUrl": "https://map.naver.com/p/search/서귀포 횟집"
+        }
+      ]
+    },
+    {
+      "id": "seonggae-guk",
+      "name": "성게 미역국",
+      "emoji": "🍲",
+      "image": "assets/menus/seonggae-guk.png",
+      "desc": "성게의 진한 풍미가 우러난 깊고 시원한 미역국.",
+      "restaurants": [
+        {
+          "name": "보석같은 성게국",
+          "x": 75, "y": 38,
+          "rating": "4.5",
+          "address": "제주 제주시 구좌읍 종달로 5길 23",
+          "hours": "09:00 영업 시작",
+          "phone": "064-784-1010",
+          "photo": "",
+          "menu": [
+            { "name": "성게미역국", "price": "16,000" },
+            { "name": "전복죽", "price": "15,000" }
+          ],
+          "naverPlaceUrl": "https://map.naver.com/p/search/제주 성게미역국"
+        },
+        {
+          "name": "우도 성게마을",
+          "x": 84, "y": 33,
+          "rating": "4.3",
+          "address": "제주 제주시 우도면 우도해안길 1132",
+          "hours": "09:30 영업 시작",
+          "phone": "064-783-2020",
+          "photo": "",
+          "menu": [
+            { "name": "성게미역국", "price": "17,000" },
+            { "name": "성게비빔밥", "price": "18,000" }
+          ],
+          "naverPlaceUrl": "https://map.naver.com/p/search/우도 성게미역국"
+        }
+      ]
+    },
+    {
+      "id": "seonggae-bibim",
+      "name": "성게 비빔밥",
+      "emoji": "🍚",
+      "image": "assets/menus/seonggae-bibim.png",
+      "desc": "노란 성게알을 듬뿍 올린 고소한 비빔밥.",
+      "restaurants": [
+        {
+          "name": "성산 성게밥상",
+          "x": 81, "y": 48,
+          "rating": "4.2",
+          "address": "제주 서귀포시 성산읍 고성리 627",
+          "hours": "10:00 영업 시작",
+          "phone": "064-784-3030",
+          "photo": "",
+          "menu": [
+            { "name": "성게비빔밥", "price": "18,000" },
+            { "name": "성게미역국", "price": "16,000" }
+          ],
+          "naverPlaceUrl": "https://map.naver.com/p/search/성산 성게비빔밥"
+        },
+        {
+          "name": "함덕 바다비빔",
+          "x": 60, "y": 30,
+          "rating": "4.1",
+          "address": "제주 제주시 조천읍 함덕로 40",
+          "hours": "10:30 영업 시작",
+          "phone": "064-784-4040",
+          "photo": "",
+          "menu": [
+            { "name": "성게비빔밥", "price": "17,000" },
+            { "name": "전복비빔밥", "price": "19,000" }
+          ],
+          "naverPlaceUrl": "https://map.naver.com/p/search/함덕 성게비빔밥"
+        }
+      ]
+    },
+    {
+      "id": "galchi",
+      "name": "갈치 조림",
+      "emoji": "🍲",
+      "image": "assets/menus/galchi.png",
+      "desc": "제주 은갈치를 무와 함께 칼칼하게 졸여낸 밥도둑.",
+      "restaurants": [
+        {
+          "name": "제주 은갈치명가",
+          "x": 47, "y": 31,
+          "rating": "4.4",
+          "address": "제주 제주시 신광로 36",
+          "hours": "11:00 영업 시작",
+          "phone": "064-746-5050",
+          "photo": "",
+          "menu": [
+            { "name": "갈치조림 (2인)", "price": "45,000" },
+            { "name": "갈치구이", "price": "23,000" }
+          ],
+          "naverPlaceUrl": "https://map.naver.com/p/search/제주 갈치조림"
+        },
+        {
+          "name": "모슬포 갈치마당",
+          "x": 24, "y": 62,
+          "rating": "4.2",
+          "address": "제주 서귀포시 대정읍 하모리 770",
+          "hours": "10:30 영업 시작",
+          "phone": "064-794-6060",
+          "photo": "",
+          "menu": [
+            { "name": "갈치조림", "price": "40,000" },
+            { "name": "갈치국", "price": "15,000" }
+          ],
+          "naverPlaceUrl": "https://map.naver.com/p/search/모슬포 갈치조림"
+        }
+      ]
+    },
+    {
+      "id": "haemul-ramen",
+      "name": "해물 라면",
+      "emoji": "🍜",
+      "image": "assets/menus/haemul-ramen.png",
+      "desc": "전복·홍합·새우를 가득 넣은 시원한 해물라면.",
+      "restaurants": [
+        {
+          "name": "월정리 바다라면",
+          "x": 70, "y": 29,
+          "rating": "4.0",
+          "address": "제주 제주시 구좌읍 월정리 33-3",
+          "hours": "10:00 영업 시작",
+          "phone": "064-782-7070",
+          "photo": "",
+          "menu": [
+            { "name": "전복해물라면", "price": "12,000" },
+            { "name": "성게라면", "price": "13,000" }
+          ],
+          "naverPlaceUrl": "https://map.naver.com/p/search/월정리 해물라면"
+        },
+        {
+          "name": "협재 톳해물라면",
+          "x": 20, "y": 44,
+          "rating": "4.1",
+          "address": "제주 제주시 한림읍 협재리 2497",
+          "hours": "09:30 영업 시작",
+          "phone": "064-796-8080",
+          "photo": "",
+          "menu": [
+            { "name": "해물라면", "price": "11,000" },
+            { "name": "톳라면", "price": "10,000" }
+          ],
+          "naverPlaceUrl": "https://map.naver.com/p/search/협재 해물라면"
+        }
+      ]
+    },
+    {
+      "id": "mulhoe",
+      "name": "물회",
+      "emoji": "🥗",
+      "image": "assets/menus/mulhoe.png",
+      "desc": "새콤달콤 육수에 회를 말아먹는 여름 별미.",
+      "restaurants": [
+        {
+          "name": "제주 한치물회집",
+          "x": 35, "y": 30,
+          "rating": "4.3",
+          "address": "제주 제주시 서해안로 654",
+          "hours": "10:30 영업 시작",
+          "phone": "064-712-9090",
+          "photo": "",
+          "menu": [
+            { "name": "한치물회", "price": "16,000" },
+            { "name": "전복물회", "price": "18,000" }
+          ],
+          "naverPlaceUrl": "https://map.naver.com/p/search/제주 한치물회"
+        },
+        {
+          "name": "성산 자리물회",
+          "x": 82, "y": 50,
+          "rating": "4.2",
+          "address": "제주 서귀포시 성산읍 성산리 175",
+          "hours": "11:00 영업 시작",
+          "phone": "064-784-1212",
+          "photo": "",
+          "menu": [
+            { "name": "자리물회", "price": "14,000" },
+            { "name": "한치물회", "price": "16,000" }
+          ],
+          "naverPlaceUrl": "https://map.naver.com/p/search/성산 자리물회"
+        }
+      ]
+    },
+    {
+      "id": "obunjak",
+      "name": "오분작 뚝배기",
+      "emoji": "🍲",
+      "image": "assets/menus/obunjak.png",
+      "desc": "제주 오분자기를 넣어 끓인 진한 뚝배기.",
+      "restaurants": [
+        {
+          "name": "제주 오분자기뚝배기",
+          "x": 43, "y": 33,
+          "rating": "4.4",
+          "address": "제주 제주시 관덕로 8길 16",
+          "hours": "09:00 영업 시작",
+          "phone": "064-757-1313",
+          "photo": "",
+          "menu": [
+            { "name": "오분작뚝배기", "price": "13,000" },
+            { "name": "전복뚝배기", "price": "16,000" }
+          ],
+          "naverPlaceUrl": "https://map.naver.com/p/search/제주 오분자기뚝배기"
+        },
+        {
+          "name": "서귀포 해녀뚝배기",
+          "x": 55, "y": 66,
+          "rating": "4.1",
+          "address": "제주 서귀포시 천지동 287-2",
+          "hours": "10:00 영업 시작",
+          "phone": "064-733-1414",
+          "photo": "",
+          "menu": [
+            { "name": "오분작뚝배기", "price": "14,000" },
+            { "name": "성게뚝배기", "price": "15,000" }
+          ],
+          "naverPlaceUrl": "https://map.naver.com/p/search/서귀포 오분자기"
+        }
+      ]
+    }
   ]
 }
