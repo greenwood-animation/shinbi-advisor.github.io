@@ -7,11 +7,11 @@ const $ = (sel) => document.querySelector(sel);
 
 // ── 초기화 ──────────────────────────────────────────
 async function init() {
-  const res = await fetch("data/restaurants.json");
+  const res = await fetch("data/restaurants.json", { cache: "no-store" });
   DATA = await res.json();
 
-  $("#introText").textContent = DATA.intro || "";
   renderMenuGrid();
+  speak(DATA.intro || "");
 
   // 뒤로가기 버튼
   document.querySelectorAll("[data-back]").forEach((btn) =>
@@ -49,7 +49,7 @@ function renderMenuGrid() {
 // ── 2단계: 제주 지도 + 핀 ──────────────────────────
 function openMap(menu) {
   $("#mapMenuName").textContent = menu.name;
-  $("#mapMenuDesc").textContent = menu.desc || "";
+  speak(menu.desc || "");
 
   const pins = $("#pins");
   pins.innerHTML = "";
@@ -101,6 +101,32 @@ function openDetail(r) {
 function closeDetail() {
   $("#detailPanel").classList.remove("is-open");
   $("#overlay").classList.remove("is-open");
+}
+
+// ── 순덕 말하기 (타이핑 + 입 모션) ──────────────────
+let speakTimer = null;
+function speak(text) {
+  const span = $("#speechText");
+  const img = $("#charImg");
+  clearInterval(speakTimer);
+
+  span.textContent = "";
+  if (!text) { img.classList.remove("talking"); return; }
+
+  img.classList.add("talking");
+  const cursor = document.createElement("span");
+  cursor.className = "cursor";
+  $("#speechBubble").appendChild(cursor);
+
+  let i = 0;
+  speakTimer = setInterval(() => {
+    span.textContent = text.slice(0, ++i);
+    if (i >= text.length) {
+      clearInterval(speakTimer);
+      img.classList.remove("talking");
+      cursor.remove();
+    }
+  }, 45);
 }
 
 // ── 화면 전환 ──────────────────────────────────────

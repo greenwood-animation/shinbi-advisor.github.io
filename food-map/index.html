@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>신비할망의 바당 맛 지도</title>
-  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="style.css?v=3" />
 </head>
 <body>
   <div id="app">
@@ -13,7 +13,6 @@
     <section id="screen-menu" class="screen is-active">
       <header class="menu-head">
         <h1 class="title"><span class="brand">신비할망</span>의 바당 맛 지도</h1>
-        <p class="intro" id="introText"></p>
       </header>
       <div class="menu-grid" id="menuGrid"></div>
     </section>
@@ -23,7 +22,6 @@
       <button class="back-btn" data-back="menu">← 메뉴로</button>
       <div class="map-head">
         <h2 class="map-title" id="mapMenuName"></h2>
-        <p class="map-desc" id="mapMenuDesc"></p>
       </div>
       <div class="map-wrap" id="mapWrap">
         <!-- 제주 일러스트 지도 (SVG 플레이스홀더, 나중에 이미지로 교체 가능) -->
@@ -40,7 +38,13 @@
     </aside>
     <div id="overlay" class="overlay"></div>
 
+    <!-- ── 순덕(신비할망) 캐릭터 + 말풍선 ──────────────── -->
+    <div id="charStage" class="char-stage">
+      <div class="speech-bubble" id="speechBubble"><span id="speechText"></span></div>
+      <div class="char-img" id="charImg"></div>
+    </div>
+
   </div>
-  <script src="app.js"></script>
+  <script src="app.js?v=3"></script>
 </body>
 </html>

@@ -17,7 +17,7 @@ body {
   min-height: 100vh;
 }
 
-#app { max-width: 760px; margin: 0 auto; padding: 20px 16px 40px; }
+#app { max-width: 760px; margin: 0 auto; padding: 20px 16px 170px; }
 
 /* ── 화면 전환 ──────────────────────────────────────── */
 .screen { display: none; }
@@ -87,6 +87,7 @@ body {
   position: absolute; inset: 0; display: grid; place-items: center;
   font-weight: 700; color: var(--ink); background: rgba(255,255,255,.5);
 }
+.map-empty[hidden] { display: none; }
 
 /* 핀 */
 .pins { position: absolute; inset: 0; }
@@ -157,3 +158,58 @@ body {
   text-decoration: none;
 }
 .naver-btn:hover { background: #02b350; }
+
+/* ── 순덕 캐릭터 + 말풍선 ────────────────────────────── */
+.char-stage {
+  position: fixed; left: max(16px, calc(50vw - 380px + 8px)); bottom: 0;
+  z-index: 15; display: flex; align-items: flex-end; gap: 8px;
+  pointer-events: none;
+}
+
+.char-img {
+  width: 124px; flex: none; aspect-ratio: 365 / 553;
+  background-image: url("assets/shinbi.png");
+  background-repeat: no-repeat; background-size: 200% 100%;
+  background-position: 0% 0%;               /* 왼쪽 프레임 = 입 다문 모습 */
+  border-radius: 18px 18px 0 0;
+  filter: drop-shadow(0 4px 12px rgba(43, 74, 99, .22));
+  animation: breathe 3.6s ease-in-out infinite;
+}
+/* 말하는 중: 입을 빠르게 여닫음 (왼/오 프레임 토글) */
+.char-img.talking {
+  animation: breathe 3.6s ease-in-out infinite,
+             mouthFlap .24s steps(1, end) infinite;
+}
+@keyframes mouthFlap {
+  0%   { background-position: 0% 0%; }    /* 다문 */
+  50%  { background-position: 100% 0%; }   /* 벌린 */
+  100% { background-position: 0% 0%; }
+}
+@keyframes breathe {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-4px); }
+}
+
+.speech-bubble {
+  position: relative; max-width: 230px; margin-bottom: 70px;
+  background: #fff; border-radius: 16px; padding: 11px 14px;
+  font-size: .84rem; line-height: 1.45; color: var(--ink);
+  box-shadow: var(--shadow); min-height: 1em;
+}
+/* 꼬리 (캐릭터 쪽으로) */
+.speech-bubble::after {
+  content: ""; position: absolute; bottom: 14px; right: -8px;
+  border: 8px solid transparent; border-left-color: #fff; border-right: 0;
+}
+/* 타이핑 커서 */
+.speech-bubble .cursor {
+  display: inline-block; width: 2px; height: 1em; vertical-align: text-bottom;
+  background: var(--accent); margin-left: 1px; animation: blink .8s steps(1) infinite;
+}
+@keyframes blink { 0%, 50% { opacity: 1; } 50.01%, 100% { opacity: 0; } }
+
+@media (max-width: 560px) {
+  .char-stage { left: 8px; }
+  .char-img { width: 96px; }
+  .speech-bubble { max-width: 180px; margin-bottom: 56px; font-size: .8rem; }
+}
