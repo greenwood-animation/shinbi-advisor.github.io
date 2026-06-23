@@ -1,0 +1,70 @@
+{
+  "title": "신비할망의 바당 맛 지도",
+  "intro": "순덕 대사: 해녀의 집을 운영하는 신비할망이 추천하는 싱싱한 해산물로 만든 메뉴야! 이 맛에 제주에 온다니까!",
+  "menus": [
+    {
+      "id": "jeonbokjuk",
+      "name": "전복죽",
+      "emoji": "🍲",
+      "image": "assets/menus/jeonbokjuk.png",
+      "desc": "전복죽은 단백질과 비타민, 미네랄, 아미노산 등이 풍부해 피로 해소와 원기 회복에 도움을 줄 수 있는 보양식! 이아 힐링의 섬, 제주에서 전복죽 먹고 기운내!",
+      "restaurants": [
+        {
+          "name": "도두해녀의집",
+          "x": 30, "y": 34,
+          "rating": "4.0",
+          "address": "제주 제주시 도두봉길 16 도두해녀의집",
+          "hours": "10:00 영업 시작",
+          "phone": "064-743-4989",
+          "photo": "",
+          "menu": [
+            { "name": "전복죽", "price": "14,000" },
+            { "name": "물회 (옥돔)", "price": "17,000" },
+            { "name": "회덮밥", "price": "13,000" },
+            { "name": "한치물회", "price": "17,000" }
+          ],
+          "naverPlaceUrl": "https://map.naver.com/p/search/도두해녀의집"
+        },
+        {
+          "name": "물항식당",
+          "x": 33, "y": 31,
+          "rating": "4.2",
+          "address": "제주 제주시 임항로 30-1",
+          "hours": "06:30 영업 시작",
+          "phone": "064-722-2331",
+          "photo": "",
+          "menu": [
+            { "name": "전복죽", "price": "13,000" },
+            { "name": "성게미역국", "price": "15,000" }
+          ],
+          "naverPlaceUrl": "https://map.naver.com/p/search/물항식당"
+        },
+        {
+          "name": "명진전복",
+          "x": 78, "y": 28,
+          "rating": "4.3",
+          "address": "제주 제주시 구좌읍 해맞이해안로 1282",
+          "hours": "09:30 영업 시작",
+          "phone": "064-782-9944",
+          "photo": "",
+          "menu": [
+            { "name": "전복돌솥밥", "price": "16,000" },
+            { "name": "전복죽", "price": "15,000" }
+          ],
+          "naverPlaceUrl": "https://map.naver.com/p/search/명진전복"
+        }
+      ]
+    },
+    { "id": "bomaljuk", "name": "보말죽", "emoji": "🥣", "image": "assets/menus/bomaljuk.png", "desc": "제주 갯바위에서 캔 보말로 끓인 고소한 죽. 바다 내음 가득한 제주 보양식이야.", "restaurants": [] },
+    { "id": "okdom", "name": "옥돔 구이", "emoji": "🐟", "image": "assets/menus/okdom.png", "desc": "제주 대표 생선 옥돔을 노릇하게 구운 별미. 담백하고 살이 부드러워.", "restaurants": [] },
+    { "id": "godeungeo", "name": "고등어 구이", "emoji": "🐠", "image": "assets/menus/godeungeo.png", "desc": "제주 앞바다 고등어를 통째로 구워낸 든든한 한 끼.", "restaurants": [] },
+    { "id": "bomal-kalguksu", "name": "보말 칼국수", "emoji": "🍜", "image": "assets/menus/bomal-kalguksu.png", "desc": "보말과 톳을 넣어 시원하게 끓인 제주식 칼국수.", "restaurants": [] },
+    { "id": "hoe", "name": "회", "emoji": "🍣", "image": "assets/menus/hoe.png", "desc": "그날 잡은 제주 활어로 즐기는 싱싱한 회 한 접시.", "restaurants": [] },
+    { "id": "seonggae-guk", "name": "성게 미역국", "emoji": "🍲", "image": "assets/menus/seonggae-guk.png", "desc": "성게의 진한 풍미가 우러난 깊고 시원한 미역국.", "restaurants": [] },
+    { "id": "seonggae-bibim", "name": "성게 비빔밥", "emoji": "🍚", "image": "assets/menus/seonggae-bibim.png", "desc": "노란 성게알을 듬뿍 올린 고소한 비빔밥.", "restaurants": [] },
+    { "id": "galchi", "name": "갈치 조림", "emoji": "🍲", "image": "assets/menus/galchi.png", "desc": "제주 은갈치를 무와 함께 칼칼하게 졸여낸 밥도둑.", "restaurants": [] },
+    { "id": "haemul-ramen", "name": "해물 라면", "emoji": "🍜", "image": "assets/menus/haemul-ramen.png", "desc": "전복·홍합·새우를 가득 넣은 시원한 해물라면.", "restaurants": [] },
+    { "id": "mulhoe", "name": "물회", "emoji": "🥗", "image": "assets/menus/mulhoe.png", "desc": "새콤달콤 육수에 회를 말아먹는 여름 별미.", "restaurants": [] },
+    { "id": "obunjak", "name": "오분작 뚝배기", "emoji": "🍲", "image": "assets/menus/obunjak.png", "desc": "제주 오분자기를 넣어 끓인 진한 뚝배기.", "restaurants": [] }
+  ]
+}
