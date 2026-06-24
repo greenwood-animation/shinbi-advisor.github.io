@@ -1,0 +1,313 @@
+{
+  "title": "북차사랑의 숨은 숲 지도",
+  "intro": "봉인의 땅이 배경이 된 제주의 숲은 신비로운 기운으로 가득하지. 세상살이에 지친 너의 몸과 마음을 정화하는 데 도움이 될 것이다. 자, 너의 힐링을 도울 신령한 숲으로 안내하마. 먼저 힐링의 테마를 골라라.",
+  "themes": [
+    {
+      "id": "quiet-trail",
+      "name": "조용한 숲길",
+      "emoji": "🌲",
+      "image": "assets/themes/quiet-trail.png",
+      "desc": "조용한 숲길을 택했군. 사려니숲, 머체왓숲길, 비자림, 절물자연휴양림이라면 어지러운 마음을 가라앉히기에 충분하지.",
+      "forests": [
+        {
+          "name": "사려니숲길",
+          "x": 60, "y": 50,
+          "rating": "4.6",
+          "address": "제주 제주시 조천읍 교래리 산137-1",
+          "hours": "09:00 ~ 17:00 (입산)",
+          "tags": ["난이도 하", "약 10km", "2~3시간"],
+          "desc": "신성한 숲이라 불리는 사려니 숲. 마음이 어지럽다면 이 숲으로 들어가라. 죽은 자의 침묵을 닮았으나, 살아 있는 자에게는 위로를 건넨단다.",
+          "photo": "",
+          "naverPlaceUrl": "https://map.naver.com/p/search/사려니숲길"
+        },
+        {
+          "name": "머체왓숲길",
+          "x": 58, "y": 61,
+          "rating": "4.5",
+          "address": "제주 서귀포시 남원읍 서성로 755",
+          "hours": "09:00 ~ 16:00 (입산)",
+          "tags": ["난이도 하", "약 6.7km", "2시간"],
+          "desc": "돌밭을 헤치고 만든 길이지. 한가로운 소와 들꽃이 산 자의 걸음을 반긴다.",
+          "photo": "",
+          "naverPlaceUrl": "https://map.naver.com/p/search/머체왓숲길"
+        },
+        {
+          "name": "비자림",
+          "x": 76, "y": 36,
+          "rating": "4.6",
+          "address": "제주 제주시 구좌읍 비자숲길 55",
+          "hours": "09:00 ~ 18:00",
+          "tags": ["난이도 하", "약 3km", "1시간"],
+          "desc": "천 년을 산 비자나무들이 숲을 이루었지. 시간이 더디게 흐르는 곳이다.",
+          "photo": "",
+          "naverPlaceUrl": "https://map.naver.com/p/search/비자림"
+        },
+        {
+          "name": "절물자연휴양림",
+          "x": 52, "y": 38,
+          "rating": "4.5",
+          "address": "제주 제주시 명림로 584",
+          "hours": "07:00 ~ 18:00",
+          "tags": ["난이도 하", "삼나무숲", "1~2시간"],
+          "desc": "곧게 뻗은 삼나무가 하늘을 가린다. 맑은 공기로 폐부를 씻어내기 좋은 곳이지.",
+          "photo": "",
+          "naverPlaceUrl": "https://map.naver.com/p/search/절물자연휴양림"
+        }
+      ]
+    },
+    {
+      "id": "valley",
+      "name": "속이 뻥 뚫리는 계곡",
+      "emoji": "💧",
+      "image": "assets/themes/valley.png",
+      "desc": "막힌 속을 틔우고 싶은가. 물소리 가득한 계곡으로 안내하지.",
+      "forests": [
+        {
+          "name": "안덕계곡",
+          "x": 30, "y": 60,
+          "rating": "4.3",
+          "address": "제주 서귀포시 안덕면 감산리 1946",
+          "hours": "상시 개방",
+          "tags": ["난이도 하", "30분"],
+          "desc": "기암절벽 사이로 맑은 물이 흐른다. 더운 날의 시름을 씻기에 마땅하지.",
+          "photo": "",
+          "naverPlaceUrl": "https://map.naver.com/p/search/안덕계곡"
+        },
+        {
+          "name": "돈내코 원앙폭포",
+          "x": 52, "y": 66,
+          "rating": "4.4",
+          "address": "제주 서귀포시 돈내코로 137",
+          "hours": "상시 개방",
+          "tags": ["난이도 하", "40분"],
+          "desc": "두 줄기 물이 한데 모여 떨어지니 원앙이라 불린다. 한여름에도 서늘하지.",
+          "photo": "",
+          "naverPlaceUrl": "https://map.naver.com/p/search/돈내코 원앙폭포"
+        },
+        {
+          "name": "천제연폭포",
+          "x": 45, "y": 65,
+          "rating": "4.4",
+          "address": "제주 서귀포시 천제연로 132",
+          "hours": "09:00 ~ 18:00",
+          "tags": ["난이도 하", "1시간"],
+          "desc": "세 단으로 떨어지는 물줄기가 장관이다. 선녀가 내려왔다는 이야기가 전해지지.",
+          "photo": "",
+          "naverPlaceUrl": "https://map.naver.com/p/search/천제연폭포"
+        }
+      ]
+    },
+    {
+      "id": "sunset-oreum",
+      "name": "노을 보기 좋은 오름",
+      "emoji": "🌅",
+      "image": "assets/themes/sunset-oreum.png",
+      "desc": "해가 지는 모습은 산 자만이 누리는 사치지. 오름에 올라 노을을 가슴에 담아라.",
+      "forests": [
+        {
+          "name": "새별오름",
+          "x": 35, "y": 45,
+          "rating": "4.5",
+          "address": "제주 제주시 애월읍 봉성리 산59-8",
+          "hours": "상시 개방",
+          "tags": ["오름", "20분"],
+          "desc": "저녁 하늘에 홀로 빛나는 별처럼 솟았지. 억새가 노을에 물드는 모습은 잊기 어렵다.",
+          "photo": "",
+          "naverPlaceUrl": "https://map.naver.com/p/search/새별오름"
+        },
+        {
+          "name": "따라비오름",
+          "x": 66, "y": 57,
+          "rating": "4.6",
+          "address": "제주 서귀포시 표선면 가시리 산63",
+          "hours": "상시 개방",
+          "tags": ["오름", "30분"],
+          "desc": "오름의 여왕이라 불린다. 능선을 물들이는 가을 억새가 일품이지.",
+          "photo": "",
+          "naverPlaceUrl": "https://map.naver.com/p/search/따라비오름"
+        },
+        {
+          "name": "용눈이오름",
+          "x": 74, "y": 42,
+          "rating": "4.5",
+          "address": "제주 제주시 구좌읍 종달리 산28",
+          "hours": "상시 개방",
+          "tags": ["오름", "25분"],
+          "desc": "부드러운 곡선이 용이 누운 듯하다. 바람을 맞으며 노을을 보기에 좋지.",
+          "photo": "",
+          "naverPlaceUrl": "https://map.naver.com/p/search/용눈이오름"
+        },
+        {
+          "name": "군산오름",
+          "x": 40, "y": 63,
+          "rating": "4.4",
+          "address": "제주 서귀포시 안덕면 창천리 산3-1",
+          "hours": "상시 개방",
+          "tags": ["오름", "차량 진입"],
+          "desc": "정상까지 길이 닿아 오르기 수월하다. 발아래 서귀포 바다가 노을에 잠긴다.",
+          "photo": "",
+          "naverPlaceUrl": "https://map.naver.com/p/search/군산오름"
+        }
+      ]
+    },
+    {
+      "id": "walk-path",
+      "name": "산책하기 좋은 길",
+      "emoji": "🚶",
+      "image": "assets/themes/walk-path.png",
+      "desc": "느린 걸음이 필요한 날이군. 걷기 좋은 길을 일러주마.",
+      "forests": [
+        {
+          "name": "한담해안산책로",
+          "x": 28, "y": 36,
+          "rating": "4.5",
+          "address": "제주 제주시 애월읍 곽지리 1359",
+          "hours": "상시 개방",
+          "tags": ["해안길", "40분"],
+          "desc": "바다를 끼고 걷는 짧은 길이다. 검은 현무암과 푸른 물이 번갈아 발걸음을 붙든다.",
+          "photo": "",
+          "naverPlaceUrl": "https://map.naver.com/p/search/한담해안산책로"
+        },
+        {
+          "name": "올레 7코스",
+          "x": 50, "y": 68,
+          "rating": "4.7",
+          "address": "제주 서귀포시 서홍동 (외돌개 ~ 월평)",
+          "hours": "상시 개방",
+          "tags": ["올레길", "약 17km"],
+          "desc": "바다와 마을을 잇는 길 중 으뜸이라 일컫지. 서두르지 말고 천천히 걸어라.",
+          "photo": "",
+          "naverPlaceUrl": "https://map.naver.com/p/search/올레 7코스"
+        },
+        {
+          "name": "카멜리아힐",
+          "x": 33, "y": 58,
+          "rating": "4.4",
+          "address": "제주 서귀포시 안덕면 병악로 166",
+          "hours": "08:30 ~ 18:00",
+          "tags": ["수목원", "1~2시간"],
+          "desc": "동백과 온갖 꽃이 철마다 피고 진다. 정원을 거닐며 마음을 달래기에 좋지.",
+          "photo": "",
+          "naverPlaceUrl": "https://map.naver.com/p/search/카멜리아힐"
+        },
+        {
+          "name": "휴애리자연생활공원",
+          "x": 57, "y": 61,
+          "rating": "4.4",
+          "address": "제주 서귀포시 남원읍 신례동로 256",
+          "hours": "09:00 ~ 18:00",
+          "tags": ["테마공원", "1~2시간"],
+          "desc": "철 따라 매화와 수국이 가득하다. 동물과 꽃 사이를 거닐며 쉬어가라.",
+          "photo": "",
+          "naverPlaceUrl": "https://map.naver.com/p/search/휴애리자연생활공원"
+        }
+      ]
+    },
+    {
+      "id": "solo-rest",
+      "name": "혼자 쉬기 좋은 곳",
+      "emoji": "🍃",
+      "image": "assets/themes/solo-rest.png",
+      "desc": "홀로 있고 싶은 마음, 내 모르지 않는다. 인적 드문 곳으로 보내주마.",
+      "forests": [
+        {
+          "name": "동백동산",
+          "x": 62, "y": 42,
+          "rating": "4.4",
+          "address": "제주 제주시 조천읍 동백로 77",
+          "hours": "09:00 ~ 18:00",
+          "tags": ["곶자왈", "1~2시간"],
+          "desc": "용암이 굳은 땅 위로 숲이 들어섰다. 습지와 새소리뿐인 고요한 곳이지.",
+          "photo": "",
+          "naverPlaceUrl": "https://map.naver.com/p/search/동백동산 습지"
+        },
+        {
+          "name": "백약이오름",
+          "x": 70, "y": 50,
+          "rating": "4.5",
+          "address": "제주 서귀포시 표선면 성읍리 산1",
+          "hours": "상시 개방",
+          "tags": ["오름", "30분"],
+          "desc": "온갖 약초가 자란다 하여 백약이라 한다. 너른 능선에 서면 사방이 트인다.",
+          "photo": "",
+          "naverPlaceUrl": "https://map.naver.com/p/search/백약이오름"
+        },
+        {
+          "name": "1100고지습지",
+          "x": 44, "y": 52,
+          "rating": "4.3",
+          "address": "제주 서귀포시 색달동 산1-2",
+          "hours": "상시 개방",
+          "tags": ["습지", "30분"],
+          "desc": "한라산 허리에 자리한 람사르 습지다. 안개가 자주 내려 세상과 멀어진 듯하지.",
+          "photo": "",
+          "naverPlaceUrl": "https://map.naver.com/p/search/1100고지습지"
+        },
+        {
+          "name": "환상숲곶자왈",
+          "x": 22, "y": 48,
+          "rating": "4.5",
+          "address": "제주 제주시 한경면 녹차분재로 594-1",
+          "hours": "09:00 ~ 18:00",
+          "tags": ["곶자왈", "1시간"],
+          "desc": "사람 손이 닿지 않은 원시림이지. 해설을 들으며 천천히 숲의 숨결을 느껴라.",
+          "photo": "",
+          "naverPlaceUrl": "https://map.naver.com/p/search/환상숲곶자왈공원"
+        }
+      ]
+    },
+    {
+      "id": "workout",
+      "name": "땀 좀 흘려볼래?",
+      "emoji": "⛰️",
+      "image": "assets/themes/workout.png",
+      "desc": "몸을 혹사하고 싶다면 말리지 않겠다. 제대로 된 산행을 권하지. 채비는 단단히 하고 가라.",
+      "forests": [
+        {
+          "name": "한라산 성판악코스",
+          "x": 55, "y": 48,
+          "rating": "4.7",
+          "address": "제주 제주시 조천읍 516로 1865",
+          "hours": "05:30 ~ (계절별 입산 통제)",
+          "tags": ["난이도 상", "약 9.6km", "편도 4~5시간"],
+          "desc": "정상 백록담으로 향하는 가장 긴 길이다. 산 자만이 오를 수 있는 한라의 정수리지.",
+          "photo": "",
+          "naverPlaceUrl": "https://map.naver.com/p/search/한라산 성판악탐방로"
+        },
+        {
+          "name": "한라산 영실코스",
+          "x": 46, "y": 55,
+          "rating": "4.7",
+          "address": "제주 서귀포시 영실로 246",
+          "hours": "06:00 ~ (계절별 입산 통제)",
+          "tags": ["난이도 중", "약 5.8km", "편도 2~3시간"],
+          "desc": "기암 오백나한이 병풍처럼 둘러섰다. 풍광으로는 한라 으뜸가는 길이지.",
+          "photo": "",
+          "naverPlaceUrl": "https://map.naver.com/p/search/한라산 영실탐방로"
+        },
+        {
+          "name": "어리목탐방로",
+          "x": 48, "y": 50,
+          "rating": "4.6",
+          "address": "제주 제주시 1100로 2070-61",
+          "hours": "06:00 ~ (계절별 입산 통제)",
+          "tags": ["난이도 중", "약 6.8km", "편도 3시간"],
+          "desc": "윗세오름에 닿는 길이다. 사스레나무 숲과 너른 평원이 번갈아 펼쳐진다.",
+          "photo": "",
+          "naverPlaceUrl": "https://map.naver.com/p/search/어리목탐방로"
+        },
+        {
+          "name": "윗세오름",
+          "x": 50, "y": 52,
+          "rating": "4.7",
+          "address": "제주 서귀포시 영실로 (윗세오름 대피소)",
+          "hours": "낮 시간 통과 (대피소)",
+          "tags": ["해발 1700m", "휴식지"],
+          "desc": "영실과 어리목이 만나는 고지대다. 여기까지 올랐다면 네 다리를 칭찬해도 좋다.",
+          "photo": "",
+          "naverPlaceUrl": "https://map.naver.com/p/search/윗세오름"
+        }
+      ]
+    }
+  ]
+}

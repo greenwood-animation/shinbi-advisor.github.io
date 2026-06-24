@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="45%" r="80%">
+      <stop offset="0%" stop-color="#eaf4dd"/>
+      <stop offset="100%" stop-color="#cfe3b6"/>
+    </radialGradient>
+    <radialGradient id="land" cx="50%" cy="38%" r="75%">
+      <stop offset="0%" stop-color="#9ccb6a"/>
+      <stop offset="100%" stop-color="#6aa84f"/>
+    </radialGradient>
+  </defs>
+
+  <!-- 배경 (숲빛) -->
+  <rect width="600" height="400" fill="url(#bg)"/>
+
+  <!-- 제주 섬 (숲) -->
+  <path d="M120 210
+           C 120 150, 220 120, 300 122
+           C 400 124, 490 150, 488 205
+           C 486 255, 400 290, 300 288
+           C 210 286, 120 270, 120 210 Z"
+        fill="url(#land)" stroke="#4e8a3a" stroke-width="3"/>
+
+  <!-- 한라산 (중앙 봉우리) -->
+  <path d="M268 210 L300 158 L332 210 Z" fill="#bfe08f" stroke="#4e8a3a" stroke-width="2"/>
+  <path d="M286 182 L300 158 L314 182 Z" fill="#ffffff" stroke="#bfe08f" stroke-width="1"/>
+
+  <!-- 능선/등고선 느낌 -->
+  <g fill="none" stroke="#5d9a44" stroke-opacity="0.45" stroke-width="1.6">
+    <path d="M180 230 q120 30 240 0"/>
+    <path d="M200 250 q100 24 200 0"/>
+    <path d="M210 190 q90 -22 180 0"/>
+  </g>
+
+  <!-- 작은 나무들 -->
+  <g fill="#3f7a30" opacity="0.55">
+    <path d="M170 175 l6 12 -12 0 z"/><path d="M168 187 h4 v5 h-4 z"/>
+    <path d="M420 170 l6 12 -12 0 z"/><path d="M418 182 h4 v5 h-4 z"/>
+    <path d="M360 250 l6 12 -12 0 z"/><path d="M358 262 h4 v5 h-4 z"/>
+    <path d="M235 255 l6 12 -12 0 z"/><path d="M233 267 h4 v5 h-4 z"/>
+  </g>
+
+  <text x="300" y="322" text-anchor="middle" font-family="sans-serif" font-size="19"
+        font-weight="700" fill="#3f7a30" opacity="0.65">제 주 숲</text>
+</svg>
