@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>신비할망의 바당 지도</title>
+  <link rel="stylesheet" href="style.css?v=1" />
+</head>
+<body>
+  <div id="app">
+
+    <!-- ── 0단계: 안내자(고양이) 선택 ──────────────────── -->
+    <section id="screen-select" class="screen is-active">
+      <div class="select-intro">
+        <span class="magnifier">🔍</span>
+        <p id="selectIntroText"></p>
+      </div>
+      <div class="picks" id="picks"></div>
+    </section>
+
+    <!-- ── 1단계: 제주 바다 지도 + 핀 ─────────────────── -->
+    <section id="screen-map" class="screen">
+      <button class="back-btn" data-back="select">← 안내자 다시 고르기</button>
+      <div class="map-head">
+        <h2 class="map-title" id="mapMenuName"></h2>
+      </div>
+      <div class="map-wrap" id="mapWrap">
+        <img class="map-bg" id="mapBg" src="assets/jeju-map.svg" alt="제주 바다 지도" />
+        <div class="pins" id="pins"></div>
+        <p class="map-empty" id="mapEmpty" hidden>아직 등록된 바다가 없어요 🐚</p>
+      </div>
+    </section>
+
+    <!-- ── 2단계: 바다 상세 패널 ──────────────────────── -->
+    <aside id="detailPanel" class="detail-panel">
+      <button class="detail-close" id="detailClose">×</button>
+      <div class="detail-body" id="detailBody"></div>
+    </aside>
+    <div id="overlay" class="overlay"></div>
+
+    <!-- ── 안내자 캐릭터 + 말풍선 (지도/상세 화면) ──────── -->
+    <div id="charStage" class="char-stage">
+      <div class="speech-bubble" id="speechBubble"><span id="speechText"></span></div>
+      <div class="char-img" id="charImg"></div>
+    </div>
+
+  </div>
+  <script src="app.js?v=1"></script>
+</body>
+</html>

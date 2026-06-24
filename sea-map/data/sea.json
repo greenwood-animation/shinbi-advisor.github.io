@@ -1,0 +1,190 @@
+{
+  "title": "신비할망의 바당 지도",
+  "intro": "요요와 치즈는 정반대의 성격을 가지고 있어! 오늘 너의 마음과 어울리는 제주 바다를 찾아줄게! 요요와 치즈 중에 너와 더 잘 맞는 안내자를 선택해줘!",
+  "guides": [
+    {
+      "id": "yoyo",
+      "name": "요요",
+      "side": "calm",
+      "color": "#0c9fb0",
+      "image": "assets/yoyo.png",
+      "frameAspect": "543 / 633",
+      "emoji": "🐱",
+      "tagline": "조용하고 다정한 안내자",
+      "desc": "조용하고 다정한 안내자인 요요는 돌고래, 일출, 일몰 등 조용히 경치를 감상하기 좋은 바다의 안내자.",
+      "mapTitle": "요요의 힐링 바다",
+      "mapIntro": "요요의 힐링 바다를 선택했구나! 그래, 바다는 조용히 바라보는 거야. 끝없이 넉넉한 바다의 품 속에서 제대로 힐링하고 가!",
+      "spots": [
+        {
+          "name": "사계해안",
+          "x": 44, "y": 66,
+          "rating": "4.6",
+          "address": "제주 서귀포시 안덕면 사계리",
+          "hours": "상시 개방",
+          "tags": ["해안 절경", "산방산 뷰", "일몰"],
+          "desc": "사계해안은 현무암과 푸른 바다, 산방산을 한 눈에 담을 수 있어서 제주에서 가장 아름다운 해안 풍경 중 하나야!",
+          "photo": "",
+          "naverPlaceUrl": "https://map.naver.com/p/search/사계해안"
+        },
+        {
+          "name": "협재해수욕장",
+          "x": 22, "y": 40,
+          "rating": "4.5",
+          "address": "제주 제주시 한림읍 협재리",
+          "hours": "상시 개방 (여름 개장)",
+          "tags": ["에메랄드빛", "비양도 뷰", "일몰"],
+          "desc": "비양도를 마주 본 에메랄드빛 바다야. 해 질 무렵이면 하늘이 분홍으로 물든단다.",
+          "photo": "",
+          "naverPlaceUrl": "https://map.naver.com/p/search/협재해수욕장"
+        },
+        {
+          "name": "신창풍차해안도로",
+          "x": 17, "y": 47,
+          "rating": "4.4",
+          "address": "제주 제주시 한경면 신창리",
+          "hours": "상시 개방",
+          "tags": ["풍차", "드라이브", "산책"],
+          "desc": "하얀 풍차가 늘어선 해안 길이야. 천천히 걸으며 바람 소리에 마음을 맡겨봐.",
+          "photo": "",
+          "naverPlaceUrl": "https://map.naver.com/p/search/신창풍차해안도로"
+        },
+        {
+          "name": "수월봉",
+          "x": 16, "y": 55,
+          "rating": "4.4",
+          "address": "제주 제주시 한경면 고산리",
+          "hours": "상시 개방",
+          "tags": ["해안 절벽", "일몰", "지질공원"],
+          "desc": "층층이 쌓인 절벽 위로 노을이 진다. 조용히 바다를 바라보기에 더없이 좋은 곳이야.",
+          "photo": "",
+          "naverPlaceUrl": "https://map.naver.com/p/search/수월봉"
+        },
+        {
+          "name": "성산일출봉",
+          "x": 82, "y": 45,
+          "rating": "4.7",
+          "address": "제주 서귀포시 성산읍 성산리",
+          "hours": "07:00 ~ 20:00",
+          "tags": ["일출", "유네스코", "분화구"],
+          "desc": "바다에서 솟아오른 분화구야. 일출을 기다리는 사람들의 마음이 모이는 곳이지.",
+          "photo": "",
+          "naverPlaceUrl": "https://map.naver.com/p/search/성산일출봉"
+        },
+        {
+          "name": "광치기해변",
+          "x": 80, "y": 51,
+          "rating": "4.5",
+          "address": "제주 서귀포시 성산읍 고성리",
+          "hours": "상시 개방",
+          "tags": ["이끼바위", "일출", "성산 뷰"],
+          "desc": "썰물이면 초록 이끼바위가 드러나. 성산일출봉을 배경으로 한 풍경이 고요하단다.",
+          "photo": "",
+          "naverPlaceUrl": "https://map.naver.com/p/search/광치기해변"
+        },
+        {
+          "name": "월정리해변",
+          "x": 70, "y": 29,
+          "rating": "4.5",
+          "address": "제주 제주시 구좌읍 월정리",
+          "hours": "상시 개방",
+          "tags": ["에메랄드빛", "바다멍", "카페거리"],
+          "desc": "맑은 물빛으로 이름난 해변이야. 가만히 앉아 바다를 바라보기 좋아.",
+          "photo": "",
+          "naverPlaceUrl": "https://map.naver.com/p/search/월정리해변"
+        }
+      ]
+    },
+    {
+      "id": "cheese",
+      "name": "치즈",
+      "side": "active",
+      "color": "#ff6f43",
+      "image": "",
+      "frameAspect": "1 / 1",
+      "emoji": "🐯",
+      "tagline": "호기심 많은 장난꾸러기",
+      "desc": "호기심 많은 장난꾸러기 치즈는 해수욕, 서핑, 스노클링, 낚시, 보트, 해녀체험 등 놀이와 체험 중심의 바다의 안내자.",
+      "mapTitle": "치즈의 신나는 바다",
+      "mapIntro": "치즈랑 신나게 놀 준비 됐냥?! 오늘은 가만히 못 있어! 바다에 풍덩 뛰어들어서 실컷 즐겨보자냥!",
+      "spots": [
+        {
+          "name": "중문색달해수욕장",
+          "x": 46, "y": 67,
+          "rating": "4.5",
+          "address": "제주 서귀포시 색달동",
+          "hours": "여름 개장 (상시 출입 가능)",
+          "tags": ["서핑", "해수욕", "보트"],
+          "desc": "파도가 좋아서 서핑하기 딱이야냥! 여름엔 물놀이 인파로 북적북적!",
+          "photo": "",
+          "naverPlaceUrl": "https://map.naver.com/p/search/중문색달해수욕장"
+        },
+        {
+          "name": "함덕해수욕장",
+          "x": 60, "y": 29,
+          "rating": "4.6",
+          "address": "제주 제주시 조천읍 함덕리",
+          "hours": "여름 개장 (상시 출입 가능)",
+          "tags": ["해수욕", "SUP", "물놀이"],
+          "desc": "얕고 잔잔해서 물놀이 천국이냥! 패들보드도 빌려서 타보자!",
+          "photo": "",
+          "naverPlaceUrl": "https://map.naver.com/p/search/함덕해수욕장"
+        },
+        {
+          "name": "김녕성세기해변",
+          "x": 66, "y": 28,
+          "rating": "4.5",
+          "address": "제주 제주시 구좌읍 김녕리",
+          "hours": "여름 개장 (상시 출입 가능)",
+          "tags": ["스노클링", "해수욕", "카약"],
+          "desc": "물이 맑아서 스노클링하면 물고기가 다 보인다냥! 마스크 꼭 챙겨!",
+          "photo": "",
+          "naverPlaceUrl": "https://map.naver.com/p/search/김녕성세기해변"
+        },
+        {
+          "name": "이호테우해수욕장",
+          "x": 40, "y": 31,
+          "rating": "4.3",
+          "address": "제주 제주시 이호일동",
+          "hours": "여름 개장 (상시 출입 가능)",
+          "tags": ["말등대", "해수욕", "낚시"],
+          "desc": "빨강·하양 말 등대가 포인트냥! 제주시에서 제일 가까운 해수욕장이야!",
+          "photo": "",
+          "naverPlaceUrl": "https://map.naver.com/p/search/이호테우해수욕장"
+        },
+        {
+          "name": "표선해수욕장",
+          "x": 73, "y": 59,
+          "rating": "4.4",
+          "address": "제주 서귀포시 표선면 표선리",
+          "hours": "여름 개장 (상시 출입 가능)",
+          "tags": ["넓은 백사장", "해수욕", "모래놀이"],
+          "desc": "썰물이면 운동장만큼 넓어진다냥! 모래놀이 실컷 하자!",
+          "photo": "",
+          "naverPlaceUrl": "https://map.naver.com/p/search/표선해수욕장"
+        },
+        {
+          "name": "하도해변",
+          "x": 79, "y": 30,
+          "rating": "4.4",
+          "address": "제주 제주시 구좌읍 하도리",
+          "hours": "상시 개방",
+          "tags": ["해녀체험", "카약", "철새"],
+          "desc": "해녀 삼촌들한테 물질을 배워볼 수 있다냥! 진짜 짜릿해!",
+          "photo": "",
+          "naverPlaceUrl": "https://map.naver.com/p/search/하도해변"
+        },
+        {
+          "name": "화순금모래해변",
+          "x": 34, "y": 64,
+          "rating": "4.3",
+          "address": "제주 서귀포시 안덕면 화순리",
+          "hours": "여름 개장 (상시 출입 가능)",
+          "tags": ["해수욕", "낚시", "담수풀"],
+          "desc": "금빛 모래에 담수풀까지 있다냥! 낚시하는 사람도 많아!",
+          "photo": "",
+          "naverPlaceUrl": "https://map.naver.com/p/search/화순금모래해변"
+        }
+      ]
+    }
+  ]
+}

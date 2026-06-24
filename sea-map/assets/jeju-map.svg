@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 400" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <radialGradient id="sea" cx="50%" cy="45%" r="80%">
+      <stop offset="0%" stop-color="#bfeaf3"/>
+      <stop offset="100%" stop-color="#46c0d4"/>
+    </radialGradient>
+    <radialGradient id="land" cx="50%" cy="40%" r="72%">
+      <stop offset="0%" stop-color="#d7ecc2"/>
+      <stop offset="100%" stop-color="#a6cf86"/>
+    </radialGradient>
+  </defs>
+
+  <!-- 바다 -->
+  <rect width="600" height="400" fill="url(#sea)"/>
+
+  <!-- 잔물결 -->
+  <g fill="none" stroke="#ffffff" stroke-opacity="0.3" stroke-width="2">
+    <path d="M40 70 q15 -8 30 0 t30 0"/>
+    <path d="M470 80 q15 -8 30 0 t30 0"/>
+    <path d="M60 330 q15 -8 30 0 t30 0"/>
+    <path d="M450 340 q15 -8 30 0 t30 0"/>
+    <path d="M300 50 q15 -8 30 0 t30 0"/>
+  </g>
+
+  <!-- 제주 섬 -->
+  <path d="M120 210
+           C 120 150, 220 120, 300 122
+           C 400 124, 490 150, 488 205
+           C 486 255, 400 290, 300 288
+           C 210 286, 120 270, 120 210 Z"
+        fill="url(#land)" stroke="#5aa9c0" stroke-width="3"/>
+
+  <!-- 한라산 -->
+  <path d="M270 213 L300 165 L330 213 Z" fill="#cbe6ad" stroke="#86bd66" stroke-width="2"/>
+  <path d="M288 189 L300 165 L312 189 Z" fill="#ffffff" stroke="#cbe6ad" stroke-width="1"/>
+
+  <!-- 해안선 강조 점선 -->
+  <path d="M120 210 C 120 150, 220 120, 300 122 C 400 124, 490 150, 488 205 C 486 255, 400 290, 300 288 C 210 286, 120 270, 120 210 Z"
+        fill="none" stroke="#ffffff" stroke-opacity="0.5" stroke-width="2" stroke-dasharray="2 7"/>
+
+  <text x="300" y="322" text-anchor="middle" font-family="sans-serif" font-size="19"
+        font-weight="700" fill="#3f8aa0" opacity="0.65">제 주 바 다</text>
+</svg>
