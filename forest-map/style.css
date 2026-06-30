@@ -186,16 +186,15 @@ body {
 .char-img {
   width: 144px; flex: none; aspect-ratio: 406 / 514;
   background-image: url("assets/jin.png");
-  background-repeat: no-repeat; background-size: 200% 100%;
-  background-position: 0% 0%;               /* 왼쪽 프레임 = 입 다문 모습 */
+  background-repeat: no-repeat; background-size: contain;
+  background-position: center bottom;       /* 단일 이미지 전체 표시 */
   border-radius: 18px 18px 0 0;
   filter: drop-shadow(0 4px 12px rgba(35, 60, 35, .26));
   animation: breathe 3.6s ease-in-out infinite;
 }
 /* 말하는 중: 입을 빠르게 여닫음 (왼/오 프레임 토글) */
 .char-img.talking {
-  animation: breathe 3.6s ease-in-out infinite,
-             mouthFlap .24s steps(1, end) infinite;
+  animation: breathe 1.8s ease-in-out infinite; /* 말할 때 살짝 빠른 들썩임 (단일 이미지) */
 }
 @keyframes mouthFlap {
   0%   { background-position: 0% 0%; }    /* 다문 */
@@ -229,4 +228,22 @@ body {
   .char-stage { left: 8px; }
   .char-img { width: 112px; }
   .speech-bubble { max-width: 180px; margin-bottom: 56px; font-size: .8rem; }
+}
+
+/* ── 화면별 장식 배경 (파일 없으면 기존 색으로 폴백) ───────── */
+body[data-screen="menu"] {
+  background-color: #d3e8c0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.42), rgba(255,255,255,.52)),
+    url("assets/bg-menu.png");
+  background-size: cover; background-position: center;
+  background-repeat: no-repeat; background-attachment: fixed;
+}
+body[data-screen="map"] {
+  background-color: #d3e8c0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.40), rgba(255,255,255,.50)),
+    url("assets/bg-map.png");
+  background-size: cover; background-position: center;
+  background-repeat: no-repeat; background-attachment: fixed;
 }

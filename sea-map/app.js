@@ -12,6 +12,7 @@ async function init() {
   DATA = await res.json();
 
   $("#selectIntroText").textContent = DATA.intro || "";
+  document.body.dataset.screen = "select"; // 첫 화면 배경
   renderPicks();
 
   document.querySelectorAll("[data-back]").forEach((btn) =>
@@ -47,6 +48,7 @@ function renderPicks() {
 // ── 안내자 확정 → 캐릭터/테마 세팅 후 지도로 ─────────
 function selectGuide(guide) {
   currentGuide = guide;
+  document.body.dataset.guide = guide.id; // 안내자별 지도 배경 (yoyo/cheese)
 
   // 강조색을 안내자 색으로 교체
   document.documentElement.style.setProperty("--accent", guide.color);
@@ -155,6 +157,7 @@ function speak(text) {
 function showScreen(name) {
   document.querySelectorAll(".screen").forEach((s) => s.classList.remove("is-active"));
   $(`#screen-${name}`).classList.add("is-active");
+  document.body.dataset.screen = name; // 화면별 장식 배경 적용용
   window.scrollTo({ top: 0, behavior: "smooth" });
 
   // 선택 화면에서는 하단 캐릭터 숨김 (양쪽 고양이를 크게 보여주므로)

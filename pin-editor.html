@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>핀 위치 에디터 (개발용)</title>
+<style>
+  :root { --accent:#ff6f43; --ink:#23404f; }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: system-ui, "Apple SD Gothic Neo", sans-serif; color:var(--ink); background:#eef4f7; }
+  header { padding:14px 18px; background:#fff; box-shadow:0 2px 8px rgba(0,0,0,.06); position:sticky; top:0; z-index:5; }
+  header h1 { margin:0 0 10px; font-size:1.05rem; }
+  .controls { display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+  select, button { font:inherit; padding:7px 12px; border-radius:10px; border:1px solid #cdd9e1; background:#fff; cursor:pointer; }
+  button.primary { background:var(--accent); color:#fff; border-color:var(--accent); font-weight:700; }
+  .hint { font-size:.82rem; color:#6a8294; margin-left:auto; }
+  main { max-width:980px; margin:18px auto; padding:0 16px; }
+
+  .map-wrap {
+    position:relative; width:100%; aspect-ratio:3/2;
+    border-radius:16px; overflow:hidden; box-shadow:0 8px 24px rgba(0,0,0,.12);
+    background:#bfe3ea; user-select:none; touch-action:none;
+  }
+  .map-bg { width:100%; height:100%; object-fit:cover; display:block; pointer-events:none; }
+
+  .pin {
+    position:absolute; transform:translate(-50%,-100%);
+    text-align:center; cursor:grab; z-index:2;
+  }
+  .pin.dragging { cursor:grabbing; z-index:10; }
+  .pin.selected .pin-dot { background:#1b9cff; outline:3px solid rgba(27,156,255,.35); }
+  .pin-dot {
+    width:24px; height:24px; background:var(--accent); border-radius:50% 50% 50% 0;
+    transform:rotate(-45deg); margin:0 auto; box-shadow:0 4px 8px rgba(0,0,0,.25);
+    border:2px solid #fff;
+  }
+  .pin-label {
+    margin-top:5px; font-size:.7rem; font-weight:700; color:var(--ink);
+    background:#fff; padding:2px 7px; border-radius:999px; white-space:nowrap;
+    box-shadow:0 2px 5px rgba(0,0,0,.15);
+  }
+  .pin-coords { display:block; font-size:.62rem; color:#7a93a4; font-weight:600; }
+
+  .out { margin-top:18px; }
+  .out-head { display:flex; gap:10px; align-items:center; margin-bottom:8px; }
+  .out-head h2 { font-size:.95rem; margin:0; }
+  textarea {
+    width:100%; height:280px; font-family:ui-monospace, Consolas, monospace; font-size:.78rem;
+    border-radius:12px; border:1px solid #cdd9e1; padding:12px; resize:vertical; background:#fff;
+  }
+  .msg { font-size:.85rem; color:#c0392b; margin:8px 0; min-height:1.1em; }
+  .ok { color:#2e7d4f; }
+  kbd { background:#dfe8ee; border-radius:5px; padding:1px 5px; font-size:.78rem; }
+</style>
+</head>
+<body>
+<header>
+  <h1>📍 핀 위치 에디터 <span style="font-weight:400;font-size:.8rem;color:#6a8294;">— 개발용 (배포 X)</span></h1>
+  <div class="controls">
+    <label>지도
+      <select id="mapSel">
+        <option value="food">food-map (맛집)</option>
+        <option value="forest">forest-map (숲)</option>
+        <option value="sea">sea-map (바다)</option>
+      </select>
+    </label>
+    <label>카테고리 <select id="catSel"></select></label>
+    <button class="primary" id="exportBtn">⬇ JSON 내보내기</button>
+    <button id="reloadBtn">↻ 다시 불러오기</button>
+    <span class="hint">핀을 드래그해서 위치 조정 · 선택 후 <kbd>방향키</kbd>로 미세조정</span>
+  </div>
+</header>
+
+<main>
+  <div class="map-wrap" id="mapWrap">
+    <img class="map-bg" id="mapBg" alt="지도" />
+    <div id="pins"></div>
+  </div>
+  <p class="msg" id="msg"></p>
+
+  <div class="out">
+    <div class="out-head">
+      <h2>업데이트된 전체 JSON (그대로 복사해서 데이터 파일에 붙여넣기)</h2>
+      <button id="copyBtn">📋 복사</button>
+      <button id="downloadBtn">💾 파일로 저장</button>
+    </div>
+    <textarea id="jsonOut" spellcheck="false" readonly></textarea>
+  </div>
+</main>
+
+<script>
+// 지도별 설정: 배경/데이터 경로 + 데이터 구조 키
+const MAPS = {
+  food:   { bg:"food-map/assets/jeju-map.svg",   json:"food-map/data/restaurants.json", file:"restaurants.json", catKey:"menus",  pinKey:"restaurants" },
+  forest: { bg:"forest-map/assets/jeju-map.svg", json:"forest-map/data/forests.json",   file:"forests.json",     catKey:"themes", pinKey:"forests" },
+  sea:    { bg:"sea-map/assets/jeju-map.svg",     json:"sea-map/data/sea.json",          file:"sea.json",         catKey:"guides", pinKey:"spots" },
+};
+
+const $ = (s) => document.querySelector(s);
+const mapSel = $("#mapSel"), catSel = $("#catSel"), msg = $("#msg");
+const wrap = $("#mapWrap"), pinsEl = $("#pins"), bgEl = $("#mapBg");
+
+let curMap = "food";
+let data = null;           // 현재 지도 전체 JSON (메모리에서 수정됨)
+let cats = [];             // 카테고리 배열 (menus/themes/guides)
+let curCatIdx = 0;
+let selectedPin = null;    // 선택된 핀 데이터 객체
+
+function setMsg(t, ok=false){ msg.textContent = t; msg.className = "msg" + (ok ? " ok" : ""); }
+
+async function loadMap(key){
+  curMap = key;
+  const cfg = MAPS[key];
+  bgEl.src = cfg.bg;
+  setMsg("불러오는 중…");
+  try {
+    const res = await fetch(cfg.json + "?t=" + Date.now(), { cache:"no-store" });
+    if(!res.ok) throw new Error("HTTP " + res.status);
+    data = await res.json();
+  } catch(e){
+    setMsg("⚠ 데이터를 못 불러왔어요 ("+e.message+"). file:// 로 직접 열면 막혀요 → 폴더에서 로컬 서버를 켜고 (예: python -m http.server) http://localhost:8000/pin-editor.html 로 여세요.");
+    data = null; cats = []; catSel.innerHTML = ""; pinsEl.innerHTML = ""; return;
+  }
+  cats = data[cfg.catKey] || [];
+  curCatIdx = 0;
+  // 카테고리 드롭다운 채우기
+  catSel.innerHTML = "";
+  cats.forEach((c, i) => {
+    const o = document.createElement("option");
+    o.value = i; o.textContent = (c.name || c.id || ("항목 " + (i+1)));
+    catSel.appendChild(o);
+  });
+  renderPins();
+  updateOutput();
+  setMsg("불러오기 완료 — 핀을 드래그하세요.", true);
+}
+
+function curPins(){
+  const cfg = MAPS[curMap];
+  const cat = cats[curCatIdx];
+  return cat ? (cat[cfg.pinKey] || []) : [];
+}
+
+function renderPins(){
+  pinsEl.innerHTML = "";
+  selectedPin = null;
+  curPins().forEach((p) => {
+    if(typeof p.x !== "number") p.x = 50;
+    if(typeof p.y !== "number") p.y = 50;
+    const el = document.createElement("div");
+    el.className = "pin";
+    el.style.left = p.x + "%";
+    el.style.top  = p.y + "%";
+    el.innerHTML = `<div class="pin-dot"></div>
+      <div class="pin-label">${p.name || ""}<span class="pin-coords">${p.x}, ${p.y}</span></div>`;
+    el.__data = p;
+    attachDrag(el, p);
+    pinsEl.appendChild(el);
+  });
+}
+
+function refreshPinEl(el, p){
+  el.style.left = p.x + "%";
+  el.style.top  = p.y + "%";
+  el.querySelector(".pin-coords").textContent = p.x + ", " + p.y;
+}
+
+function selectPin(el, p){
+  document.querySelectorAll(".pin.selected").forEach(n => n.classList.remove("selected"));
+  el.classList.add("selected");
+  selectedPin = { el, p };
+}
+
+function attachDrag(el, p){
+  el.addEventListener("pointerdown", (e) => {
+    e.preventDefault();
+    selectPin(el, p);
+    el.classList.add("dragging");
+    el.setPointerCapture(e.pointerId);
+    const rect = wrap.getBoundingClientRect();
+    // 핀 tip(앵커=bottom center)과 커서의 오프셋 유지
+    const tipX = rect.left + (p.x/100)*rect.width;
+    const tipY = rect.top  + (p.y/100)*rect.height;
+    const dx = tipX - e.clientX, dy = tipY - e.clientY;
+
+    const move = (ev) => {
+      const r = wrap.getBoundingClientRect();
+      let nx = ((ev.clientX + dx) - r.left) / r.width  * 100;
+      let ny = ((ev.clientY + dy) - r.top ) / r.height * 100;
+      p.x = Math.min(100, Math.max(0, Math.round(nx)));
+      p.y = Math.min(100, Math.max(0, Math.round(ny)));
+      refreshPinEl(el, p);
+    };
+    const up = () => {
+      el.classList.remove("dragging");
+      el.removeEventListener("pointermove", move);
+      el.removeEventListener("pointerup", up);
+      updateOutput();
+    };
+    el.addEventListener("pointermove", move);
+    el.addEventListener("pointerup", up);
+  });
+}
+
+// 방향키 미세조정
+document.addEventListener("keydown", (e) => {
+  if(!selectedPin) return;
+  const { el, p } = selectedPin;
+  const step = e.shiftKey ? 5 : 1;
+  let used = true;
+  if(e.key === "ArrowLeft")  p.x = Math.max(0, p.x - step);
+  else if(e.key === "ArrowRight") p.x = Math.min(100, p.x + step);
+  else if(e.key === "ArrowUp")    p.y = Math.max(0, p.y - step);
+  else if(e.key === "ArrowDown")  p.y = Math.min(100, p.y + step);
+  else used = false;
+  if(used){ e.preventDefault(); refreshPinEl(el, p); updateOutput(); }
+});
+
+function updateOutput(){
+  if(!data){ $("#jsonOut").value = ""; return; }
+  $("#jsonOut").value = JSON.stringify(data, null, 2);
+}
+
+// ── 컨트롤 이벤트 ──
+mapSel.addEventListener("change", () => loadMap(mapSel.value));
+catSel.addEventListener("change", () => { curCatIdx = +catSel.value; renderPins(); });
+$("#reloadBtn").addEventListener("click", () => loadMap(curMap));
+$("#exportBtn").addEventListener("click", () => { updateOutput(); $("#jsonOut").scrollIntoView({behavior:"smooth"}); });
+
+$("#copyBtn").addEventListener("click", async () => {
+  try { await navigator.clipboard.writeText($("#jsonOut").value); setMsg("클립보드에 복사됐어요. 데이터 파일에 통째로 붙여넣으세요.", true); }
+  catch { $("#jsonOut").select(); document.execCommand("copy"); setMsg("복사됨(폴백).", true); }
+});
+
+$("#downloadBtn").addEventListener("click", () => {
+  const blob = new Blob([$("#jsonOut").value], {type:"application/json"});
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = MAPS[curMap].file;
+  a.click();
+  URL.revokeObjectURL(a.href);
+  setMsg("저장됨: " + MAPS[curMap].file + " — 원래 data 폴더 파일에 덮어쓰세요.", true);
+});
+
+loadMap("food");
+</script>
+</body>
+</html>

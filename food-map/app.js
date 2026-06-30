@@ -11,6 +11,7 @@ async function init() {
   DATA = await res.json();
 
   renderMenuGrid();
+  document.body.dataset.screen = "menu"; // 첫 화면 배경
   speak(DATA.intro || "");
 
   // 뒤로가기 버튼
@@ -133,6 +134,7 @@ function speak(text) {
 function showScreen(name) {
   document.querySelectorAll(".screen").forEach((s) => s.classList.remove("is-active"));
   $(`#screen-${name}`).classList.add("is-active");
+  document.body.dataset.screen = name; // 화면별 장식 배경 적용용
   window.scrollTo({ top: 0, behavior: "smooth" });
   if (name === "menu" && DATA) speak(DATA.intro || "");
 }
