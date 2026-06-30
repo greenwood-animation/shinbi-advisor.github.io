@@ -127,10 +127,19 @@ function setMapCharacter(id) {
 
 // ── 순덕 말하기 (타이핑 + 입 모션) ──────────────────
 let speakTimer = null;
+function tts(text) {
+  if (!window.speechSynthesis) return;
+  window.speechSynthesis.cancel();
+  if (!text) return;
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = "ko-KR"; u.rate = 1.0; u.pitch = 1.1;
+  window.speechSynthesis.speak(u);
+}
 function speak(text) {
   const span = $("#speechText");
   const img = $("#charImg");
   clearInterval(speakTimer);
+  tts(text);
 
   span.textContent = "";
   if (!text) { img.classList.remove("talking"); return; }
