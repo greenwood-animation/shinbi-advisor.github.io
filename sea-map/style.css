@@ -282,25 +282,19 @@ body {
 /* ── 화면별 장식 배경 (파일 없으면 기존 색으로 폴백) ───────── */
 body[data-screen="select"] {
   background-color: #cdeef6;
-  background-image:
-    linear-gradient(rgba(255,255,255,.40), rgba(255,255,255,.50)),
-    url("assets/bg-select.png");
+  background-image: url("assets/bg-select.png");
   background-size: cover; background-position: center;
   background-repeat: no-repeat; background-attachment: fixed;
 }
 body[data-screen="map"][data-guide="yoyo"] {
   background-color: #cdeef6;
-  background-image:
-    linear-gradient(rgba(255,255,255,.38), rgba(255,255,255,.48)),
-    url("assets/bg-map-yoyo.png");
+  background-image: url("assets/bg-map-yoyo.png");
   background-size: cover; background-position: center;
   background-repeat: no-repeat; background-attachment: fixed;
 }
 body[data-screen="map"][data-guide="cheese"] {
   background-color: #cdeef6;
-  background-image:
-    linear-gradient(rgba(255,255,255,.38), rgba(255,255,255,.48)),
-    url("assets/bg-map-cheese.png");
+  background-image: url("assets/bg-map-cheese.png");
   background-size: cover; background-position: center;
   background-repeat: no-repeat; background-attachment: fixed;
 }

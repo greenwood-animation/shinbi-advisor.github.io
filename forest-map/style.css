@@ -233,17 +233,13 @@ body {
 /* ── 화면별 장식 배경 (파일 없으면 기존 색으로 폴백) ───────── */
 body[data-screen="menu"] {
   background-color: #d3e8c0;
-  background-image:
-    linear-gradient(rgba(255,255,255,.42), rgba(255,255,255,.52)),
-    url("assets/bg-menu.png");
+  background-image: url("assets/bg-menu.png");
   background-size: cover; background-position: center;
   background-repeat: no-repeat; background-attachment: fixed;
 }
 body[data-screen="map"] {
   background-color: #d3e8c0;
-  background-image:
-    linear-gradient(rgba(255,255,255,.40), rgba(255,255,255,.50)),
-    url("assets/bg-map.png");
+  background-image: url("assets/bg-map.png");
   background-size: cover; background-position: center;
   background-repeat: no-repeat; background-attachment: fixed;
 }
