@@ -28,17 +28,11 @@ function renderThemeGrid() {
   grid.innerHTML = "";
 
   DATA.themes.forEach((theme, i) => {
+    // 이미지 없이 라운드 사각형 + 텍스트 자체가 버튼
     const card = document.createElement("div");
     card.className = "menu-card";
-    card.style.animationDelay = `${i * 0.05}s`;
-
-    const thumb = theme.image
-      ? `<img src="${theme.image}" alt="${theme.name}" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'${theme.emoji || "🌳"}'}))">`
-      : (theme.emoji || "🌳");
-
-    card.innerHTML = `
-      <div class="menu-thumb">${thumb}</div>
-      <div class="menu-name">${theme.name}</div>`;
+    card.style.animationDelay = `${i * 0.07}s`; // 왼쪽 위부터 순차 등장
+    card.textContent = theme.name;
     card.addEventListener("click", () => openMap(theme));
     grid.appendChild(card);
   });

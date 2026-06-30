@@ -1,4 +1,10 @@
 /* ── 기본 ───────────────────────────────────────────── */
+@font-face {
+  font-family: "Jalnan";              /* 여기어때 잘난체 (food-map 폰트 재사용) */
+  src: url("../food-map/assets/fonts/Jalnan2TTF.ttf") format("truetype");
+  font-weight: normal; font-display: swap;
+}
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
@@ -46,30 +52,30 @@ body {
   background: rgba(255,255,255,.6); border-radius: 14px; padding: 10px 14px;
 }
 
+/* 테마 버튼: 라운드 사각형(#373737) + 초록 글씨(#7ED956) 자체가 버튼 */
 .menu-grid {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+  display: flex; flex-wrap: wrap; gap: 14px;
+  justify-content: center; align-content: center;
+  flex: 1; width: 100%; max-width: 760px; margin: 0 auto;
 }
-@media (max-width: 560px) { .menu-grid { grid-template-columns: repeat(3, 1fr); } }
-
 .menu-card {
-  background: var(--card); border-radius: 18px; padding: 14px 8px 12px;
-  text-align: center; cursor: pointer; box-shadow: var(--shadow);
-  border: 2px solid transparent; transition: transform .18s, border-color .18s;
-  /* 팝인 모션 */
-  opacity: 0; transform: scale(.8) translateY(8px);
-  animation: popIn .42s cubic-bezier(.34,1.56,.64,1) forwards;
+  background: #373737; color: #7ED956;
+  font-family: "Jalnan", system-ui, sans-serif; font-weight: 400;
+  font-size: 1.15rem; padding: 14px 26px; border-radius: 16px;
+  text-align: center; white-space: nowrap; cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .3);
+  transition: transform .15s;
+  /* 왼쪽 위부터 뿅뿅뿅: 작게→바운스하며 확대 */
+  opacity: 0; transform: scale(.4) translateY(6px);
+  animation: popIn .5s cubic-bezier(.34, 1.8, .5, 1) forwards;
 }
-.menu-card:hover { transform: translateY(-4px) scale(1.03); border-color: var(--sea-deep); }
+.menu-card:hover { transform: translateY(-4px) scale(1.06); }
 
-@keyframes popIn { to { opacity: 1; transform: scale(1) translateY(0); } }
-
-.menu-thumb {
-  width: 64px; height: 64px; margin: 0 auto 8px; border-radius: 50%;
-  display: grid; place-items: center; font-size: 2rem;
-  background: radial-gradient(circle at 30% 30%, #fff, var(--sea));
+@keyframes popIn {
+  0%   { opacity: 0; transform: scale(.4) translateY(6px); }
+  60%  { opacity: 1; }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
 }
-.menu-thumb img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
-.menu-name { font-size: .82rem; font-weight: 700; color: var(--accent); }
 
 /* ── 2단계: 지도 ────────────────────────────────────── */
 .back-btn {
@@ -242,4 +248,47 @@ body[data-screen="map"] {
   background-image: url("assets/bg-map.png");
   background-size: cover; background-position: center;
   background-repeat: no-repeat; background-attachment: fixed;
+}
+
+/* ═══ 숲 메뉴 화면: 제목 숨김 + 캐릭터 우측 / 말풍선 좌상단 ═══════ */
+body[data-screen="menu"] .menu-head { display: none; }
+body[data-screen="menu"] #charStage { display: block; position: fixed; inset: 0; z-index: 4; pointer-events: none; }
+body[data-screen="menu"] .speech-bubble { position: absolute; top: 4%; left: 3%; max-width: 360px; margin: 0; }
+body[data-screen="menu"] .char-img { position: absolute; right: 1%; bottom: 0; width: min(32vw, 440px); }
+
+/* ═══ 숲 지도 씬: 숲 배경 + 지도 우측 + 말풍선/캐릭터 좌측 ═══════ */
+body[data-screen="map"] #app { max-width: none; padding: 0; }
+body[data-screen="map"] #screen-map.is-active { display: block; min-height: 100dvh; }
+body[data-screen="map"] .back-btn { top: 12px; left: 12px; z-index: 6; }
+/* 타이틀: 상단 중앙 초록 알약 */
+body[data-screen="map"] .map-head { position: absolute; top: 14px; left: 0; right: 0; z-index: 5; }
+body[data-screen="map"] .map-title {
+  display: inline-block; font-family: "Jalnan", system-ui, sans-serif; font-weight: 400;
+  background: #373737; color: #7ED956; padding: 6px 20px; border-radius: 999px;
+  font-size: 1.15rem; box-shadow: 0 3px 8px rgba(0, 0, 0, .3);
+}
+body[data-screen="map"] .map-wrap {
+  position: absolute; top: 50%; right: 2vw; transform: translateY(-50%);
+  width: min(60vw, 900px); aspect-ratio: 3 / 2;
+  background: none; box-shadow: none; border-radius: 0; overflow: visible;
+}
+body[data-screen="map"] .map-bg { object-fit: contain; filter: drop-shadow(0 8px 20px rgba(0, 0, 0, .22)); }
+body[data-screen="map"] #charStage {
+  flex-direction: column; align-items: flex-start; justify-content: space-between;
+  left: 2vw; top: 16px; bottom: 0; gap: 12px; max-width: 360px;
+}
+body[data-screen="map"] .char-img { width: min(26vw, 320px); }
+body[data-screen="map"] .speech-bubble {
+  max-width: 340px; margin: 0; padding: 24px 22px 20px;
+  background: rgba(255, 255, 255, .93); border-radius: 22px;
+  font-size: 1rem; line-height: 1.6; font-weight: 700; text-align: center;
+  color: #2f6b2f; box-shadow: 0 8px 22px rgba(0, 0, 0, .18);
+}
+body[data-screen="map"] .speech-bubble::before {
+  content: "\201C"; position: absolute; top: 2px; left: 14px;
+  font-family: Georgia, serif; font-size: 2.4rem; line-height: 1; color: #7cb342;
+}
+body[data-screen="map"] .speech-bubble::after {
+  top: auto; bottom: -10px; left: 44px; right: auto;
+  border: 10px solid transparent; border-top-color: rgba(255, 255, 255, .93); border-bottom: 0;
 }
