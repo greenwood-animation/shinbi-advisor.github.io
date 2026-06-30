@@ -60,6 +60,7 @@ function renderMenuGrid() {
 function openMap(menu) {
   $("#mapMenuName").textContent = menu.name;
   speak(menu.desc || "");
+  setMapCharacter(menu.id);
 
   const pins = $("#pins");
   pins.innerHTML = "";
@@ -111,6 +112,17 @@ function openDetail(r) {
 function closeDetail() {
   $("#detailPanel").classList.remove("is-open");
   $("#overlay").classList.remove("is-open");
+}
+
+// 지도 화면 캐릭터: 메뉴별 신비 이미지(assets/shinbi/<id>.png), 없으면 기본 이미지로 폴백
+function setMapCharacter(id) {
+  const img = $("#charImg");
+  if (!id) return;
+  const url = `assets/shinbi/${id}.png`;
+  const probe = new Image();
+  probe.onload = () => { img.style.backgroundImage = `url('${url}')`; };
+  probe.onerror = () => { img.style.backgroundImage = `url('assets/shinbi.png')`; };
+  probe.src = url;
 }
 
 // ── 순덕 말하기 (타이핑 + 입 모션) ──────────────────

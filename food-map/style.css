@@ -263,3 +263,50 @@ body[data-screen="menu"] #charStage { display: none; }
 /* 메뉴 화면: 제목 숨김 + #app 폭 넓혀 좌6·우6 와이드 배치 */
 body[data-screen="menu"] .menu-head { display: none; }
 body[data-screen="menu"] #app { max-width: 1240px; padding: 12px 12px 24px; }
+
+/* ═══ 지도 씬: 바다 배경 + 지도 우측 + 말풍선/캐릭터 좌측 ═══════════ */
+body[data-screen="map"] {
+  background-color: #bfe3ea;
+  background-image: url("assets/bg-map-food.png");
+  background-size: cover; background-position: center;
+  background-repeat: no-repeat; background-attachment: fixed;
+}
+/* 지도 화면은 풀블리드로 */
+body[data-screen="map"] #app { max-width: none; padding: 0; }
+body[data-screen="map"] #screen-map.is-active { display: block; min-height: 100dvh; }
+body[data-screen="map"] .map-head { display: none; }
+body[data-screen="map"] .back-btn { top: 12px; left: 12px; z-index: 6; }
+
+/* 지도: 우측, 이미지 실제 비율(2388/1668)로 잘림 없이 */
+body[data-screen="map"] .map-wrap {
+  position: absolute; top: 50%; right: 2vw; transform: translateY(-50%);
+  width: min(58vw, 880px); aspect-ratio: 2388 / 1668;
+  background: none; box-shadow: none; border-radius: 0; overflow: visible;
+}
+body[data-screen="map"] .map-bg {
+  object-fit: contain;
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, .22));
+}
+
+/* 캐릭터+말풍선: 좌측 세로 (말풍선 위 / 캐릭터 아래) */
+body[data-screen="map"] #charStage {
+  flex-direction: column; align-items: flex-start; justify-content: space-between;
+  left: 2vw; top: 16px; bottom: 0; gap: 12px; max-width: 360px;
+}
+body[data-screen="map"] .char-img { width: min(26vw, 320px); }
+
+/* 말풍선: 연한 풍선 + 따옴표, 꼬리는 아래로 */
+body[data-screen="map"] .speech-bubble {
+  max-width: 340px; margin: 0; padding: 24px 22px 20px;
+  background: rgba(255, 255, 255, .93); border-radius: 22px;
+  font-size: 1rem; line-height: 1.6; font-weight: 700; text-align: center;
+  color: #1c6b86; box-shadow: 0 8px 22px rgba(0, 0, 0, .18);
+}
+body[data-screen="map"] .speech-bubble::before {
+  content: "\201C"; position: absolute; top: 2px; left: 14px;
+  font-family: Georgia, serif; font-size: 2.4rem; line-height: 1; color: #6fc3e8;
+}
+body[data-screen="map"] .speech-bubble::after {
+  top: auto; bottom: -10px; left: 44px; right: auto;
+  border: 10px solid transparent; border-top-color: rgba(255, 255, 255, .93); border-bottom: 0;
+}

@@ -91,9 +91,9 @@
 <script>
 // 지도별 설정: 배경/데이터 경로 + 데이터 구조 키
 const MAPS = {
-  food:   { bg:"food-map/assets/jeju-map.svg",   json:"food-map/data/restaurants.json", file:"restaurants.json", catKey:"menus",  pinKey:"restaurants" },
-  forest: { bg:"forest-map/assets/jeju-map.svg", json:"forest-map/data/forests.json",   file:"forests.json",     catKey:"themes", pinKey:"forests" },
-  sea:    { bg:"sea-map/assets/jeju-map.svg",     json:"sea-map/data/sea.json",          file:"sea.json",         catKey:"guides", pinKey:"spots" },
+  food:   { bg:"food-map/assets/jeju-map.png",   aspect:"2388 / 1668", json:"food-map/data/restaurants.json", file:"restaurants.json", catKey:"menus",  pinKey:"restaurants" },
+  forest: { bg:"forest-map/assets/jeju-map.svg", aspect:"3 / 2",       json:"forest-map/data/forests.json",   file:"forests.json",     catKey:"themes", pinKey:"forests" },
+  sea:    { bg:"sea-map/assets/jeju-map.svg",     aspect:"3 / 2",       json:"sea-map/data/sea.json",          file:"sea.json",         catKey:"guides", pinKey:"spots" },
 };
 
 const $ = (s) => document.querySelector(s);
@@ -112,6 +112,7 @@ async function loadMap(key){
   curMap = key;
   const cfg = MAPS[key];
   bgEl.src = cfg.bg;
+  wrap.style.aspectRatio = cfg.aspect || "3 / 2";  // 실제 앱과 동일 비율 → 좌표 1:1
   setMsg("불러오는 중…");
   try {
     const res = await fetch(cfg.json + "?t=" + Date.now(), { cache:"no-store" });
