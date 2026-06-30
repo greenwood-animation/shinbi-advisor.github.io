@@ -1,4 +1,10 @@
 /* ── 기본 ───────────────────────────────────────────── */
+@font-face {
+  font-family: "Jalnan";              /* 여기어때 잘난체 */
+  src: url("assets/fonts/Jalnan2TTF.ttf") format("truetype");
+  font-weight: normal; font-display: swap;
+}
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
@@ -87,9 +93,10 @@ body {
 }
 /* 메뉴 라벨: 둥근 네모(#373737) + 노란 텍스트(#FCEA00) */
 .menu-name {
-  display: inline-block; font-size: .82rem; font-weight: 800;
+  display: inline-block; font-size: .9rem; font-weight: 400;
+  font-family: "Jalnan", system-ui, sans-serif;
   color: #FCEA00; background: #373737;
-  padding: 4px 13px; border-radius: 999px;
+  padding: 4px 14px; border-radius: 999px;
   box-shadow: 0 2px 6px rgba(0, 0, 0, .3);
 }
 
