@@ -170,3 +170,11 @@ function showScreen(name) {
 }
 
 init();
+
+// ── 1920×1080 고정 스케일 ─────────────────────────────
+function fitScreen() {
+  const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+  document.getElementById("app").style.transform = `scale(${s})`;
+}
+window.addEventListener("resize", fitScreen);
+fitScreen();
