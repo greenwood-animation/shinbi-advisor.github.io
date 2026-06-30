@@ -69,7 +69,8 @@ body[data-screen="select"] #app { max-width: none; padding: 0; }
 .picks::after {
   content: ""; position: absolute; inset: 0;
   pointer-events: none; z-index: 4; background: #fff;
-  clip-path: polygon(49% 0, 55% 0, 55% 40%, 45% 60%, 45% 100%, 39% 100%, 39% 60%, 49% 40%);
+  clip-path: polygon(48% 0, 56% 0, 56% 38%, 52% 62%, 52% 100%, 44% 100%, 44% 62%, 48% 38%);
+  filter: drop-shadow(0 0 10px rgba(255,255,255,0.6));
 }
 
 .pick-cat {
