@@ -49,14 +49,14 @@ body {
 /* 가운데 순덕 중심: 좌 6 · 우 6, 가운데(ch)는 위→아래 전부 비움 */
 .menu-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1.5fr 1.5fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr 1.2fr 1.2fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
   grid-template-areas:
     "a1 a2  ch ch a3  a4"
     "a5 a6  ch ch a7  a8"
     "a9 a10 ch ch a11 a12";
-  gap: 4px 18px; align-items: center; justify-items: center;
-  flex: 1; width: 100%; max-width: 1200px; margin: 0 auto;
+  gap: 6px 8px; align-items: center; justify-items: center;
+  flex: 1; width: 100%; max-width: 1040px; margin: 0 auto;
   min-height: calc(100dvh - 48px);
 }
 /* 가운데 세로 전체 — 캐릭터는 배경(bg-menu)에서 보이므로 비워둠 */
@@ -78,8 +78,8 @@ body {
 }
 
 .menu-thumb {
-  width: 118px; height: 118px; margin: 0 auto 6px;
-  display: grid; place-items: center; font-size: 2.6rem;
+  width: 140px; height: 140px; margin: 0 auto 4px;
+  display: grid; place-items: center; font-size: 3rem;
 }
 .menu-thumb img {
   width: 100%; height: 100%; object-fit: contain;
