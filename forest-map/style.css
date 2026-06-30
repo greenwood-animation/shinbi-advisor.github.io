@@ -269,7 +269,7 @@ body[data-screen="map"] .map-title {
 }
 body[data-screen="map"] .map-wrap {
   position: absolute; top: 50%; right: 2vw; transform: translateY(-50%);
-  width: min(60vw, 900px); aspect-ratio: 3 / 2;
+  width: min(60vw, 900px); aspect-ratio: 2388 / 1668;
   background: none; box-shadow: none; border-radius: 0; overflow: visible;
 }
 body[data-screen="map"] .map-bg { object-fit: contain; filter: drop-shadow(0 8px 20px rgba(0, 0, 0, .22)); }

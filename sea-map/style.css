@@ -1,4 +1,10 @@
 /* ── 기본 ───────────────────────────────────────────── */
+@font-face {
+  font-family: "Jalnan";              /* 여기어때 잘난체 (food-map 폰트 재사용) */
+  src: url("../food-map/assets/fonts/Jalnan2TTF.ttf") format("truetype");
+  font-weight: normal; font-display: swap;
+}
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
@@ -32,49 +38,59 @@ body {
 #screen-map.is-active { justify-content: center; position: relative; }
 #screen-map .back-btn { position: absolute; top: 0; left: 0; z-index: 5; }
 
-/* ── 0단계: 안내자(고양이) 선택 ──────────────────────── */
+/* ── 0단계: 안내자 선택 — 좌(요요)·우(치즈) 분할 화면 ───────── */
+body[data-screen="select"] #app { max-width: none; padding: 0; }
+#screen-select.is-active { min-height: 100dvh; position: relative; padding: 0; gap: 0; }
+
 .select-intro {
-  position: relative; max-width: 520px; margin: 4px auto 18px;
-  background: #fff; border-radius: 18px; padding: 16px 20px 16px 46px;
-  font-size: .9rem; line-height: 1.55; font-weight: 600; text-align: center;
-  color: var(--ink); box-shadow: var(--shadow);
+  position: relative; z-index: 3; align-self: center;
+  max-width: 620px; margin: 18px 16px 0;
+  background: #fff; border-radius: 20px; padding: 16px 22px 16px 52px;
+  font-size: 1rem; line-height: 1.55; font-weight: 700; text-align: center;
+  color: #3a3a6a; box-shadow: 0 8px 22px rgba(0, 0, 0, .18);
 }
 .select-intro .magnifier {
-  position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
-  font-size: 1.5rem;
+  position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
+  font-size: 1.7rem;
 }
 
-.picks {
-  flex: 1; display: flex; gap: 14px;
-}
+.picks { flex: 1; display: flex; gap: 0; overflow: hidden; position: relative; }
 @media (max-width: 560px) { .picks { flex-direction: column; } }
 
 .guide-pick {
-  flex: 1; border: none; cursor: pointer; color: #fff;
-  border-radius: 22px; padding: 22px 16px 24px;
-  display: flex; flex-direction: column; align-items: center; gap: 10px;
-  box-shadow: var(--shadow); transition: transform .18s, box-shadow .18s;
-  background: linear-gradient(160deg, color-mix(in srgb, var(--guide) 78%, #fff) 0%, var(--guide) 100%);
+  flex: 1; border: none; cursor: pointer; color: #fff; background: var(--guide, #ccc);
+  padding: 16px 16px 44px;
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 14px;
+  transition: transform .18s;
 }
-.guide-pick:hover { transform: translateY(-5px); box-shadow: 0 12px 26px rgba(20,60,75,.25); }
+.guide-pick:hover { transform: translateY(-6px); }
+
+/* 흰색 번개(Z자형) 분할선: picks 전체 기준으로 중앙에 오버레이 */
+.picks::after {
+  content: ""; position: absolute; inset: 0;
+  pointer-events: none; z-index: 4; background: #fff;
+  clip-path: polygon(49% 0, 55% 0, 55% 40%, 45% 60%, 45% 100%, 39% 100%, 39% 60%, 49% 40%);
+}
 
 .pick-cat {
-  width: 150px; aspect-ratio: 543 / 633;
-  background-color: #fff; background-size: contain;
-  background-position: center; background-repeat: no-repeat;
-  border-radius: 16px; box-shadow: 0 6px 14px rgba(0,0,0,.18);
+  width: min(30vw, 300px); aspect-ratio: 543 / 633;
+  background-color: transparent; background-size: contain;
+  background-position: center bottom; background-repeat: no-repeat;
+  border-radius: 0; box-shadow: none;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, .28));
 }
 .pick-cat--emoji {
-  aspect-ratio: 1 / 1; display: grid; place-items: center; font-size: 84px;
-  background: rgba(255,255,255,.6);
+  aspect-ratio: 1 / 1; display: grid; place-items: center; font-size: 160px; background: none;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, .28));
 }
 .pick-name {
-  font-size: 1.15rem; font-weight: 800; background: rgba(0,0,0,.18);
-  padding: 6px 18px; border-radius: 999px;
+  font-family: "Jalnan", system-ui, sans-serif; font-weight: 400;
+  font-size: 1.5rem; color: #fff; background: #373737;
+  padding: 9px 26px; border-radius: 999px; box-shadow: 0 5px 12px rgba(0, 0, 0, .35);
 }
 .pick-desc {
-  font-size: .84rem; line-height: 1.5; font-weight: 600; text-align: center;
-  max-width: 260px; opacity: .96;
+  font-size: .92rem; line-height: 1.55; font-weight: 700; text-align: center;
+  max-width: 300px; color: #fff; text-shadow: 0 1px 3px rgba(0, 0, 0, .3);
 }
 
 @keyframes fadeIn {
@@ -132,7 +148,7 @@ body {
 }
 
 .map-wrap {
-  position: relative; width: 100%; aspect-ratio: 3 / 2;
+  position: relative; width: 100%; aspect-ratio: 2388 / 1668;
   border-radius: 20px; overflow: hidden; box-shadow: var(--shadow);
   background: var(--sea);
 }
@@ -279,7 +295,7 @@ body {
   .speech-bubble { max-width: 180px; margin-bottom: 56px; font-size: .8rem; }
 }
 
-/* ── 화면별 장식 배경 (파일 없으면 기존 색으로 폴백) ───────── */
+/* ── 화면별 장식 배경 ─────────────────────────────────── */
 body[data-screen="select"] {
   background-color: #cdeef6;
   background-image: url("assets/bg-select.png");
@@ -287,14 +303,54 @@ body[data-screen="select"] {
   background-repeat: no-repeat; background-attachment: fixed;
 }
 body[data-screen="map"][data-guide="yoyo"] {
-  background-color: #cdeef6;
+  background-color: #bfe3ea;
   background-image: url("assets/bg-map-yoyo.png");
   background-size: cover; background-position: center;
   background-repeat: no-repeat; background-attachment: fixed;
 }
 body[data-screen="map"][data-guide="cheese"] {
-  background-color: #cdeef6;
+  background-color: #f5ddd0;
   background-image: url("assets/bg-map-cheese.png");
   background-size: cover; background-position: center;
   background-repeat: no-repeat; background-attachment: fixed;
+}
+
+/* ═══ 지도 씬: 바다 배경 + 지도 우측 + 말풍선/캐릭터 좌측 ═══════════ */
+body[data-screen="map"] #app { max-width: none; padding: 0; }
+body[data-screen="map"] #screen-map.is-active { display: block; min-height: 100dvh; }
+body[data-screen="map"] .map-head { display: none; }
+body[data-screen="map"] .back-btn { top: 12px; left: 12px; z-index: 6; }
+
+/* 지도: 우측, 실제 이미지 비율(2388/1668)로 */
+body[data-screen="map"] .map-wrap {
+  position: absolute; top: 50%; right: 2vw; transform: translateY(-50%);
+  width: min(58vw, 880px); aspect-ratio: 2388 / 1668;
+  background: none; box-shadow: none; border-radius: 0; overflow: visible;
+}
+body[data-screen="map"] .map-bg {
+  object-fit: contain;
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, .22));
+}
+
+/* 캐릭터+말풍선: 좌측 세로 */
+body[data-screen="map"] #charStage {
+  flex-direction: column; align-items: flex-start; justify-content: space-between;
+  left: 2vw; top: 16px; bottom: 0; gap: 12px; max-width: 360px;
+}
+body[data-screen="map"] .char-img { width: min(26vw, 320px); }
+
+/* 말풍선: 연한 풍선 + 따옴표, 꼬리는 아래로 */
+body[data-screen="map"] .speech-bubble {
+  max-width: 340px; margin: 0; padding: 24px 22px 20px;
+  background: rgba(255, 255, 255, .93); border-radius: 22px;
+  font-size: 1rem; line-height: 1.6; font-weight: 700; text-align: center;
+  color: #1c6b86; box-shadow: 0 8px 22px rgba(0, 0, 0, .18);
+}
+body[data-screen="map"] .speech-bubble::before {
+  content: "\201C"; position: absolute; top: 2px; left: 14px;
+  font-family: Georgia, serif; font-size: 2.4rem; line-height: 1; color: #6fc3e8;
+}
+body[data-screen="map"] .speech-bubble::after {
+  top: auto; bottom: -10px; left: 44px; right: auto;
+  border: 10px solid transparent; border-top-color: rgba(255, 255, 255, .93); border-bottom: 0;
 }

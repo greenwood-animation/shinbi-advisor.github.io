@@ -43,6 +43,9 @@ function renderPicks() {
     pick.addEventListener("click", () => selectGuide(guide));
     wrap.appendChild(pick);
   });
+
+  // 각 guide-pick이 --guide 변수로 자체 배경색을 가짐 (CSS clip-path로 번개 분할)
+  $("#screen-select").style.background = "";
 }
 
 // ── 안내자 확정 → 캐릭터/테마 세팅 후 지도로 ─────────
