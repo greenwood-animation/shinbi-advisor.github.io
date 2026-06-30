@@ -250,11 +250,34 @@ body[data-screen="map"] {
   background-repeat: no-repeat; background-attachment: fixed;
 }
 
-/* ═══ 숲 메뉴 화면: 제목 숨김 + 캐릭터 우측 / 말풍선 좌상단 ═══════ */
+/* ═══ 숲 메뉴 화면: 캐릭터 우측 크게 / 버튼 좌측 / 말풍선 좌상단 ══ */
 body[data-screen="menu"] .menu-head { display: none; }
+body[data-screen="menu"] #app { max-width: none; padding: 0; }
 body[data-screen="menu"] #charStage { display: block; position: fixed; inset: 0; z-index: 4; pointer-events: none; }
-body[data-screen="menu"] .speech-bubble { position: absolute; top: 4%; left: 3%; max-width: 360px; margin: 0; }
-body[data-screen="menu"] .char-img { position: absolute; right: 1%; bottom: 0; width: min(32vw, 440px); }
+/* 말풍선: 좌상단, 큼직하게 */
+body[data-screen="menu"] .speech-bubble {
+  position: absolute; top: 4%; left: 3%; margin: 0;
+  max-width: min(48vw, 540px); padding: 22px 26px 20px;
+  background: rgba(255, 255, 255, .93); border-radius: 22px;
+  font-size: 1.05rem; line-height: 1.65; font-weight: 700; text-align: center;
+  color: #1e3a1e; box-shadow: 0 8px 24px rgba(0, 0, 0, .22);
+}
+/* 꼬리: 오른쪽(캐릭터 방향) */
+body[data-screen="menu"] .speech-bubble::after {
+  top: auto; bottom: -10px; left: 44px; right: auto;
+  border: 10px solid transparent;
+  border-top-color: rgba(255, 255, 255, .93); border-bottom: 0;
+}
+/* 캐릭터: 우측, 전체 높이 가득 */
+body[data-screen="menu"] .char-img {
+  position: absolute; right: 0; bottom: 0;
+  width: min(46vw, 660px);
+}
+/* 버튼 그리드: 좌측 55% 영역에 정렬 */
+body[data-screen="menu"] .menu-grid {
+  justify-content: flex-start; align-content: center;
+  max-width: 55vw; margin-left: 3vw; margin-right: auto; width: auto;
+}
 
 /* ═══ 숲 지도 씬: 숲 배경 + 지도 우측 + 말풍선/캐릭터 좌측 ═══════ */
 body[data-screen="map"] #app { max-width: none; padding: 0; }
