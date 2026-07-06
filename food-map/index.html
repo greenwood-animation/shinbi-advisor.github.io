@@ -11,10 +11,22 @@
 
     <!-- ── 1단계: 메뉴 그리드 ─────────────────────────── -->
     <section id="screen-menu" class="screen is-active">
+      <div class="menu-bg" aria-hidden="true">
+        <img src="assets/background_room.png" alt="" onerror="this.style.display='none'" />
+        <img src="assets/순덕_메인.png" alt="" onerror="this.style.display='none'" />
+        <img src="assets/menu_back.png" alt="" onerror="this.style.display='none'" />
+      </div>
+      <div class="menu-hero-spacer"></div>
       <header class="menu-head">
-        <h1 class="title"><span class="brand">신비할망</span>의 바당 맛 지도</h1>
+        <img class="menu-title-img" src="assets/menu_title.png" alt="제주 바당 맛 지도" onerror="this.style.display='none'" />
       </header>
-      <div class="menu-grid" id="menuGrid"></div>
+      <div class="menu-panel">
+        <div class="menu-grid" id="menuGrid"></div>
+      </div>
+      <div class="menu-chatbar">
+        <input class="menu-chat-input" type="text" placeholder="순덕이에게 물어보기" disabled />
+        <button class="menu-chat-send" type="button" aria-label="전송" disabled>➤</button>
+      </div>
     </section>
 
     <!-- ── 2단계: 제주 지도 + 핀 ──────────────────────── -->

@@ -29,18 +29,9 @@ function renderMenuGrid() {
   const grid = $("#menuGrid");
   grid.innerHTML = "";
 
-  // 가운데 큰 순덕 캐릭터 (grid-area: ch)
-  const hero = document.createElement("div");
-  hero.className = "menu-hero";
-  grid.appendChild(hero);
-
-  // 메뉴 12칸: 좌 6(a1,a2 / a5,a6 / a9,a10) · 우 6(a3,a4 / a7,a8 / a11,a12), 가운데 비움
-  const AREAS = ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8", "a9", "a10", "a11", "a12"];
-
   DATA.menus.forEach((menu, i) => {
     const card = document.createElement("div");
     card.className = "menu-card";
-    card.style.gridArea = AREAS[i] || "";
     card.style.animationDelay = `${i * 0.07}s`; // 왼쪽 위부터 순차 등장
 
     // 이미지가 있으면 이미지, 없으면 이모지 폴백
@@ -127,19 +118,10 @@ function setMapCharacter(id) {
 
 // ── 순덕 말하기 (타이핑 + 입 모션) ──────────────────
 let speakTimer = null;
-function tts(text) {
-  if (!window.speechSynthesis) return;
-  window.speechSynthesis.cancel();
-  if (!text) return;
-  const u = new SpeechSynthesisUtterance(text);
-  u.lang = "ko-KR"; u.rate = 1.0; u.pitch = 1.1;
-  window.speechSynthesis.speak(u);
-}
 function speak(text) {
   const span = $("#speechText");
   const img = $("#charImg");
   clearInterval(speakTimer);
-  tts(text);
 
   span.textContent = "";
   if (!text) { img.classList.remove("talking"); return; }
@@ -171,9 +153,9 @@ function showScreen(name) {
 
 init();
 
-// ── 1920×1080 고정 스케일 ─────────────────────────────
+// ── 1080×1920 고정 스케일 ─────────────────────────────
 function fitScreen() {
-  const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+  const s = Math.min(window.innerWidth / 1080, window.innerHeight / 1920);
   document.getElementById("app").style.transform = `scale(${s})`;
 }
 window.addEventListener("resize", fitScreen);

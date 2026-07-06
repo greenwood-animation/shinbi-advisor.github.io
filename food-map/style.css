@@ -43,30 +43,49 @@ body {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── 1단계: 헤더 + 메뉴 그리드 ──────────────────────── */
-.menu-head { text-align: center; margin-bottom: 18px; }
-.title { font-size: 1.55rem; font-weight: 800; letter-spacing: -.5px; }
-.title .brand { color: var(--accent); }
+/* ── 1단계: 캐릭터 배너 + 명패 + 메뉴 그리드 + 채팅창 ─── */
+#screen-menu.is-active { height: 100%; min-height: 0; padding: 0; position: relative; }
+
+/* 배경 3장 겹침(뒤→앞): 화면 전체(1080×1920) 크기, 캐릭터 얼굴 부분만
+   상단 spacer 틈으로 보이고 나머지는 아래 메뉴판 뒤로 깔림 */
+.menu-bg {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
+}
+.menu-bg img {
+  position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
+}
+
+/* 배경이 보이도록 비워두는 상단 여백(실제 그림은 .menu-bg가 담당) */
+.menu-hero-spacer { width: 100%; flex: none; aspect-ratio: 1080 / 800; }
+
+.menu-head, .menu-panel, .menu-chatbar { position: relative; z-index: 1; }
+
+/* 타이틀: menu_title.png 한 장, 배너 아래로 살짝 겹쳐 얹힘 */
+.menu-head {
+  display: flex; align-items: center; justify-content: center;
+  position: relative; z-index: 2; margin: -30px auto 0;
+  width: min(90%, 780px);
+}
+.menu-title-img { width: 100%; height: auto; display: block; }
 .intro {
   margin-top: 10px; font-size: .92rem; line-height: 1.5; color: #4a6a82;
   background: rgba(255,255,255,.6); border-radius: 14px; padding: 10px 14px;
 }
 
-/* 가운데 순덕 중심: 좌 6 · 우 6, 가운데(ch)는 위→아래 전부 비움 */
+/* 메뉴 카드 패널: menu_back.png 의 크림색 패널 그림 위에 얹히는 투명 영역
+   (패널 자체 배경/테두리는 그림이 담당 — 위치는 실제 에셋 넣고 미세조정) */
+.menu-panel {
+  flex: 1; min-height: 0; overflow-y: auto; margin: 0 40px 0;
+  padding: 60px 30px 16px;
+}
+
 .menu-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr 1.2fr 1.2fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr;
-  grid-template-areas:
-    "a1 a2  ch ch a3  a4"
-    "a5 a6  ch ch a7  a8"
-    "a9 a10 ch ch a11 a12";
-  gap: 6px 8px; align-items: center; justify-items: center;
-  flex: 1; width: 100%; max-width: 1040px; margin: 0 auto;
-  min-height: calc(100dvh - 48px);
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  height: 100%;
+  gap: 10px; align-items: center; justify-items: center;
 }
-/* 가운데 세로 전체 — 캐릭터는 배경(bg-menu)에서 보이므로 비워둠 */
-.menu-hero { grid-area: ch; pointer-events: none; }
 
 .menu-card {
   background: none; border: none; box-shadow: none; padding: 2px;
@@ -84,20 +103,37 @@ body {
 }
 
 .menu-thumb {
-  width: 140px; height: 140px; margin: 0 auto 4px;
-  display: grid; place-items: center; font-size: 3rem;
+  width: 108px; height: 108px; margin: 0 auto 8px;
+  display: grid; place-items: center; font-size: 2.2rem;
+  background: #fff; border-radius: 50%;
+  box-shadow: 0 4px 10px rgba(90, 60, 20, .18), inset 0 0 0 3px #f3e0bd;
 }
 .menu-thumb img {
-  width: 100%; height: 100%; object-fit: contain;
-  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, .3));
+  width: 80%; height: 80%; object-fit: contain;
+  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, .18));
 }
-/* 메뉴 라벨: 둥근 네모(#373737) + 노란 텍스트(#FCEA00) */
+/* 메뉴 라벨: 흰 알약 + 갈색 텍스트 */
 .menu-name {
-  display: inline-block; font-size: .9rem; font-weight: 400;
-  font-family: "Jalnan", system-ui, sans-serif;
-  color: #FCEA00; background: #373737;
-  padding: 4px 14px; border-radius: 999px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, .3);
+  display: inline-block; font-size: .8rem; font-weight: 700;
+  color: #6b4423; background: #fff; border: 1px solid #eddcb8;
+  padding: 4px 12px; border-radius: 999px;
+  box-shadow: 0 2px 6px rgba(90, 60, 20, .15);
+}
+
+/* 하단 고정 채팅 입력창 (디자인만, 기능 없음) */
+.menu-chatbar {
+  flex: none; display: flex; align-items: center; gap: 10px;
+  padding: 16px 24px 22px;
+}
+.menu-chat-input {
+  flex: 1; height: 54px; border-radius: 999px; border: 1px solid #e2d3b3;
+  background: #fff; padding: 0 22px; font-size: .95rem; color: #6b4423;
+}
+.menu-chat-input::placeholder { color: #b9a688; }
+.menu-chat-send {
+  width: 54px; height: 54px; flex: none; border-radius: 50%; border: none;
+  background: var(--accent); color: #fff; font-size: 1.25rem;
+  display: grid; place-items: center; cursor: not-allowed;
 }
 
 /* ── 2단계: 지도 ────────────────────────────────────── */
@@ -252,17 +288,9 @@ body {
 }
 
 /* ── 화면별 장식 배경 (파일 없으면 기존 색으로 폴백) ───────── */
-body[data-screen="menu"] {
-  background-color: #d4eefb;
-  background-image: url("assets/bg-menu.png");
-  background-size: cover; background-position: center;
-  background-repeat: no-repeat; background-attachment: fixed;
-}
-/* 메뉴 화면에선 하단 고정 캐릭터 숨김 (가운데 큰 순덕 사용) */
+body[data-screen="menu"] { background-color: #fdf3e2; }
+/* 메뉴 화면에선 하단 고정 캐릭터 숨김 (상단 배너 캐릭터 사용) */
 body[data-screen="menu"] #charStage { display: none; }
-/* 메뉴 화면: 제목 숨김 + #app 폭 넓혀 좌6·우6 와이드 배치 */
-body[data-screen="menu"] .menu-head { display: none; }
-body[data-screen="menu"] #app { max-width: 1240px; padding: 12px 12px 24px; }
 
 /* ═══ 지도 씬: 바다 배경 + 지도 우측 + 말풍선/캐릭터 좌측 ═══════════ */
 body[data-screen="map"] {
@@ -312,7 +340,7 @@ body[data-screen="map"] .speech-bubble::after {
 }
 
 
-/* ══ 1920×1080 고정 해상도 ══════════════════════════════ */
+/* ══ 1080×1920 고정 해상도(세로) ══════════════════════════ */
 html, body {
   width: 100vw; height: 100vh; overflow: hidden;
   display: flex; align-items: center; justify-content: center;
@@ -320,7 +348,7 @@ html, body {
   min-height: unset;
 }
 #app {
-  width: 1920px !important; height: 1080px !important;
+  width: 1080px !important; height: 1920px !important;
   max-width: unset !important; min-height: unset !important;
   margin: 0 !important; padding: 0 !important;
   flex-shrink: 0; overflow: hidden;
