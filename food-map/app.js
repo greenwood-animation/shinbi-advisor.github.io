@@ -84,12 +84,15 @@ function openDetail(r) {
 
   $("#recommendList").innerHTML = `
     <div class="reco-card">
-      ${photo}
-      <div class="reco-body">
-        <div class="reco-name">${r.name}</div>
-        <div class="reco-meta">📍 ${r.address || ""} ${r.hours ? "· " + r.hours : ""}</div>
-        <div class="reco-tags">${tags}</div>
-        ${minPrice ? `<div class="reco-price">₩${minPrice}~</div>` : ""}
+      <img class="reco-item-bg" src="assets/reco_item.png" alt="" onerror="this.style.display='none'">
+      <div class="reco-card-inner">
+        ${photo}
+        <div class="reco-body">
+          <div class="reco-name">${r.name}</div>
+          <div class="reco-meta">📍 ${r.address || ""} ${r.hours ? "· " + r.hours : ""}</div>
+          <div class="reco-tags">${tags}</div>
+          ${minPrice ? `<div class="reco-price">₩${minPrice}~</div>` : ""}
+        </div>
       </div>
     </div>
   `;

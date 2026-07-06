@@ -170,7 +170,13 @@ body {
   to   { opacity: 1; transform: translateY(0); }
 }
 .recommend-list { flex: 1; min-height: 0; overflow-y: auto; }
-.reco-card { display: flex; gap: 14px; }
+/* reco_item.png(901×194)를 카드 배경으로 깔고, 그 위에 사진+텍스트를 얹음 */
+.reco-card { position: relative; }
+.reco-item-bg { display: block; width: 100%; height: auto; }
+.reco-card-inner {
+  position: absolute; inset: 0; padding: 14px 18px;
+  display: flex; align-items: center; gap: 14px;
+}
 .reco-photo {
   width: 130px; height: 130px; flex: none; border-radius: 14px; object-fit: cover;
   background: var(--sea);
@@ -248,8 +254,8 @@ body {
 .speech-bubble { position: absolute; left: 53px; top: 132px; z-index: 2; }
 .guide-window-img { display: block; width: auto; height: auto; }
 .guide-text {
-  position: absolute; left: 36px; right: 36px; top: 100px;
-  margin: 0; font-size: 1.25rem; line-height: 1.5; color: #4a6a82; font-weight: 700;
+  position: absolute; left: 80px; top: 87px; width: 395px; height: 117px;
+  margin: 0; font-size: 25px; line-height: 1.5; color: #4a6a82; font-weight: 700;
 }
 .guide-text .cursor {
   display: inline-block; width: 2px; height: 1em; vertical-align: text-bottom;
