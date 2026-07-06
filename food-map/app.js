@@ -34,14 +34,12 @@ function renderMenuGrid() {
     card.className = "menu-card";
     card.style.animationDelay = `${i * 0.07}s`; // 왼쪽 위부터 순차 등장
 
-    // 이미지가 있으면 이미지, 없으면 이모지 폴백
+    // 이미지가 있으면 이미지, 없으면 이모지 폴백 (이름 텍스트는 이미지 안에 포함됨)
     const thumb = menu.image
       ? `<img src="${menu.image}" alt="${menu.name}" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'${menu.emoji || "🍽️"}'}))">`
       : (menu.emoji || "🍽️");
 
-    card.innerHTML = `
-      <div class="menu-thumb">${thumb}</div>
-      <div class="menu-name">${menu.name}</div>`;
+    card.innerHTML = `<div class="menu-thumb">${thumb}</div>`;
     card.addEventListener("click", () => openMap(menu));
     grid.appendChild(card);
   });

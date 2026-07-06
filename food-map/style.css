@@ -102,22 +102,14 @@ body {
   100% { opacity: 1; transform: scale(1) translateY(0); }
 }
 
+/* 이름 텍스트가 이미지 안에 이미 포함돼 있어 별도 라벨 없이 이미지만 표시 */
 .menu-thumb {
-  width: 180px; height: 180px; margin: 0 auto 10px;
+  width: 200px; margin: 0 auto;
   display: grid; place-items: center; font-size: 3.2rem;
-  background: #fff; border-radius: 50%;
-  box-shadow: 0 4px 10px rgba(90, 60, 20, .18), inset 0 0 0 3px #f3e0bd;
 }
 .menu-thumb img {
-  width: 82%; height: 82%; object-fit: contain;
-  filter: drop-shadow(0 2px 5px rgba(0, 0, 0, .18));
-}
-/* 메뉴 라벨: 흰 알약 + 갈색 텍스트 */
-.menu-name {
-  display: inline-block; font-size: 1rem; font-weight: 700;
-  color: #6b4423; background: #fff; border: 1px solid #eddcb8;
-  padding: 5px 14px; border-radius: 999px;
-  box-shadow: 0 2px 6px rgba(90, 60, 20, .15);
+  width: 100%; height: auto; object-fit: contain;
+  filter: drop-shadow(0 4px 8px rgba(90, 60, 20, .18));
 }
 
 /* 하단 고정 채팅 입력창 (디자인만, 기능 없음) */
