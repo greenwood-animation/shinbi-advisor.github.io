@@ -47,9 +47,8 @@ function renderMenuGrid() {
 
 // ── 2단계: 제주 지도 + 핀 ──────────────────────────
 function openMap(menu) {
-  $("#mapMenuName").textContent = menu.name;
   speak(menu.desc || "");
-  setMapCharacter(menu.id);
+  setMapFood(menu.id);
 
   const pins = $("#pins");
   pins.innerHTML = "";
@@ -68,7 +67,32 @@ function openMap(menu) {
     pins.appendChild(pin);
   });
 
+  renderRecommendList(list);
+
   showScreen("map");
+}
+
+// 신비할망 추천 맛집: 핀 목록 중 앞 2곳을 카드로 보여줌
+function renderRecommendList(list) {
+  const wrap = $("#recommendList");
+  wrap.innerHTML = (list || []).slice(0, 2).map((r) => {
+    const prices = (r.menu || []).map((m) => Number(String(m.price).replace(/[^0-9]/g, ""))).filter(Boolean);
+    const minPrice = prices.length ? Math.min(...prices).toLocaleString() : "";
+    const tags = (r.menu || []).slice(0, 3).map((m) => `<span class="reco-tag">${m.name}</span>`).join("");
+    const photo = r.photo
+      ? `<img class="reco-photo" src="${r.photo}" alt="${r.name}">`
+      : `<div class="reco-photo placeholder">🍴</div>`;
+    return `
+      <div class="reco-card">
+        ${photo}
+        <div class="reco-body">
+          <div class="reco-name">${r.name}</div>
+          <div class="reco-meta">📍 ${r.address || ""} ${r.hours ? "· " + r.hours : ""}</div>
+          <div class="reco-tags">${tags}</div>
+          ${minPrice ? `<div class="reco-price">₩${minPrice}~</div>` : ""}
+        </div>
+      </div>`;
+  }).join("");
 }
 
 // ── 3단계: 식당 상세 ────────────────────────────────
@@ -103,15 +127,11 @@ function closeDetail() {
   $("#overlay").classList.remove("is-open");
 }
 
-// 지도 화면 캐릭터: 메뉴별 신비 이미지(assets/shinbi/<id>.png), 없으면 기본 이미지로 폴백
-function setMapCharacter(id) {
-  const img = $("#charImg");
-  if (!id) return;
-  const url = `assets/shinbi/${id}.png`;
-  const probe = new Image();
-  probe.onload = () => { img.style.backgroundImage = `url('${url}')`; };
-  probe.onerror = () => { img.style.backgroundImage = `url('assets/shinbi.png')`; };
-  probe.src = url;
+// 지도 화면: 순덕이가 들고 있는 음식(메뉴별, assets/음식/<id>.png)
+function setMapFood(id) {
+  const img = $("#mapFoodImg");
+  if (!id) { img.removeAttribute("src"); return; }
+  img.src = `assets/음식/${id}.png`;
 }
 
 // ── 순덕 말하기 (타이핑 + 입 모션) ──────────────────
@@ -127,7 +147,7 @@ function speak(text) {
   img.classList.add("talking");
   const cursor = document.createElement("span");
   cursor.className = "cursor";
-  $("#speechBubble").appendChild(cursor);
+  span.parentElement.appendChild(cursor);
 
   let i = 0;
   speakTimer = setInterval(() => {

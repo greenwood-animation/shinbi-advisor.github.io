@@ -35,7 +35,7 @@ body {
   min-height: calc(100dvh - 40px);
   display: flex; flex-direction: column;
 }
-#screen-map.is-active { justify-content: center; position: relative; }
+#screen-map.is-active { position: relative; }
 #screen-map .back-btn { position: absolute; z-index: 5; }
 
 @keyframes fadeIn {
@@ -126,12 +126,62 @@ body {
 .back-btn img { height: 44px; width: auto; display: block; }
 .back-btn:hover { opacity: .88; }
 
-.map-head { text-align: center; margin-bottom: 12px; }
-.map-title { font-size: 1.3rem; font-weight: 800; }
-.map-desc {
-  margin-top: 8px; font-size: .88rem; line-height: 1.5; color: #4a6a82;
-  background: rgba(255,255,255,.7); border-radius: 14px; padding: 10px 14px;
+/* 지도 화면: 캐릭터/말풍선을 위해 위쪽에 비워두는 여백 */
+.map-guide-spacer { width: 100%; flex: none; height: 520px; }
+
+/* 지도 카드 / 추천 맛집 카드 — 프레임 이미지(원본 크기) 위에 실제 내용을 겹침
+   (프레임 이미지가 없을 때도 내용이 보이도록 최소 높이를 잡아둠 — 실제 이미지 들어오면
+   자연스럽게 그 높이를 따라감) */
+.map-card, .recommend-card {
+  position: relative; margin: 0 32px 24px;
 }
+.map-card { min-height: 620px; }
+.recommend-card { min-height: 440px; }
+.card-frame-img { display: block; width: 100%; height: auto; }
+.map-card-inner, .recommend-card-inner {
+  position: absolute; inset: 0; padding: 30px 26px; overflow: hidden;
+  display: flex; flex-direction: column;
+}
+
+.map-card-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 10px;
+}
+.map-title {
+  font-size: 1.3rem; font-weight: 800; color: #2b4a63;
+  display: flex; align-items: center; gap: 8px;
+}
+.shell-ic { font-size: 1.1rem; }
+.map-sub { margin-top: 6px; font-size: .9rem; color: #6a8aa2; }
+
+.more-btn { background: none; border: none; padding: 0; cursor: pointer; line-height: 0; flex: none; }
+.more-btn img { height: 30px; width: auto; display: block; }
+.more-btn-fallback {
+  display: inline-block; font-size: .78rem; font-weight: 700; color: #4a6a82;
+  background: #fff; border: 1px solid #d9e6ee; border-radius: 999px; padding: 6px 12px;
+}
+
+.map-card .map-wrap { margin-top: 14px; }
+
+/* 추천 맛집 목록 */
+.recommend-list { margin-top: 14px; display: flex; flex-direction: column; gap: 14px; overflow-y: auto; }
+.reco-card {
+  display: flex; gap: 12px; background: rgba(255,255,255,.6);
+  border-radius: 16px; padding: 10px;
+}
+.reco-photo {
+  width: 84px; height: 84px; flex: none; border-radius: 12px; object-fit: cover;
+  background: var(--sea);
+}
+.reco-photo.placeholder { display: grid; place-items: center; font-size: 1.6rem; color: var(--sea-deep); }
+.reco-body { min-width: 0; }
+.reco-name { font-weight: 800; font-size: 1rem; color: #2b4a63; }
+.reco-meta { font-size: .78rem; color: #6a8aa2; margin-top: 2px; }
+.reco-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.reco-tag {
+  font-size: .72rem; font-weight: 700; color: #4a6a82; background: #fff;
+  border: 1px solid #d9e6ee; border-radius: 999px; padding: 3px 10px;
+}
+.reco-price { margin-top: 6px; font-weight: 800; color: #ff6b6b; font-size: .9rem; }
 
 .map-wrap {
   position: relative; width: 100%; aspect-ratio: 3 / 2;
@@ -215,111 +265,61 @@ body {
 }
 .naver-btn:hover { background: #02b350; }
 
-/* ── 순덕 캐릭터 + 말풍선 ────────────────────────────── */
+/* ── 순덕 캐릭터 + 말풍선 (지도 화면 상단, 원본 크기 이미지들) ── */
 .char-stage {
-  position: fixed; left: max(16px, calc(50vw - 380px + 8px)); bottom: 0;
-  z-index: 15; display: flex; align-items: flex-end; gap: 8px;
-  pointer-events: none;
+  position: absolute; top: 0; left: 0; right: 0; z-index: 15;
+  display: none; align-items: flex-start; justify-content: space-between;
+  gap: 16px; padding: 90px 32px 0; pointer-events: none;
 }
+body[data-screen="map"] .char-stage { display: flex; }
 
+.char-wrap { position: relative; flex: none; }
 .char-img {
-  width: 124px; flex: none; aspect-ratio: 365 / 553;
-  background-image: url("assets/shinbi.png");
-  background-repeat: no-repeat; background-size: contain;
-  background-position: center bottom;       /* 단일 이미지 전체 표시 */
-  border-radius: 18px 18px 0 0;
-  filter: drop-shadow(0 4px 12px rgba(43, 74, 99, .22));
+  display: block; width: auto; height: auto; max-height: 560px;
   animation: breathe 3.6s ease-in-out infinite;
 }
-/* 말하는 중: 입을 빠르게 여닫음 (왼/오 프레임 토글) */
-.char-img.talking {
-  animation: breathe 1.8s ease-in-out infinite; /* 말할 때 살짝 빠른 들썩임 (단일 이미지) */
-}
-@keyframes mouthFlap {
-  0%   { background-position: 0% 0%; }    /* 다문 */
-  50%  { background-position: 100% 0%; }   /* 벌린 */
-  100% { background-position: 0% 0%; }
-}
+.char-img.talking { animation: breathe 1.8s ease-in-out infinite; }
 @keyframes breathe {
   0%, 100% { transform: translateY(0); }
   50%      { transform: translateY(-4px); }
 }
+/* 메뉴별 음식(순덕이 손 위), 정확히 250×250 — 실제 캐릭터 이미지 넣고 위치 미세조정 예정 */
+.char-food-img {
+  position: absolute; left: 50%; top: 58%; transform: translate(-50%, -50%);
+  width: 250px; height: 250px; object-fit: contain; display: none;
+}
 
-.speech-bubble {
-  position: relative; max-width: 230px; margin-bottom: 70px;
-  background: #fff; border-radius: 16px; padding: 11px 14px;
-  font-size: .84rem; line-height: 1.45; color: var(--ink);
-  box-shadow: var(--shadow); min-height: 1em;
+.speech-bubble { position: relative; flex: 1; max-width: 560px; min-width: 0; }
+.guide-window-img { display: block; width: 100%; height: auto; }
+.guide-tag { position: absolute; top: -16px; left: 28px; z-index: 1; }
+.guide-tag img { display: block; height: 40px; width: auto; }
+.guide-tag-fallback {
+  display: inline-block; font-size: .82rem; font-weight: 700; color: #d9536a;
+  background: #ffe3e8; border-radius: 999px; padding: 6px 16px;
 }
-/* 꼬리 (캐릭터 쪽으로) */
-.speech-bubble::after {
-  content: ""; position: absolute; bottom: 14px; right: -8px;
-  border: 8px solid transparent; border-left-color: #fff; border-right: 0;
+.guide-text {
+  position: absolute; left: 30px; right: 30px; top: 58px;
+  margin: 0; font-size: 1rem; line-height: 1.55; color: #4a6a82; font-weight: 700;
 }
-/* 타이핑 커서 */
-.speech-bubble .cursor {
+.guide-text .cursor {
   display: inline-block; width: 2px; height: 1em; vertical-align: text-bottom;
   background: var(--accent); margin-left: 1px; animation: blink .8s steps(1) infinite;
 }
 @keyframes blink { 0%, 50% { opacity: 1; } 50.01%, 100% { opacity: 0; } }
 
-@media (max-width: 560px) {
-  .char-stage { left: 8px; }
-  .char-img { width: 96px; }
-  .speech-bubble { max-width: 180px; margin-bottom: 56px; font-size: .8rem; }
-}
-
 /* ── 화면별 장식 배경 (파일 없으면 기존 색으로 폴백) ───────── */
 body[data-screen="menu"] { background-color: #fdf3e2; }
-/* 메뉴 화면에선 하단 고정 캐릭터 숨김 (상단 배너 캐릭터 사용) */
+/* 메뉴 화면에선 지도용 캐릭터 스테이지 숨김 (상단 배너 캐릭터 사용) */
 body[data-screen="menu"] #charStage { display: none; }
 
-/* ═══ 지도 씬: 바다 배경 + 지도 우측 + 말풍선/캐릭터 좌측 ═══════════ */
+/* ═══ 지도 씬: 바다 배경 + 안내자/음식 + 지도 카드 + 추천 카드 ═══ */
 body[data-screen="map"] {
   background-color: #bfe3ea;
-  background-image: url("assets/bg-map-food.png");
+  background-image: url("assets/background_sea.png");
   background-size: cover; background-position: center;
   background-repeat: no-repeat; background-attachment: fixed;
 }
-/* 지도 화면은 풀블리드로 */
-body[data-screen="map"] #app { max-width: none; padding: 0; }
-body[data-screen="map"] #screen-map.is-active { display: block; min-height: 100dvh; }
-body[data-screen="map"] .map-head { display: none; }
 body[data-screen="map"] .back-btn { top: 12px; left: 12px; z-index: 6; }
-
-/* 지도: 우측, 이미지 실제 비율(2388/1668)로 잘림 없이 */
-body[data-screen="map"] .map-wrap {
-  position: absolute; top: 50%; right: 2vw; transform: translateY(-50%);
-  width: min(58vw, 880px); aspect-ratio: 2388 / 1668;
-  background: none; box-shadow: none; border-radius: 0; overflow: visible;
-}
-body[data-screen="map"] .map-bg {
-  object-fit: contain;
-  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, .22));
-}
-
-/* 캐릭터+말풍선: 좌측 세로 (말풍선 위 / 캐릭터 아래) */
-body[data-screen="map"] #charStage {
-  flex-direction: column; align-items: flex-start; justify-content: space-between;
-  left: 2vw; top: 16px; bottom: 0; gap: 12px; max-width: 360px;
-}
-body[data-screen="map"] .char-img { width: min(26vw, 320px); }
-
-/* 말풍선: 연한 풍선 + 따옴표, 꼬리는 아래로 */
-body[data-screen="map"] .speech-bubble {
-  max-width: 340px; margin: 0; padding: 24px 22px 20px;
-  background: rgba(255, 255, 255, .93); border-radius: 22px;
-  font-size: 1rem; line-height: 1.6; font-weight: 700; text-align: center;
-  color: #1c6b86; box-shadow: 0 8px 22px rgba(0, 0, 0, .18);
-}
-body[data-screen="map"] .speech-bubble::before {
-  content: "\201C"; position: absolute; top: 2px; left: 14px;
-  font-family: Georgia, serif; font-size: 2.4rem; line-height: 1; color: #6fc3e8;
-}
-body[data-screen="map"] .speech-bubble::after {
-  top: auto; bottom: -10px; left: 44px; right: auto;
-  border: 10px solid transparent; border-top-color: rgba(255, 255, 255, .93); border-bottom: 0;
-}
 
 
 /* ══ 1080×1920 고정 해상도(세로) ══════════════════════════ */
