@@ -127,7 +127,7 @@ body {
 .back-btn:hover { opacity: .88; }
 
 /* 지도 화면: 캐릭터/말풍선을 위해 위쪽에 비워두는 여백 */
-.map-guide-spacer { width: 100%; flex: none; height: 520px; }
+.map-guide-spacer { width: 100%; flex: none; height: 700px; }
 
 /* 지도 카드 / 추천 맛집 카드 — 프레임 이미지(원본 크기) 위에 실제 내용을 겹침
    (프레임 이미지가 없을 때도 내용이 보이도록 최소 높이를 잡아둠 — 실제 이미지 들어오면
@@ -135,8 +135,8 @@ body {
 .map-card, .recommend-card {
   position: relative; margin: 0 32px 24px;
 }
-.map-card { min-height: 620px; }
-.recommend-card { min-height: 440px; }
+.map-card { min-height: 540px; }
+.recommend-card { min-height: 380px; }
 .card-frame-img { display: block; width: 100%; height: auto; }
 .map-card-inner, .recommend-card-inner {
   position: absolute; inset: 0; padding: 30px 26px; overflow: hidden;
@@ -269,13 +269,13 @@ body {
 .char-stage {
   position: absolute; top: 0; left: 0; right: 0; z-index: 15;
   display: none; align-items: flex-start; justify-content: space-between;
-  gap: 16px; padding: 90px 32px 0; pointer-events: none;
+  gap: 16px; padding: 80px 32px 0; pointer-events: none;
 }
 body[data-screen="map"] .char-stage { display: flex; }
 
 .char-wrap { position: relative; flex: none; }
 .char-img {
-  display: block; width: auto; height: auto; max-height: 560px;
+  display: block; width: auto; height: auto; /* 원본 크기(507×592) 그대로 */
   animation: breathe 3.6s ease-in-out infinite;
 }
 .char-img.talking { animation: breathe 1.8s ease-in-out infinite; }
@@ -284,8 +284,9 @@ body[data-screen="map"] .char-stage { display: flex; }
   50%      { transform: translateY(-4px); }
 }
 /* 메뉴별 음식(순덕이 손 위), 정확히 250×250 — 실제 캐릭터 이미지 넣고 위치 미세조정 예정 */
+/* guide_character.png(507×592) 원본 픽셀 기준, 손 위 정확히 250×250 */
 .char-food-img {
-  position: absolute; left: 50%; top: 58%; transform: translate(-50%, -50%);
+  position: absolute; left: 128px; top: 310px;
   width: 250px; height: 250px; object-fit: contain; display: none;
 }
 
