@@ -73,24 +73,25 @@ function openMap(menu) {
 // ── 3단계: 식당 상세 (지도 핀 클릭 시 추천 맛집 패널 자리에 표시) ──
 function openDetail(r) {
   const photo = r.photo
-    ? `<img class="detail-photo" src="${r.photo}" alt="${r.name}">`
-    : `<div class="detail-photo placeholder">🍴</div>`;
+    ? `<img class="reco-photo" src="${r.photo}" alt="${r.name}">`
+    : `<div class="reco-photo placeholder">🍴</div>`;
 
-  const menuRows = (r.menu || [])
-    .map((m) => `<tr><td>${m.name}</td><td class="price">${m.price}원</td></tr>`)
-    .join("");
+  const prices = (r.menu || [])
+    .map((m) => Number(String(m.price).replace(/[^0-9]/g, "")))
+    .filter(Boolean);
+  const minPrice = prices.length ? Math.min(...prices).toLocaleString() : "";
+  const tags = (r.menu || []).slice(0, 3).map((m) => `<span class="reco-tag">${m.name}</span>`).join("");
 
   $("#recommendList").innerHTML = `
-    ${photo}
-    <div class="detail-name">${r.name}</div>
-    ${r.rating ? `<div class="detail-rating">★ ${r.rating}</div>` : ""}
-    <div class="detail-info">
-      ${r.address ? `<div class="row"><span class="ic">📍</span><span>${r.address}</span></div>` : ""}
-      ${r.hours ? `<div class="row"><span class="ic">🕒</span><span>${r.hours}</span></div>` : ""}
-      ${r.phone ? `<div class="row"><span class="ic">📞</span><span>${r.phone}</span></div>` : ""}
+    <div class="reco-card">
+      ${photo}
+      <div class="reco-body">
+        <div class="reco-name">${r.name}</div>
+        <div class="reco-meta">📍 ${r.address || ""} ${r.hours ? "· " + r.hours : ""}</div>
+        <div class="reco-tags">${tags}</div>
+        ${minPrice ? `<div class="reco-price">₩${minPrice}~</div>` : ""}
+      </div>
     </div>
-    ${menuRows ? `<div class="detail-menu"><h3>메뉴</h3><table>${menuRows}</table></div>` : ""}
-    ${r.naverPlaceUrl ? `<a class="naver-btn" href="${r.naverPlaceUrl}" target="_blank" rel="noopener">네이버 지도에서 보기 →</a>` : ""}
   `;
 
   // 다시 열어도 애니메이션이 새로 보이도록 리플로우 후 클래스 추가

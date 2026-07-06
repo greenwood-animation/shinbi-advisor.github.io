@@ -170,6 +170,21 @@ body {
   to   { opacity: 1; transform: translateY(0); }
 }
 .recommend-list { flex: 1; min-height: 0; overflow-y: auto; }
+.reco-card { display: flex; gap: 14px; }
+.reco-photo {
+  width: 130px; height: 130px; flex: none; border-radius: 14px; object-fit: cover;
+  background: var(--sea);
+}
+.reco-photo.placeholder { display: grid; place-items: center; font-size: 2rem; color: var(--sea-deep); }
+.reco-body { min-width: 0; }
+.reco-name { font-weight: 800; font-size: 1.2rem; color: #2b4a63; }
+.reco-meta { font-size: .92rem; color: #6a8aa2; margin-top: 4px; }
+.reco-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.reco-tag {
+  font-size: .85rem; font-weight: 700; color: #4a6a82; background: #fff;
+  border: 1px solid #d9e6ee; border-radius: 999px; padding: 4px 12px;
+}
+.reco-price { margin-top: 8px; font-weight: 800; color: #ff6b6b; font-size: 1rem; }
 
 .map-wrap {
   position: relative; width: 100%; aspect-ratio: 3 / 2;
@@ -209,32 +224,6 @@ body {
   100% { opacity: 1; transform: translate(-50%, -100%); }
 }
 
-/* ── 3단계: 식당 상세(추천 맛집 패널 안에 표시) ──────── */
-.detail-name { font-size: 1.4rem; font-weight: 800; margin-bottom: 4px; }
-.detail-rating { color: #ff9f1a; font-weight: 700; font-size: .9rem; margin-bottom: 14px; }
-.detail-photo {
-  width: 100%; aspect-ratio: 16/10; max-height: 180px; border-radius: 14px; object-fit: cover;
-  background: var(--sea); margin-bottom: 16px;
-}
-.detail-photo.placeholder { display: grid; place-items: center; font-size: 2.4rem; color: var(--sea-deep); }
-
-.detail-info { font-size: .9rem; line-height: 1.7; }
-.detail-info .row { display: flex; gap: 8px; margin-bottom: 4px; }
-.detail-info .row .ic { width: 18px; flex: none; }
-
-.detail-menu { margin-top: 18px; }
-.detail-menu h3 { font-size: .95rem; margin-bottom: 8px; }
-.detail-menu table { width: 100%; border-collapse: collapse; font-size: .88rem; }
-.detail-menu td { padding: 7px 0; border-bottom: 1px solid #eef2f5; }
-.detail-menu td.price { text-align: right; font-weight: 700; }
-
-.naver-btn {
-  display: block; text-align: center; margin-top: 20px; padding: 12px;
-  background: #03c75a; color: #fff; font-weight: 800; border-radius: 12px;
-  text-decoration: none;
-}
-.naver-btn:hover { background: #02b350; }
-
 /* ── 순덕 캐릭터 + 말풍선 (지도 화면, 캔버스 기준 절대좌표) ── */
 /* 캐릭터: 캔버스 (500,104), 패널(map-card, z-index:1)보다 위에 겹치도록 z-index 높임 */
 .char-wrap { position: absolute; left: 500px; top: 104px; z-index: 3; }
@@ -259,8 +248,8 @@ body {
 .speech-bubble { position: absolute; left: 53px; top: 132px; z-index: 2; }
 .guide-window-img { display: block; width: auto; height: auto; }
 .guide-text {
-  position: absolute; left: 40px; right: 40px; top: 85px;
-  margin: 0; font-size: 1rem; line-height: 1.55; color: #4a6a82; font-weight: 700;
+  position: absolute; left: 36px; right: 36px; top: 100px;
+  margin: 0; font-size: 1.25rem; line-height: 1.5; color: #4a6a82; font-weight: 700;
 }
 .guide-text .cursor {
   display: inline-block; width: 2px; height: 1em; vertical-align: text-bottom;
