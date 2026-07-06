@@ -63,7 +63,7 @@ body {
 /* 타이틀: menu_title.png 한 장, 배너 아래로 살짝 겹쳐 얹힘 */
 .menu-head {
   display: flex; align-items: center; justify-content: center;
-  position: relative; z-index: 2; margin: 15px auto 0;
+  position: relative; z-index: 2; margin: 45px auto 0;
   width: min(90%, 780px);
 }
 .menu-title-img { width: 100%; height: auto; display: block; }
