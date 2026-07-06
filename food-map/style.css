@@ -82,8 +82,8 @@ body {
 
 .menu-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 40px 16px; justify-items: center;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px 16px; justify-items: center;
   width: 100%;
 }
 
@@ -102,9 +102,9 @@ body {
   100% { opacity: 1; transform: scale(1) translateY(0); }
 }
 
-/* 이름 텍스트가 이미지 안에 이미 포함돼 있어 별도 라벨 없이 이미지만 표시 */
+/* 버튼 = 이미지 한 장(이름 텍스트/배경 원 없이 그림 자체가 곧 버튼) */
 .menu-thumb {
-  width: 200px; margin: 0 auto;
+  width: 400px; margin: 0 auto;
   display: grid; place-items: center; font-size: 3.2rem;
 }
 .menu-thumb img {
