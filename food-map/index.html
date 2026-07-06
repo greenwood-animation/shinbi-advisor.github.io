@@ -28,18 +28,47 @@
       </div>
     </section>
 
-    <!-- ── 2단계: 제주 지도 + 핀 ──────────────────────── -->
+    <!-- ── 2단계: 제주 지도 + 핀 + 추천 맛집 ────────────── -->
     <section id="screen-map" class="screen">
       <button class="back-btn" data-back="menu">
-        <img src="assets/back_button.png" alt="← 메뉴로" />
+        <img src="assets/back_button.png" alt="← 메뉴로" onerror="this.style.display='none'" />
       </button>
-      <div class="map-head">
-        <h2 class="map-title" id="mapMenuName"></h2>
+
+      <div class="map-guide-spacer"></div>
+
+      <div class="map-card">
+        <img class="card-frame-img" src="assets/detail_window.png" alt="" onerror="this.style.display='none'" />
+        <div class="map-card-inner">
+          <div class="map-card-head">
+            <h2 class="map-title"><span class="shell-ic" aria-hidden="true">🐚</span>제주 오름 맛집 지도</h2>
+            <button class="more-btn" type="button">
+              <img src="assets/detail_button.png" alt="지도 더보기 >" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'more-btn-fallback',textContent:'지도 더보기 >'}))" />
+            </button>
+          </div>
+          <p class="map-sub">제주의 숨은 맛집을 찾아보세요!</p>
+          <div class="map-wrap" id="mapWrap">
+            <img class="map-bg" id="mapBg" src="assets/jeju-map.png" alt="제주 지도" />
+            <div class="pins" id="pins"></div>
+            <p class="map-empty" id="mapEmpty" hidden>아직 등록된 식당이 없어요 🐚</p>
+          </div>
+        </div>
       </div>
-      <div class="map-wrap" id="mapWrap">
-        <img class="map-bg" id="mapBg" src="assets/jeju-map.png" alt="제주 지도" />
-        <div class="pins" id="pins"></div>
-        <p class="map-empty" id="mapEmpty" hidden>아직 등록된 식당이 없어요 🐚</p>
+
+      <div class="recommend-card">
+        <img class="card-frame-img" src="assets/detail_window_2.png" alt="" onerror="this.style.display='none'" />
+        <div class="recommend-card-inner">
+          <div class="map-card-head">
+            <h2 class="map-title"><span class="shell-ic" aria-hidden="true">🐚</span>신비할망 추천 맛집</h2>
+            <button class="more-btn" type="button">
+              <img src="assets/detail_button.png" alt="더보기 >" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'more-btn-fallback',textContent:'더보기 >'}))" />
+            </button>
+          </div>
+          <div class="recommend-list" id="recommendList"></div>
+        </div>
+      </div>
+
+      <div class="menu-chatbar">
+        <img class="menu-chat-img" src="assets/menu_chat.png" alt="" />
       </div>
     </section>
 
@@ -50,10 +79,19 @@
     </aside>
     <div id="overlay" class="overlay"></div>
 
-    <!-- ── 순덕(신비할망) 캐릭터 + 말풍선 ──────────────── -->
+    <!-- ── 순덕(신비할망) 캐릭터 + 말풍선 (지도 화면) ──── -->
     <div id="charStage" class="char-stage">
-      <div class="speech-bubble" id="speechBubble"><span id="speechText"></span></div>
-      <div class="char-img" id="charImg"></div>
+      <div class="speech-bubble" id="speechBubble">
+        <img class="guide-window-img" src="assets/guide_window.png" alt="" onerror="this.style.display='none'" />
+        <div class="guide-tag">
+          <img src="assets/guide_button.png" alt="" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'guide-tag-fallback',textContent:'신비할망'}))" />
+        </div>
+        <p class="guide-text"><span id="speechText"></span></p>
+      </div>
+      <div class="char-wrap">
+        <img class="char-img" id="charImg" src="assets/guide_character.png" alt="" onerror="this.style.display='none'" />
+        <img class="char-food-img" id="mapFoodImg" src="" alt="" onload="this.style.display='block'" onerror="this.style.display='none'" />
+      </div>
     </div>
 
   </div>
