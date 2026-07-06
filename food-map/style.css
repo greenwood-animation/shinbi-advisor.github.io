@@ -60,11 +60,11 @@ body {
 
 .menu-head, .menu-panel, .menu-chatbar { position: relative; z-index: 1; }
 
-/* 타이틀: menu_title.png 한 장, 배너 아래로 살짝 겹쳐 얹힘 */
+/* 타이틀: menu_title.png 한 장(캔버스 폭과 동일한 1080px 원본), 배너 아래로 살짝 겹쳐 얹힘 */
 .menu-head {
   display: flex; align-items: center; justify-content: center;
   position: relative; z-index: 2; margin: 45px auto 0;
-  width: min(90%, 780px);
+  width: 100%;
 }
 .menu-title-img { width: 100%; height: auto; display: block; }
 .intro {
@@ -75,7 +75,7 @@ body {
 /* 메뉴 카드 패널: menu_back.png 의 크림색 패널 그림 위에 얹히는 투명 영역
    (패널 자체 배경/테두리는 그림이 담당 — 위치는 실제 에셋 넣고 미세조정) */
 .menu-panel {
-  flex: 1; min-height: 0; overflow-y: auto; margin: 0 40px 0;
+  flex: 1; min-height: 0; overflow: hidden; margin: 0 40px 0;
   padding: 60px 30px 30px;
   display: flex; align-items: center; justify-content: center;
 }
