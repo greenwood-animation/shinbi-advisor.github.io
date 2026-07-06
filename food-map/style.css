@@ -35,8 +35,11 @@ body {
   min-height: calc(100dvh - 40px);
   display: flex; flex-direction: column;
 }
-#screen-map.is-active { position: relative; }
-#screen-map .back-btn { position: absolute; z-index: 5; }
+/* 콘텐츠가 1920px보다 길어질 수 있어 지도 화면 자체를 스크롤 처리 */
+#screen-map.is-active { position: relative; height: 100%; overflow-y: auto; }
+/* #app에 transform이 걸려 있어 fixed가 뷰포트가 아닌 #app 기준으로 고정됨
+   → 지도 화면이 스크롤돼도 뒤로가기 버튼은 항상 같은 자리에 고정 */
+#screen-map .back-btn { position: fixed; z-index: 5; }
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
@@ -126,17 +129,11 @@ body {
 .back-btn img { height: 44px; width: auto; display: block; }
 .back-btn:hover { opacity: .88; }
 
-/* 지도 화면: 캐릭터/말풍선을 위해 위쪽에 비워두는 여백 */
-.map-guide-spacer { width: 100%; flex: none; height: 700px; }
-
-/* 지도 카드 / 추천 맛집 카드 — 프레임 이미지(원본 크기) 위에 실제 내용을 겹침
-   (프레임 이미지가 없을 때도 내용이 보이도록 최소 높이를 잡아둠 — 실제 이미지 들어오면
-   자연스럽게 그 높이를 따라감) */
+/* 지도 카드 / 추천 맛집 카드 — 프레임 이미지 원본 크기(953px) 그대로, 가운데 정렬.
+   내용이 캔버스 1920px보다 길어질 수 있어 #screen-map 자체를 스크롤 처리함 */
 .map-card, .recommend-card {
-  position: relative; margin: 0 32px 24px;
+  position: relative; width: 953px; margin: 0 auto 24px;
 }
-.map-card { min-height: 540px; }
-.recommend-card { min-height: 380px; }
 .card-frame-img { display: block; width: 100%; height: auto; }
 .map-card-inner, .recommend-card-inner {
   position: absolute; inset: 0; padding: 30px 26px; overflow: hidden;
@@ -265,13 +262,11 @@ body {
 }
 .naver-btn:hover { background: #02b350; }
 
-/* ── 순덕 캐릭터 + 말풍선 (지도 화면 상단, 원본 크기 이미지들) ── */
+/* ── 순덕 캐릭터 + 말풍선 (지도 화면 상단, 원본 크기 이미지들, 콘텐츠와 함께 스크롤) ── */
 .char-stage {
-  position: absolute; top: 0; left: 0; right: 0; z-index: 15;
-  display: none; align-items: flex-start; justify-content: space-between;
-  gap: 16px; padding: 80px 32px 0; pointer-events: none;
+  display: flex; align-items: flex-start; justify-content: space-between;
+  gap: 16px; padding: 64px 32px 0;
 }
-body[data-screen="map"] .char-stage { display: flex; }
 
 .char-wrap { position: relative; flex: none; }
 .char-img {
@@ -290,16 +285,11 @@ body[data-screen="map"] .char-stage { display: flex; }
   width: 250px; height: 250px; object-fit: contain; display: none;
 }
 
-.speech-bubble { position: relative; flex: 1; max-width: 560px; min-width: 0; }
-.guide-window-img { display: block; width: 100%; height: auto; }
-.guide-tag { position: absolute; top: -16px; left: 28px; z-index: 1; }
-.guide-tag img { display: block; height: 40px; width: auto; }
-.guide-tag-fallback {
-  display: inline-block; font-size: .82rem; font-weight: 700; color: #d9536a;
-  background: #ffe3e8; border-radius: 999px; padding: 6px 16px;
-}
+/* guide_window.png(581×278)에 "신비할망" 이름표까지 이미 포함됨 — 원본 크기 그대로 */
+.speech-bubble { position: relative; flex: none; }
+.guide-window-img { display: block; width: auto; height: auto; }
 .guide-text {
-  position: absolute; left: 30px; right: 30px; top: 58px;
+  position: absolute; left: 40px; right: 40px; top: 85px;
   margin: 0; font-size: 1rem; line-height: 1.55; color: #4a6a82; font-weight: 700;
 }
 .guide-text .cursor {
@@ -310,8 +300,6 @@ body[data-screen="map"] .char-stage { display: flex; }
 
 /* ── 화면별 장식 배경 (파일 없으면 기존 색으로 폴백) ───────── */
 body[data-screen="menu"] { background-color: #fdf3e2; }
-/* 메뉴 화면에선 지도용 캐릭터 스테이지 숨김 (상단 배너 캐릭터 사용) */
-body[data-screen="menu"] #charStage { display: none; }
 
 /* ═══ 지도 씬: 바다 배경 + 안내자/음식 + 지도 카드 + 추천 카드 ═══ */
 body[data-screen="map"] {

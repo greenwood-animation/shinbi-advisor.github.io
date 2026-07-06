@@ -34,7 +34,17 @@
         <img src="assets/back_button.png" alt="← 메뉴로" onerror="this.style.display='none'" />
       </button>
 
-      <div class="map-guide-spacer"></div>
+      <!-- 순덕(신비할망) 캐릭터 + 말풍선: 지도 화면 콘텐츠와 함께 스크롤됨 -->
+      <div id="charStage" class="char-stage">
+        <div class="speech-bubble" id="speechBubble">
+          <img class="guide-window-img" src="assets/guide_window.png" alt="신비할망" onerror="this.style.display='none'" />
+          <p class="guide-text"><span id="speechText"></span></p>
+        </div>
+        <div class="char-wrap">
+          <img class="char-img" id="charImg" src="assets/guide_character.png" alt="" onerror="this.style.display='none'" />
+          <img class="char-food-img" id="mapFoodImg" src="" alt="" onload="this.style.display='block'" onerror="this.style.display='none'" />
+        </div>
+      </div>
 
       <div class="map-card">
         <img class="card-frame-img" src="assets/detail_window.png" alt="" onerror="this.style.display='none'" />
@@ -78,21 +88,6 @@
       <div class="detail-body" id="detailBody"></div>
     </aside>
     <div id="overlay" class="overlay"></div>
-
-    <!-- ── 순덕(신비할망) 캐릭터 + 말풍선 (지도 화면) ──── -->
-    <div id="charStage" class="char-stage">
-      <div class="speech-bubble" id="speechBubble">
-        <img class="guide-window-img" src="assets/guide_window.png" alt="" onerror="this.style.display='none'" />
-        <div class="guide-tag">
-          <img src="assets/guide_button.png" alt="" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'guide-tag-fallback',textContent:'신비할망'}))" />
-        </div>
-        <p class="guide-text"><span id="speechText"></span></p>
-      </div>
-      <div class="char-wrap">
-        <img class="char-img" id="charImg" src="assets/guide_character.png" alt="" onerror="this.style.display='none'" />
-        <img class="char-food-img" id="mapFoodImg" src="" alt="" onload="this.style.display='block'" onerror="this.style.display='none'" />
-      </div>
-    </div>
 
   </div>
   <script src="app.js?v=10"></script>
