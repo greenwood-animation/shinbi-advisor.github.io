@@ -84,6 +84,7 @@ body {
   grid-template-columns: repeat(4, 1fr);
   gap: 28px 10px; justify-items: center;
   width: 100%;
+  transform: translateY(12px);
 }
 
 .menu-card {
@@ -114,14 +115,11 @@ body {
 /* 하단 고정 채팅 입력창 (디자인만, 기능 없음) — menu_chat.png 한 장.
    두 화면 다 스크롤이 없어야 해서, 흐름에서 빼고 캔버스 하단 55px에 고정
    (#app에 transform이 걸려 있어 fixed가 뷰포트가 아닌 #app 기준으로 고정됨) */
+/* menu_chat.png 원본 크기(1080×200) 그대로, 두 화면 다 캔버스 맨 아래 꽉 차게 */
 .menu-chatbar {
-  position: fixed; left: 0; right: 0; bottom: 55px; padding: 0 24px; z-index: 10;
+  position: fixed; left: 0; bottom: 0; width: 1080px; padding: 0; z-index: 10;
 }
 .menu-chat-img { width: 100%; height: auto; display: block; }
-/* 지도 화면 채팅바: menu_chat.png 원본 크기(1080×200) 그대로, 캔버스 맨 아래 꽉 차게 */
-body[data-screen="map"] .menu-chatbar {
-  position: absolute; left: 0; right: auto; bottom: 0; top: auto; width: 1080px; padding: 0;
-}
 
 /* ── 2단계: 지도 (전부 캔버스 기준 절대좌표, Figma X/Y 그대로) ──── */
 .back-btn {
