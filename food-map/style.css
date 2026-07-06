@@ -63,7 +63,7 @@ body {
 /* 타이틀: menu_title.png 한 장, 배너 아래로 살짝 겹쳐 얹힘 */
 .menu-head {
   display: flex; align-items: center; justify-content: center;
-  position: relative; z-index: 2; margin: -30px auto 0;
+  position: relative; z-index: 2; margin: 15px auto 0;
   width: min(90%, 780px);
 }
 .menu-title-img { width: 100%; height: auto; display: block; }
@@ -112,29 +112,19 @@ body {
   filter: drop-shadow(0 4px 8px rgba(90, 60, 20, .18));
 }
 
-/* 하단 고정 채팅 입력창 (디자인만, 기능 없음) */
+/* 하단 고정 채팅 입력창 (디자인만, 기능 없음) — menu_chat.png 한 장 */
 .menu-chatbar {
-  flex: none; display: flex; align-items: center; gap: 10px;
-  padding: 16px 24px 22px;
+  flex: none; padding: 16px 24px 22px;
 }
-.menu-chat-input {
-  flex: 1; height: 54px; border-radius: 999px; border: 1px solid #e2d3b3;
-  background: #fff; padding: 0 22px; font-size: .95rem; color: #6b4423;
-}
-.menu-chat-input::placeholder { color: #b9a688; }
-.menu-chat-send {
-  width: 54px; height: 54px; flex: none; border-radius: 50%; border: none;
-  background: var(--accent); color: #fff; font-size: 1.25rem;
-  display: grid; place-items: center; cursor: not-allowed;
-}
+.menu-chat-img { width: 100%; height: auto; display: block; }
 
 /* ── 2단계: 지도 ────────────────────────────────────── */
 .back-btn {
-  background: #fff; border: none; border-radius: 999px; padding: 8px 16px;
-  font-size: .85rem; font-weight: 700; color: var(--ink); cursor: pointer;
-  box-shadow: var(--shadow); margin-bottom: 12px;
+  background: none; border: none; padding: 0; cursor: pointer; margin-bottom: 12px;
+  line-height: 0;
 }
-.back-btn:hover { background: #f0f9ff; }
+.back-btn img { height: 44px; width: auto; display: block; }
+.back-btn:hover { opacity: .88; }
 
 .map-head { text-align: center; margin-bottom: 12px; }
 .map-title { font-size: 1.3rem; font-weight: 800; }
