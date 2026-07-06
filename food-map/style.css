@@ -153,26 +153,13 @@ body {
   background: #fff; border: 1px solid #d9e6ee; border-radius: 999px; padding: 6px 12px;
 }
 
-/* 추천 맛집 목록 */
-.recommend-list { display: flex; flex-direction: column; gap: 14px; overflow-y: auto; }
-.reco-card {
-  display: flex; gap: 12px; background: rgba(255,255,255,.6);
-  border-radius: 16px; padding: 10px;
+/* 추천 맛집 패널: 처음엔 숨겨져 있다가 핀 클릭 시 살짝 떠오르며 나타남 */
+.recommend-card {
+  opacity: 0; transform: translateY(24px); pointer-events: none;
+  transition: opacity .4s ease, transform .4s ease;
 }
-.reco-photo {
-  width: 84px; height: 84px; flex: none; border-radius: 12px; object-fit: cover;
-  background: var(--sea);
-}
-.reco-photo.placeholder { display: grid; place-items: center; font-size: 1.6rem; color: var(--sea-deep); }
-.reco-body { min-width: 0; }
-.reco-name { font-weight: 800; font-size: 1rem; color: #2b4a63; }
-.reco-meta { font-size: .78rem; color: #6a8aa2; margin-top: 2px; }
-.reco-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
-.reco-tag {
-  font-size: .72rem; font-weight: 700; color: #4a6a82; background: #fff;
-  border: 1px solid #d9e6ee; border-radius: 999px; padding: 3px 10px;
-}
-.reco-price { margin-top: 6px; font-weight: 800; color: #ff6b6b; font-size: .9rem; }
+.recommend-card.is-open { opacity: 1; transform: translateY(0); pointer-events: auto; }
+.recommend-list { flex: 1; min-height: 0; overflow-y: auto; }
 
 .map-wrap {
   position: relative; width: 100%; aspect-ratio: 3 / 2;
@@ -212,29 +199,11 @@ body {
   100% { opacity: 1; transform: translate(-50%, -100%); }
 }
 
-/* ── 3단계: 상세 패널 ───────────────────────────────── */
-.overlay {
-  position: fixed; inset: 0; background: rgba(20,40,60,.45);
-  opacity: 0; pointer-events: none; transition: opacity .3s; z-index: 20;
-}
-.overlay.is-open { opacity: 1; pointer-events: auto; }
-
-.detail-panel {
-  position: fixed; top: 0; right: 0; width: min(420px, 92vw); height: 100%;
-  background: #fff; box-shadow: -8px 0 24px rgba(0,0,0,.2); z-index: 30;
-  transform: translateX(100%); transition: transform .32s cubic-bezier(.4,0,.2,1);
-  overflow-y: auto; padding: 24px 20px;
-}
-.detail-panel.is-open { transform: translateX(0); }
-
-.detail-close {
-  position: absolute; top: 12px; right: 14px; border: none; background: none;
-  font-size: 1.8rem; line-height: 1; color: #99aab8; cursor: pointer;
-}
+/* ── 3단계: 식당 상세(추천 맛집 패널 안에 표시) ──────── */
 .detail-name { font-size: 1.4rem; font-weight: 800; margin-bottom: 4px; }
 .detail-rating { color: #ff9f1a; font-weight: 700; font-size: .9rem; margin-bottom: 14px; }
 .detail-photo {
-  width: 100%; aspect-ratio: 16/10; border-radius: 14px; object-fit: cover;
+  width: 100%; aspect-ratio: 16/10; max-height: 180px; border-radius: 14px; object-fit: cover;
   background: var(--sea); margin-bottom: 16px;
 }
 .detail-photo.placeholder { display: grid; place-items: center; font-size: 2.4rem; color: var(--sea-deep); }

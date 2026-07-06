@@ -18,10 +18,6 @@ async function init() {
   document.querySelectorAll("[data-back]").forEach((btn) =>
     btn.addEventListener("click", () => showScreen(btn.dataset.back))
   );
-
-  // 상세 패널 닫기
-  $("#detailClose").addEventListener("click", closeDetail);
-  $("#overlay").addEventListener("click", closeDetail);
 }
 
 // ── 1단계: 메뉴 그리드 ──────────────────────────────
@@ -67,35 +63,14 @@ function openMap(menu) {
     pins.appendChild(pin);
   });
 
-  renderRecommendList(list);
+  // 새 메뉴로 들어오면 추천 맛집 패널은 핀을 클릭하기 전까지 숨김
+  $("#recommendList").innerHTML = "";
+  $(".recommend-card").classList.remove("is-open");
 
   showScreen("map");
 }
 
-// 신비할망 추천 맛집: 핀 목록 중 앞 2곳을 카드로 보여줌
-function renderRecommendList(list) {
-  const wrap = $("#recommendList");
-  wrap.innerHTML = (list || []).slice(0, 2).map((r) => {
-    const prices = (r.menu || []).map((m) => Number(String(m.price).replace(/[^0-9]/g, ""))).filter(Boolean);
-    const minPrice = prices.length ? Math.min(...prices).toLocaleString() : "";
-    const tags = (r.menu || []).slice(0, 3).map((m) => `<span class="reco-tag">${m.name}</span>`).join("");
-    const photo = r.photo
-      ? `<img class="reco-photo" src="${r.photo}" alt="${r.name}">`
-      : `<div class="reco-photo placeholder">🍴</div>`;
-    return `
-      <div class="reco-card">
-        ${photo}
-        <div class="reco-body">
-          <div class="reco-name">${r.name}</div>
-          <div class="reco-meta">📍 ${r.address || ""} ${r.hours ? "· " + r.hours : ""}</div>
-          <div class="reco-tags">${tags}</div>
-          ${minPrice ? `<div class="reco-price">₩${minPrice}~</div>` : ""}
-        </div>
-      </div>`;
-  }).join("");
-}
-
-// ── 3단계: 식당 상세 ────────────────────────────────
+// ── 3단계: 식당 상세 (지도 핀 클릭 시 추천 맛집 패널 자리에 표시) ──
 function openDetail(r) {
   const photo = r.photo
     ? `<img class="detail-photo" src="${r.photo}" alt="${r.name}">`
@@ -105,7 +80,7 @@ function openDetail(r) {
     .map((m) => `<tr><td>${m.name}</td><td class="price">${m.price}원</td></tr>`)
     .join("");
 
-  $("#detailBody").innerHTML = `
+  $("#recommendList").innerHTML = `
     ${photo}
     <div class="detail-name">${r.name}</div>
     ${r.rating ? `<div class="detail-rating">★ ${r.rating}</div>` : ""}
@@ -118,13 +93,11 @@ function openDetail(r) {
     ${r.naverPlaceUrl ? `<a class="naver-btn" href="${r.naverPlaceUrl}" target="_blank" rel="noopener">네이버 지도에서 보기 →</a>` : ""}
   `;
 
-  $("#detailPanel").classList.add("is-open");
-  $("#overlay").classList.add("is-open");
-}
-
-function closeDetail() {
-  $("#detailPanel").classList.remove("is-open");
-  $("#overlay").classList.remove("is-open");
+  // 다시 열어도 애니메이션이 새로 보이도록 리플로우 후 클래스 추가
+  const card = $(".recommend-card");
+  card.classList.remove("is-open");
+  void card.offsetWidth;
+  card.classList.add("is-open");
 }
 
 // 지도 화면: 순덕이가 들고 있는 음식(메뉴별, assets/음식/<id>.png)
