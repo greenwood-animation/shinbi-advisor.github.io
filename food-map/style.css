@@ -35,8 +35,7 @@ body {
   min-height: calc(100dvh - 40px);
   display: flex; flex-direction: column;
 }
-/* 콘텐츠가 1920px보다 길어질 수 있어 지도 화면 자체를 스크롤 처리 */
-#screen-map.is-active { position: relative; height: 100%; overflow-y: auto; }
+#screen-map.is-active { position: relative; height: 100%; overflow: hidden; }
 /* #app에 transform이 걸려 있어 fixed가 뷰포트가 아닌 #app 기준으로 고정됨
    → 지도 화면이 스크롤돼도 뒤로가기 버튼은 항상 같은 자리에 고정 */
 #screen-map .back-btn { position: fixed; z-index: 5; }
@@ -115,16 +114,13 @@ body {
   filter: drop-shadow(0 4px 8px rgba(90, 60, 20, .18));
 }
 
-/* 하단 고정 채팅 입력창 (디자인만, 기능 없음) — menu_chat.png 한 장 */
+/* 하단 고정 채팅 입력창 (디자인만, 기능 없음) — menu_chat.png 한 장.
+   두 화면 다 스크롤이 없어야 해서, 흐름에서 빼고 캔버스 하단 55px에 고정
+   (#app에 transform이 걸려 있어 fixed가 뷰포트가 아닌 #app 기준으로 고정됨) */
 .menu-chatbar {
-  flex: none; padding: 16px 24px 22px;
+  position: fixed; left: 0; right: 0; bottom: 55px; padding: 0 24px; z-index: 10;
 }
 .menu-chat-img { width: 100%; height: auto; display: block; }
-/* 메뉴 화면 채팅바는 그리드와 겹치지 않게 캔버스 하단에서 55px 고정 위치에 띄움
-   (#app에 transform이 걸려 있어 fixed가 뷰포트가 아닌 #app 기준으로 고정됨) */
-body[data-screen="menu"] .menu-chatbar {
-  position: fixed; left: 0; right: 0; bottom: 55px; padding: 0 24px;
-}
 
 /* ── 2단계: 지도 ────────────────────────────────────── */
 .back-btn {
@@ -158,10 +154,11 @@ body[data-screen="menu"] .menu-chatbar {
   background: #fff; border: 1px solid #d9e6ee; border-radius: 999px; padding: 6px 12px;
 }
 
-/* 추천 맛집 패널: 처음엔 숨겨져 있다가 핀 클릭 시 살짝 떠오르며 나타남 */
-.recommend-card { opacity: 0; pointer-events: none; }
+/* 추천 맛집 패널: 처음엔 자리도 차지하지 않게 숨겨져 있다가
+   핀 클릭 시 살짝 떠오르며 나타남 (스크롤이 생기면 안 되므로 공간을 미리 차지하지 않음) */
+.recommend-card { display: none; }
 .recommend-card.is-open {
-  opacity: 1; pointer-events: auto;
+  display: block;
   animation: recoPopIn .4s ease forwards;
 }
 @keyframes recoPopIn {
@@ -242,7 +239,7 @@ body[data-screen="menu"] .menu-chatbar {
 
 .char-wrap { position: relative; flex: none; }
 .char-img {
-  display: block; width: auto; height: auto; /* 원본 크기(507×592) 그대로 */
+  display: block; width: auto; height: auto; max-height: 385px; /* 스크롤 없이 다 들어가게 축소 */
   animation: breathe 3.6s ease-in-out infinite;
 }
 .char-img.talking { animation: breathe 1.8s ease-in-out infinite; }
@@ -253,8 +250,8 @@ body[data-screen="menu"] .menu-chatbar {
 /* 메뉴별 음식(순덕이 손 위), 정확히 250×250 — 실제 캐릭터 이미지 넣고 위치 미세조정 예정 */
 /* guide_character.png(507×592) 원본 픽셀 기준, 손 위 정확히 250×250 */
 .char-food-img {
-  position: absolute; left: 128px; top: 310px;
-  width: 250px; height: 250px; object-fit: contain; display: none;
+  position: absolute; left: 25.2%; top: 52.4%;
+  width: 49.3%; height: 42.2%; object-fit: contain; display: none;
 }
 
 /* guide_window.png(581×278)에 "신비할망" 이름표까지 이미 포함됨 — 원본 크기 그대로 */
