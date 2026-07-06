@@ -82,8 +82,8 @@ body {
 
 .menu-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px 16px; justify-items: center;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px 10px; justify-items: center;
   width: 100%;
 }
 
@@ -102,13 +102,13 @@ body {
   100% { opacity: 1; transform: scale(1) translateY(0); }
 }
 
-/* 버튼 = 이미지 한 장(이름 텍스트/배경 원 없이 그림 자체가 곧 버튼) */
+/* 버튼 = 이미지 한 장(이름 텍스트/배경 원 없이 그림 자체가 곧 버튼), 원본 크기 그대로 */
 .menu-thumb {
-  width: 400px; margin: 0 auto;
-  display: grid; place-items: center; font-size: 3.2rem;
+  margin: 0 auto;
+  display: grid; place-items: center; font-size: 2rem;
 }
 .menu-thumb img {
-  width: 100%; height: auto; object-fit: contain;
+  width: auto; height: auto; max-width: 100%;
   filter: drop-shadow(0 4px 8px rgba(90, 60, 20, .18));
 }
 
