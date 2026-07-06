@@ -83,7 +83,7 @@ function openDetail(r) {
   const tags = (r.menu || []).slice(0, 3).map((m) => `<span class="reco-tag">${m.name}</span>`).join("");
 
   $("#recommendList").innerHTML = `
-    <div class="reco-card">
+    <div class="reco-card"${r.naverPlaceUrl ? ' role="link" tabindex="0"' : ""}>
       <img class="reco-item-bg" src="assets/reco_item.png" alt="" onerror="this.style.display='none'">
       <div class="reco-card-inner">
         ${photo}
@@ -96,6 +96,12 @@ function openDetail(r) {
       </div>
     </div>
   `;
+
+  // 카드 아무 곳이나 클릭하면 네이버 지도로 이동
+  if (r.naverPlaceUrl) {
+    const recoCard = $(".reco-card");
+    recoCard.addEventListener("click", () => window.open(r.naverPlaceUrl, "_blank", "noopener"));
+  }
 
   // 다시 열어도 애니메이션이 새로 보이도록 리플로우 후 클래스 추가
   const card = $(".recommend-card");
@@ -120,6 +126,11 @@ function speak(text) {
 
   span.textContent = "";
   if (!text) { img.classList.remove("talking"); return; }
+
+  // 대사 박스(395×117)에 맞춰 글자 수가 많으면 폰트를 자동으로 살짝 줄임
+  const base = 25; // 기준 폰트(px), 기준 글자 수(46자) 이하면 그대로
+  const size = Math.round(Math.min(base, Math.max(16, base * Math.sqrt(46 / text.length))));
+  span.parentElement.style.fontSize = `${size}px`;
 
   img.classList.add("talking");
   const cursor = document.createElement("span");

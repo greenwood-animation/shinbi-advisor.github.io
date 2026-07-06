@@ -172,6 +172,8 @@ body {
 .recommend-list { flex: 1; min-height: 0; overflow-y: auto; }
 /* reco_item.png(901×194)를 카드 배경으로 깔고, 그 위에 사진+텍스트를 얹음 */
 .reco-card { position: relative; }
+.reco-card[role="link"] { cursor: pointer; }
+.reco-card[role="link"]:hover .reco-item-bg { filter: brightness(1.03); }
 .reco-item-bg { display: block; width: 100%; height: auto; }
 .reco-card-inner {
   position: absolute; inset: 0; padding: 14px 18px;
