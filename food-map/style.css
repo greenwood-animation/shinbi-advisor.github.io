@@ -76,15 +76,15 @@ body {
    (패널 자체 배경/테두리는 그림이 담당 — 위치는 실제 에셋 넣고 미세조정) */
 .menu-panel {
   flex: 1; min-height: 0; overflow-y: auto; margin: 0 40px 0;
-  padding: 60px 30px 16px;
+  padding: 60px 30px 30px;
+  display: flex; align-items: center; justify-content: center;
 }
 
 .menu-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  height: 100%;
-  gap: 10px; align-items: center; justify-items: center;
+  gap: 40px 16px; justify-items: center;
+  width: 100%;
 }
 
 .menu-card {
@@ -103,20 +103,20 @@ body {
 }
 
 .menu-thumb {
-  width: 108px; height: 108px; margin: 0 auto 8px;
-  display: grid; place-items: center; font-size: 2.2rem;
+  width: 180px; height: 180px; margin: 0 auto 10px;
+  display: grid; place-items: center; font-size: 3.2rem;
   background: #fff; border-radius: 50%;
   box-shadow: 0 4px 10px rgba(90, 60, 20, .18), inset 0 0 0 3px #f3e0bd;
 }
 .menu-thumb img {
-  width: 80%; height: 80%; object-fit: contain;
+  width: 82%; height: 82%; object-fit: contain;
   filter: drop-shadow(0 2px 5px rgba(0, 0, 0, .18));
 }
 /* 메뉴 라벨: 흰 알약 + 갈색 텍스트 */
 .menu-name {
-  display: inline-block; font-size: .8rem; font-weight: 700;
+  display: inline-block; font-size: 1rem; font-weight: 700;
   color: #6b4423; background: #fff; border: 1px solid #eddcb8;
-  padding: 4px 12px; border-radius: 999px;
+  padding: 5px 14px; border-radius: 999px;
   box-shadow: 0 2px 6px rgba(90, 60, 20, .15);
 }
 
