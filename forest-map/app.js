@@ -12,7 +12,7 @@ async function init() {
 
   renderThemeGrid();
   document.body.dataset.screen = "menu"; // 첫 화면 배경
-  speak(DATA.intro || "");
+  speak(DATA.intro || "", "#menuSpeechText");
 
   // 뒤로가기 버튼
   document.querySelectorAll("[data-back]").forEach((btn) =>
@@ -48,7 +48,7 @@ function openMap(theme) {
   tagImg.style.display = ""; // 이전 테마에서 로드 실패로 숨겨졌을 수 있으니 초기화
   tagImg.alt = theme.name;
   tagImg.src = `assets/titles/${theme.id}.png`;
-  speak(theme.desc || "");
+  speak(theme.desc || "", "#speechText", "#charImg");
 
   const pins = $("#pins");
   pins.innerHTML = "";
@@ -110,31 +110,36 @@ function openDetail(f) {
 }
 
 // ── 북차사랑 말하기 (타이핑 + 입 모션) ───────────────
-let speakTimer = null;
-function speak(text) {
-  const span = $("#speechText");
-  const img = $("#charImg");
-  clearInterval(speakTimer);
+// 메뉴 화면 말풍선(#menuSpeechText)과 지도 화면 말풍선(#speechText)이 각자 따로 있어
+// 대상 span/캐릭터 id를 받아 동작 — 같은 guide_window.png(내부 텍스트 박스 395×117)를
+// 재사용하므로 자동 폰트 축소 로직도 공용으로 씀
+const speakTimers = {};
+function speak(text, spanSel, imgSel) {
+  const span = $(spanSel);
+  const img = imgSel ? $(imgSel) : null;
+  clearInterval(speakTimers[spanSel]);
 
   span.textContent = "";
-  if (!text) { img.classList.remove("talking"); return; }
+  const prevCursor = span.parentElement.querySelector(".cursor");
+  if (prevCursor) prevCursor.remove();
+  if (!text) { if (img) img.classList.remove("talking"); return; }
 
   // 대사 박스(395×117)에 맞춰 글자 수가 많으면 폰트를 자동으로 살짝 줄임
   const base = 25;
   const size = Math.round(Math.min(base, Math.max(16, base * Math.sqrt(46 / text.length))));
   span.parentElement.style.fontSize = `${size}px`;
 
-  img.classList.add("talking");
+  if (img) img.classList.add("talking");
   const cursor = document.createElement("span");
   cursor.className = "cursor";
   span.parentElement.appendChild(cursor);
 
   let i = 0;
-  speakTimer = setInterval(() => {
+  speakTimers[spanSel] = setInterval(() => {
     span.textContent = text.slice(0, ++i);
     if (i >= text.length) {
-      clearInterval(speakTimer);
-      img.classList.remove("talking");
+      clearInterval(speakTimers[spanSel]);
+      if (img) img.classList.remove("talking");
       cursor.remove();
     }
   }, 45);
@@ -146,7 +151,7 @@ function showScreen(name) {
   $(`#screen-${name}`).classList.add("is-active");
   document.body.dataset.screen = name; // 화면별 장식 배경 적용용
   window.scrollTo({ top: 0, behavior: "smooth" });
-  if (name === "menu" && DATA) speak(DATA.intro || "");
+  if (name === "menu" && DATA) speak(DATA.intro || "", "#menuSpeechText");
 }
 
 init();

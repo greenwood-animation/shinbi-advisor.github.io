@@ -31,17 +31,15 @@ body {
 
 /* 지도 화면은 전부 캔버스(1080×1920) 기준 절대좌표로 배치 — food-map과 동일 */
 #screen-map.is-active { position: relative; height: 100%; overflow: hidden; }
-#screen-menu.is-active { display: flex; flex-direction: column; }
+#screen-menu.is-active { position: relative; height: 100%; }
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to   { opacity: 1; transform: translateY(0); }
 }
 
-/* ── 1단계: 캐릭터 배너 + 명패 + 테마 리스트 + 채팅창 ─── */
-#screen-menu.is-active { height: 100%; min-height: 0; padding: 0; position: relative; }
-
-/* 배경 3장 겹침(뒤→앞): food-map과 동일 구조 */
+/* ── 1단계: 배경 + 캐릭터 + 말풍선 + 타이틀 + 테마 리스트 + 채팅창 ───
+   전부 이미지 원본 크기 그대로, #screen-menu(1080×1920) 기준 절대좌표로 배치 */
 .menu-bg {
   position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden;
 }
@@ -49,23 +47,29 @@ body {
   position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover;
 }
 
-.menu-hero-spacer { width: 100%; flex: none; aspect-ratio: 1080 / 800; }
-
-.menu-head, .menu-panel, .menu-chatbar { position: relative; z-index: 1; }
-
-.menu-head {
-  display: flex; align-items: center; justify-content: center;
-  position: relative; z-index: 2; margin: 45px auto 0;
-  width: 100%;
+/* 캐릭터: left 240 top 0, 원본 크기 그대로 */
+.menu-char-img {
+  position: absolute; left: 240px; top: 0; z-index: 1;
+  width: auto; height: auto; display: block;
+  animation: breathe 3.6s ease-in-out infinite;
 }
-.menu-title-img { width: 100%; height: auto; display: block; }
 
-/* 테마 리스트 패널: menu_back.png 크림색 패널 그림 위에 얹히는 투명 영역.
-   menu_back.png는 화면 전체(1080×1920)가 아니라 패널 자기 영역(1078×944 비율)에만
-   깔리는 그림이라 .menu-bg 전체 배경 스택이 아니라 패널 안에 별도로 둠 */
+/* 말풍선: left 36 top 239, 원본 크기 그대로 (지도 화면과 같은 guide_window.png 재사용) */
+.menu-bubble { position: absolute; left: 36px; top: 239px; z-index: 2; }
+
+/* 타이틀: left 0 top 922, 원본 크기 그대로 */
+.menu-title-img {
+  position: absolute; left: 0; top: 922px; z-index: 2;
+  width: auto; height: auto; display: block;
+}
+
+/* 선택지 배경: left 0 top 976, 원본 크기(1078×944) 그대로.
+   위쪽은 타이틀과 겹치는 구간(922~1122)을 피하고, 아래쪽은 채팅바(높이 200)를
+   피해서 그 안에 버튼 리스트를 세로로 배치 */
 .menu-panel {
-  flex: 1; min-height: 0; overflow: hidden; margin: 0 40px 0;
-  padding: 30px 30px 220px;
+  position: absolute; left: 0; top: 976px; z-index: 1;
+  width: 1078px; height: 944px; overflow: hidden;
+  padding: 150px 55px 210px;
   display: flex; align-items: center; justify-content: center;
 }
 .menu-panel-bg {
@@ -73,10 +77,10 @@ body {
   width: 100%; height: 100%; object-fit: cover;
 }
 
-/* 테마 버튼: 세로로 쌓이는 알약형 리스트(모형 참고). 버튼 이미지 자체 비율(802×90)이
-   길쭉해서 6개가 채팅바 위 공간(약 670px)에 다 들어오도록 폭을 92%로 살짝 줄임 */
+/* 테마 버튼: 세로로 쌓이는 알약형 리스트. 버튼 이미지 자체 비율(802×90)이 길쭉해서
+   6개가 패널의 남은 세로 공간에 다 들어오도록 폭을 살짝 줄임 */
 .menu-grid {
-  display: flex; flex-direction: column; gap: 14px;
+  display: flex; flex-direction: column; gap: 10px;
   width: 100%;
 }
 
@@ -95,7 +99,7 @@ body {
 }
 
 /* 버튼 = 이미지 한 장(아이콘+문구가 이미지 안에 있음, 802×90), 원본 비율 그대로 폭만 꽉 채움 */
-.menu-thumb { width: 92%; margin: 0 auto; }
+.menu-thumb { width: 82%; margin: 0 auto; }
 .menu-thumb img {
   display: block; width: 100%; height: auto;
   filter: drop-shadow(0 4px 8px rgba(35, 60, 35, .18));

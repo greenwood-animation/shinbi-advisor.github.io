@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>북차사랑의 숨은 숲 지도</title>
-  <link rel="stylesheet" href="style.css?v=8" />
+  <link rel="stylesheet" href="style.css?v=9" />
 </head>
 <body>
   <div id="app">
@@ -13,12 +13,13 @@
     <section id="screen-menu" class="screen is-active">
       <div class="menu-bg" aria-hidden="true">
         <img src="assets/background_room.png" alt="" onerror="this.style.display='none'" />
-        <img src="assets/북차사_메인.png" alt="" onerror="this.style.display='none'" />
       </div>
-      <div class="menu-hero-spacer"></div>
-      <header class="menu-head">
-        <img class="menu-title-img" src="assets/menu_title.png" alt="제주 힐링 숲지도" onerror="this.style.display='none'" />
-      </header>
+      <img class="menu-char-img" src="assets/북차사_메인.png" alt="" onerror="this.style.display='none'" />
+      <div class="menu-bubble" id="menuBubble">
+        <img class="guide-window-img" src="assets/guide_window.png" alt="북차사" onerror="this.style.display='none'" />
+        <p class="guide-text"><span id="menuSpeechText"></span></p>
+      </div>
+      <img class="menu-title-img" src="assets/menu_title.png" alt="제주 힐링 숲지도" onerror="this.style.display='none'" />
       <div class="menu-panel">
         <img class="menu-panel-bg" src="assets/menu_back.png" alt="" onerror="this.style.display='none'" />
         <div class="menu-grid" id="menuGrid"></div>
@@ -80,6 +81,6 @@
     </section>
 
   </div>
-  <script src="app.js?v=5"></script>
+  <script src="app.js?v=6"></script>
 </body>
 </html>
