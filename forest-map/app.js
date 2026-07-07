@@ -1,5 +1,5 @@
 // 북차사랑의 숨은 숲 지도 — 숲지도 로직
-// 흐름: 테마 그리드 → 테마 클릭 시 제주 지도에 숲 핀 → 핀 클릭 시 상세
+// 흐름: 테마 리스트 → 테마 클릭 시 제주 숲 지도에 핀 → 핀 클릭 시 추천 숲길 카드
 
 let DATA = null;
 
@@ -14,33 +14,42 @@ async function init() {
   document.body.dataset.screen = "menu"; // 첫 화면 배경
   speak(DATA.intro || "");
 
+  // 뒤로가기 버튼
   document.querySelectorAll("[data-back]").forEach((btn) =>
     btn.addEventListener("click", () => showScreen(btn.dataset.back))
   );
-
-  $("#detailClose").addEventListener("click", closeDetail);
-  $("#overlay").addEventListener("click", closeDetail);
 }
 
-// ── 1단계: 테마 그리드 ──────────────────────────────
+// ── 1단계: 테마 리스트 ──────────────────────────────
 function renderThemeGrid() {
   const grid = $("#menuGrid");
   grid.innerHTML = "";
 
   DATA.themes.forEach((theme, i) => {
-    // 이미지 없이 라운드 사각형 + 텍스트 자체가 버튼
     const card = document.createElement("div");
     card.className = "menu-card";
-    card.style.animationDelay = `${i * 0.07}s`; // 왼쪽 위부터 순차 등장
-    card.textContent = theme.name;
+    card.style.animationDelay = `${i * 0.07}s`; // 위에서부터 순차 등장
+
+    // 이미지가 있으면 이미지, 없으면 이모지 폴백
+    const thumb = theme.image
+      ? `<img src="${theme.image}" alt="${theme.name}" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'${theme.emoji || "🌲"}'}))">`
+      : (theme.emoji || "🌲");
+
+    card.innerHTML = `
+      <div class="menu-thumb">${thumb}</div>
+      <div class="menu-card-label">${theme.name}</div>
+    `;
     card.addEventListener("click", () => openMap(theme));
     grid.appendChild(card);
   });
 }
 
-// ── 2단계: 제주 숲 지도 + 핀 ────────────────────────
+// ── 2단계: 제주 숲 지도 + 핀 ──────────────────────────
 function openMap(theme) {
-  $("#mapMenuName").textContent = theme.name;
+  const tagImg = $("#mapTagImg");
+  tagImg.style.display = ""; // 이전 테마에서 로드 실패로 숨겨졌을 수 있으니 초기화
+  tagImg.alt = theme.name;
+  tagImg.src = `assets/titles/${theme.id}.png`;
   speak(theme.desc || "");
 
   const pins = $("#pins");
@@ -54,45 +63,52 @@ function openMap(theme) {
     pin.className = "pin";
     pin.style.left = `${f.x}%`;
     pin.style.top = `${f.y}%`;
-    pin.style.animationDelay = `${0.15 + i * 0.12}s`;
+    pin.style.animationDelay = `${0.15 + i * 0.12}s`; // 핀 순차 낙하
     pin.innerHTML = `<div class="pin-dot"></div><div class="pin-label">${f.name}</div>`;
     pin.addEventListener("click", () => openDetail(f));
     pins.appendChild(pin);
   });
 
+  // 새 테마로 들어오면 추천 숲길 패널은 핀을 클릭하기 전까지 숨김
+  $("#recommendList").innerHTML = "";
+  $(".recommend-card").classList.remove("is-open");
+
   showScreen("map");
 }
 
-// ── 3단계: 숲 상세 ──────────────────────────────────
+// ── 3단계: 숲 상세 (지도 핀 클릭 시 추천 숲길 패널 자리에 표시) ──
 function openDetail(f) {
   const photo = f.photo
-    ? `<img class="detail-photo" src="${f.photo}" alt="${f.name}">`
-    : `<div class="detail-photo placeholder">🌳</div>`;
+    ? `<img class="reco-photo" src="${f.photo}" alt="${f.name}">`
+    : `<div class="reco-photo placeholder">🌳</div>`;
 
-  const tags = (f.tags || [])
-    .map((t) => `<span class="tag-chip">${t}</span>`)
-    .join("");
+  const tags = (f.tags || []).slice(0, 3).map((t) => `<span class="reco-tag">${t}</span>`).join("");
 
-  $("#detailBody").innerHTML = `
-    ${photo}
-    <div class="detail-name">${f.name}</div>
-    ${f.rating ? `<div class="detail-rating">★ ${f.rating}</div>` : ""}
-    ${tags ? `<div class="tag-row">${tags}</div>` : ""}
-    <div class="detail-info">
-      ${f.address ? `<div class="row"><span class="ic">📍</span><span>${f.address}</span></div>` : ""}
-      ${f.hours ? `<div class="row"><span class="ic">🕒</span><span>${f.hours}</span></div>` : ""}
+  $("#recommendList").innerHTML = `
+    <div class="reco-card"${f.naverPlaceUrl ? ' role="link" tabindex="0"' : ""}>
+      <img class="reco-item-bg" src="assets/reco_item.png" alt="" onerror="this.style.display='none'">
+      <div class="reco-card-inner">
+        ${photo}
+        <div class="reco-body">
+          <div class="reco-name">${f.name}</div>
+          <div class="reco-meta">📍 ${f.address || ""} ${f.hours ? "· " + f.hours : ""}</div>
+          <div class="reco-tags">${tags}</div>
+        </div>
+      </div>
     </div>
-    ${f.desc ? `<blockquote class="detail-quote">${f.desc}</blockquote>` : ""}
-    ${f.naverPlaceUrl ? `<a class="naver-btn" href="${f.naverPlaceUrl}" target="_blank" rel="noopener">네이버 지도에서 보기 →</a>` : ""}
   `;
 
-  $("#detailPanel").classList.add("is-open");
-  $("#overlay").classList.add("is-open");
-}
+  // 카드 아무 곳이나 클릭하면 네이버 지도로 이동
+  if (f.naverPlaceUrl) {
+    const recoCard = $(".reco-card");
+    recoCard.addEventListener("click", () => window.open(f.naverPlaceUrl, "_blank", "noopener"));
+  }
 
-function closeDetail() {
-  $("#detailPanel").classList.remove("is-open");
-  $("#overlay").classList.remove("is-open");
+  // 다시 열어도 애니메이션이 새로 보이도록 리플로우 후 클래스 추가
+  const card = $(".recommend-card");
+  card.classList.remove("is-open");
+  void card.offsetWidth;
+  card.classList.add("is-open");
 }
 
 // ── 북차사랑 말하기 (타이핑 + 입 모션) ───────────────
@@ -105,10 +121,15 @@ function speak(text) {
   span.textContent = "";
   if (!text) { img.classList.remove("talking"); return; }
 
+  // 대사 박스(395×117)에 맞춰 글자 수가 많으면 폰트를 자동으로 살짝 줄임
+  const base = 25;
+  const size = Math.round(Math.min(base, Math.max(16, base * Math.sqrt(46 / text.length))));
+  span.parentElement.style.fontSize = `${size}px`;
+
   img.classList.add("talking");
   const cursor = document.createElement("span");
   cursor.className = "cursor";
-  $("#speechBubble").appendChild(cursor);
+  span.parentElement.appendChild(cursor);
 
   let i = 0;
   speakTimer = setInterval(() => {
@@ -132,9 +153,9 @@ function showScreen(name) {
 
 init();
 
-// ── 1920×1080 고정 스케일 ─────────────────────────────
+// ── 1080×1920 고정 스케일 ─────────────────────────────
 function fitScreen() {
-  const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+  const s = Math.min(window.innerWidth / 1080, window.innerHeight / 1920);
   document.getElementById("app").style.transform = `scale(${s})`;
 }
 window.addEventListener("resize", fitScreen);

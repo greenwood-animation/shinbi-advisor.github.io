@@ -4,46 +4,82 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>북차사랑의 숨은 숲 지도</title>
-  <link rel="stylesheet" href="style.css?v=3" />
+  <link rel="stylesheet" href="style.css?v=4" />
 </head>
 <body>
   <div id="app">
 
     <!-- ── 1단계: 테마 그리드 ─────────────────────────── -->
     <section id="screen-menu" class="screen is-active">
+      <div class="menu-bg" aria-hidden="true">
+        <img src="assets/background_room.png" alt="" onerror="this.style.display='none'" />
+        <img src="assets/북차사_메인.png" alt="" onerror="this.style.display='none'" />
+        <img src="assets/menu_back.png" alt="" onerror="this.style.display='none'" />
+      </div>
+      <div class="menu-hero-spacer"></div>
       <header class="menu-head">
-        <h1 class="title"><span class="brand">북차사랑</span>의 숨은 숲 지도</h1>
+        <img class="menu-title-img" src="assets/menu_title.png" alt="제주 힐링 숲지도" onerror="this.style.display='none'" />
       </header>
-      <div class="menu-grid" id="menuGrid"></div>
+      <div class="menu-panel">
+        <div class="menu-grid" id="menuGrid"></div>
+      </div>
+      <div class="menu-chatbar">
+        <img class="menu-chat-img" src="assets/menu_chat.png" alt="북차사에게 물어보기" />
+      </div>
     </section>
 
-    <!-- ── 2단계: 제주 숲 지도 + 핀 ───────────────────── -->
+    <!-- ── 2단계: 제주 숲 지도 + 핀 + 추천 숲길 ─────────── -->
     <section id="screen-map" class="screen">
-      <button class="back-btn" data-back="menu">← 테마로</button>
-      <div class="map-head">
-        <h2 class="map-title" id="mapMenuName"></h2>
+      <img class="map-bg-full" src="assets/background_forest.png" alt="" onerror="this.style.display='none'" />
+      <button class="back-btn" data-back="menu">
+        <img src="assets/back_button.png" alt="← 메뉴로" onerror="this.style.display='none'" />
+      </button>
+
+      <!-- 북차사랑 캐릭터 + 말풍선: 지도 화면 콘텐츠와 함께 스크롤됨 -->
+      <div id="charStage" class="char-stage">
+        <div class="speech-bubble" id="speechBubble">
+          <img class="guide-window-img" src="assets/guide_window.png" alt="북차사" onerror="this.style.display='none'" />
+          <p class="guide-text"><span id="speechText"></span></p>
+        </div>
+        <div class="char-wrap">
+          <img class="char-img" id="charImg" src="assets/guide_character.png" alt="" onerror="this.style.display='none'" />
+        </div>
       </div>
-      <div class="map-wrap" id="mapWrap">
-        <img class="map-bg" id="mapBg" src="assets/jeju-map.png" alt="제주 숲 지도" />
-        <div class="pins" id="pins"></div>
-        <p class="map-empty" id="mapEmpty" hidden>아직 등록된 숲이 없어요 🌱</p>
+
+      <!-- detail_window.png 안에는 부제("제주의 멋진 숲 명소를 찾아보세요")만 그려져 있고,
+           테마별로 바뀌는 제목은 테마마다 따로 만든 타이틀 이미지(조개 아이콘+글자 포함)를 얹음 -->
+      <div class="map-card">
+        <img class="map-tag-img" id="mapTagImg" alt="" onerror="this.style.display='none'" />
+        <img class="card-frame-img" src="assets/detail_window.png" alt="제주의 멋진 숲 명소를 찾아보세요" onerror="this.style.display='none'" />
+        <button class="more-btn map-more-btn" type="button">
+          <img src="assets/map_more_btn.png" alt="지도 더보기 >" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'more-btn-fallback',textContent:'지도 더보기 >'}))" />
+        </button>
+        <div class="map-card-inner">
+          <div class="map-wrap" id="mapWrap">
+            <img class="map-bg" id="mapBg" src="assets/jeju-map.png" alt="제주 숲 지도" />
+            <div class="pins" id="pins"></div>
+            <p class="map-empty" id="mapEmpty" hidden>아직 등록된 숲이 없어요 🌱</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- detail_window_2.png 안에 제목("북차사의 추천 숲길")이 이미 그려져 있어 텍스트는 따로 안 넣음 -->
+      <div class="recommend-card">
+        <img class="card-frame-img" src="assets/detail_window_2.png" alt="북차사의 추천 숲길" onerror="this.style.display='none'" />
+        <button class="more-btn reco-more-btn" type="button">
+          <img src="assets/detail_button.png" alt="더보기 >" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'more-btn-fallback',textContent:'더보기 >'}))" />
+        </button>
+        <div class="recommend-card-inner">
+          <div class="recommend-list" id="recommendList"></div>
+        </div>
+      </div>
+
+      <div class="menu-chatbar">
+        <img class="menu-chat-img" src="assets/menu_chat.png" alt="" />
       </div>
     </section>
-
-    <!-- ── 3단계: 숲 상세 패널 ────────────────────────── -->
-    <aside id="detailPanel" class="detail-panel">
-      <button class="detail-close" id="detailClose">×</button>
-      <div class="detail-body" id="detailBody"></div>
-    </aside>
-    <div id="overlay" class="overlay"></div>
-
-    <!-- ── 북차사랑 캐릭터 + 말풍선 ────────────────────── -->
-    <div id="charStage" class="char-stage">
-      <div class="speech-bubble" id="speechBubble"><span id="speechText"></span></div>
-      <div class="char-img" id="charImg"></div>
-    </div>
 
   </div>
-  <script src="app.js?v=3"></script>
+  <script src="app.js?v=4"></script>
 </body>
 </html>
