@@ -30,15 +30,13 @@ function renderThemeGrid() {
     card.className = "menu-card";
     card.style.animationDelay = `${i * 0.07}s`; // 위에서부터 순차 등장
 
-    // 이미지가 있으면 이미지, 없으면 이모지 폴백
+    // 버튼 이미지 자체에 아이콘+문구가 이미 그려져 있음(802×90) — 이미지가 곧 버튼.
+    // 이미지가 없거나 로드 실패하면 텍스트 알약으로 대체
     const thumb = theme.image
-      ? `<img src="${theme.image}" alt="${theme.name}" onerror="this.replaceWith(Object.assign(document.createElement('span'),{textContent:'${theme.emoji || "🌲"}'}))">`
-      : (theme.emoji || "🌲");
+      ? `<img src="${theme.image}" alt="${theme.name}" onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'menu-card-fallback',textContent:'${theme.emoji || "🌲"} ${theme.name}'}))">`
+      : `<div class="menu-card-fallback">${theme.emoji || "🌲"} ${theme.name}</div>`;
 
-    card.innerHTML = `
-      <div class="menu-thumb">${thumb}</div>
-      <div class="menu-card-label">${theme.name}</div>
-    `;
+    card.innerHTML = `<div class="menu-thumb">${thumb}</div>`;
     card.addEventListener("click", () => openMap(theme));
     grid.appendChild(card);
   });

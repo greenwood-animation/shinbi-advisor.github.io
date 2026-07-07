@@ -31,6 +31,7 @@ body {
 
 /* 지도 화면은 전부 캔버스(1080×1920) 기준 절대좌표로 배치 — food-map과 동일 */
 #screen-map.is-active { position: relative; height: 100%; overflow: hidden; }
+#screen-menu.is-active { display: flex; flex-direction: column; }
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
@@ -62,24 +63,24 @@ body {
 /* 테마 리스트 패널: menu_back.png 크림색 패널 그림 위에 얹히는 투명 영역 */
 .menu-panel {
   flex: 1; min-height: 0; overflow: hidden; margin: 0 40px 0;
-  padding: 60px 30px 260px;
+  padding: 30px 30px 220px;
   display: flex; align-items: center; justify-content: center;
 }
 
-/* 테마 버튼: 세로로 쌓이는 알약형 리스트(모형 참고) */
+/* 테마 버튼: 세로로 쌓이는 알약형 리스트(모형 참고). 버튼 이미지 자체 비율(802×90)이
+   길쭉해서 6개가 채팅바 위 공간(약 670px)에 다 들어오도록 폭을 92%로 살짝 줄임 */
 .menu-grid {
-  display: flex; flex-direction: column; gap: 20px;
+  display: flex; flex-direction: column; gap: 14px;
   width: 100%;
 }
 
 .menu-card {
-  display: flex; align-items: center; gap: 16px;
-  background: #fff; border-radius: 999px; box-shadow: var(--shadow);
-  padding: 14px 26px; cursor: pointer; transition: transform .18s;
+  background: none; border: none; box-shadow: none; padding: 0;
+  cursor: pointer; transition: transform .18s;
   opacity: 0; transform: scale(.4) translateY(6px);
   animation: popIn .5s cubic-bezier(.34, 1.8, .5, 1) forwards;
 }
-.menu-card:hover { transform: translateY(-4px) scale(1.03); }
+.menu-card:hover { transform: translateY(-4px) scale(1.02); }
 
 @keyframes popIn {
   0%   { opacity: 0; transform: scale(.4) translateY(6px); }
@@ -87,13 +88,15 @@ body {
   100% { opacity: 1; transform: scale(1) translateY(0); }
 }
 
-.menu-thumb {
-  width: 48px; height: 48px; flex: none; border-radius: 50%;
-  background: var(--accent); display: grid; place-items: center;
-  font-size: 1.4rem; overflow: hidden;
+/* 버튼 = 이미지 한 장(아이콘+문구가 이미지 안에 있음, 802×90), 원본 비율 그대로 폭만 꽉 채움 */
+.menu-thumb { width: 92%; margin: 0 auto; }
+.menu-thumb img {
+  display: block; width: 100%; height: auto;
+  filter: drop-shadow(0 4px 8px rgba(35, 60, 35, .18));
 }
-.menu-thumb img { width: 60%; height: 60%; object-fit: contain; }
-.menu-card-label {
+.menu-card-fallback {
+  width: 100%; box-sizing: border-box; background: #fff; border-radius: 999px;
+  box-shadow: var(--shadow); padding: 14px 26px; text-align: center;
   font-family: "Jalnan", system-ui, sans-serif; font-weight: 400;
   font-size: 1.1rem; color: var(--ink);
 }
