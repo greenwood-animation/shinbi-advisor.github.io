@@ -125,8 +125,8 @@ function openDetail(f) {
 
 // ── 북차사랑 말하기 (타이핑 + 입 모션) ───────────────
 // 메뉴 화면 말풍선(#menuSpeechText)과 지도 화면 말풍선(#speechText)이 각자 따로 있어
-// 대상 span/캐릭터 id를 받아 동작 — 같은 guide_window.png(내부 텍스트 박스 395×117)를
-// 재사용하므로 자동 폰트 축소 로직도 공용으로 씀
+// 대상 span/캐릭터 id를 받아 동작 — 같은 guide_window.png(내부 텍스트 박스 460×210)를
+// 재사용하므로 자동 폰트 축소 로직도 공용으로 씀 (두 말풍선 완전히 같은 설정)
 const speakTimers = {};
 function speak(text, spanSel, imgSel) {
   const span = $(spanSel);
@@ -138,9 +138,9 @@ function speak(text, spanSel, imgSel) {
   if (prevCursor) prevCursor.remove();
   if (!text) { if (img) img.classList.remove("talking"); return; }
 
-  // 대사 박스(395×117)에 맞춰 글자 수가 많으면 폰트를 자동으로 살짝 줄임
+  // 대사 박스(460×210)에 맞춰 글자 수가 많으면 폰트를 자동으로 살짝 줄임
   const base = 25;
-  const size = Math.round(Math.min(base, Math.max(16, base * Math.sqrt(46 / text.length))));
+  const size = Math.round(Math.min(base, Math.max(16, base * Math.sqrt(100 / text.length))));
   span.parentElement.style.fontSize = `${size}px`;
 
   if (img) img.classList.add("talking");

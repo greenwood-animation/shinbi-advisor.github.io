@@ -245,7 +245,7 @@ body {
 .speech-bubble { position: absolute; left: 34px; top: 214px; z-index: 2; }
 .guide-window-img { display: block; width: auto; height: auto; }
 .guide-text {
-  position: absolute; left: 80px; top: 87px; width: 395px; height: 117px;
+  position: absolute; left: 75px; top: 85px; width: 460px; height: 210px;
   margin: 0; font-size: 25px; line-height: 1.5; color: var(--ink); font-weight: 700;
 }
 .guide-text .cursor {
