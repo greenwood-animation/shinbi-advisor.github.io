@@ -5,6 +5,17 @@ let DATA = null;
 
 const $ = (sel) => document.querySelector(sel);
 
+// 테마별 타이틀 이미지(assets/titles/<id>.png) 위치 — .map-card(63,604) 기준 로컬 좌표.
+// 전부 같은 크기(1080×200)인데도 이미지 안 텍스트 위치가 제각각이라 테마마다 따로 지정.
+const TAG_POS = {
+  "quiet-trail":   { left: -387, top: -44 },
+  "valley":        { left: -323, top: -44 },
+  "sunset-oreum":  { left: -323, top: -44 },
+  "walk-path":     { left: -330, top: -44 },
+  "solo-rest":     { left: -324, top: -44 },
+  "workout":       { left: -323, top: -44 },
+};
+
 // ── 초기화 ──────────────────────────────────────────
 async function init() {
   const res = await fetch("data/forests.json", { cache: "no-store" });
@@ -48,6 +59,9 @@ function openMap(theme) {
   tagImg.style.display = ""; // 이전 테마에서 로드 실패로 숨겨졌을 수 있으니 초기화
   tagImg.alt = theme.name;
   tagImg.src = `assets/titles/${theme.id}.png`;
+  const pos = TAG_POS[theme.id] || { left: -323, top: -44 };
+  tagImg.style.left = `${pos.left}px`;
+  tagImg.style.top = `${pos.top}px`;
   speak(theme.desc || "", "#speechText", "#charImg");
 
   const pins = $("#pins");

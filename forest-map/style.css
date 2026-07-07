@@ -139,12 +139,11 @@ body {
 .map-card-inner { padding: 150px 40px 40px; }
 .recommend-card-inner { padding: 115px 40px 40px; }
 
-/* 테마별로 바뀌는 제목 이미지 — detail_window.png 바로 위, 겹치지 않게 얹힘
-   (조개 아이콘+글자가 그림 안에 포함, 이미지 실제 비율(1080×200)에 맞춰 높이가 정해지므로
-   top 고정값 대신 bottom:100%로 카드 위에 붙임) */
+/* 테마별로 바뀌는 제목 이미지 — 원본 크기(1080×200) 그대로, 테마마다 다른 left/top을
+   JS(TAG_POS)에서 인라인으로 지정 (.map-card 기준 로컬 좌표) */
 .map-tag-img {
-  position: absolute; left: 0; bottom: 100%; margin-bottom: 6px; z-index: 3;
-  width: 100%; height: auto; display: block;
+  position: absolute; z-index: 3;
+  width: auto; height: auto; display: block;
 }
 
 .more-btn {
@@ -156,8 +155,8 @@ body {
   display: inline-block; font-size: .78rem; font-weight: 700; color: #386641;
   background: #fff; border: 1px solid #cfe3bd; border-radius: 999px; padding: 6px 12px;
 }
-.map-more-btn { left: 305px; top: 70px; }
-.reco-more-btn { left: 734px; top: 19px; }
+.map-more-btn { left: 320px; top: 70px; }
+.reco-more-btn { left: 736px; top: 19px; }
 
 /* 추천 숲길 패널: 처음엔 자리도 차지하지 않다가 핀 클릭 시 떠오르며 등장 */
 .recommend-card { display: none; }
@@ -231,7 +230,7 @@ body {
 }
 
 /* ── 북차사랑 캐릭터 + 말풍선 (지도 화면, 캔버스 기준 절대좌표) ── */
-.char-wrap { position: absolute; left: 500px; top: 104px; z-index: 3; }
+.char-wrap { position: absolute; left: 546px; top: 27px; z-index: 3; }
 .char-img {
   display: block; width: auto; height: auto;
   animation: breathe 3.6s ease-in-out infinite;
@@ -243,7 +242,7 @@ body {
 }
 
 /* guide_window.png에 "북차사" 이름표까지 이미 포함됨 — 원본 크기 그대로 */
-.speech-bubble { position: absolute; left: 53px; top: 132px; z-index: 2; }
+.speech-bubble { position: absolute; left: 34px; top: 214px; z-index: 2; }
 .guide-window-img { display: block; width: auto; height: auto; }
 .guide-text {
   position: absolute; left: 80px; top: 87px; width: 395px; height: 117px;
