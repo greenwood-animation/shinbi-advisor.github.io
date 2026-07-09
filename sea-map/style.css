@@ -6,6 +6,12 @@
 }
 /* 나눔고딕: 선택/지도 화면 말풍선·본문 대사용. 구글 폰트 CDN에서 불러옴 (index.html <link>) —
    로컬 ttf는 OTS(브라우저 폰트 검증기)가 레거시 VOLT 힌팅 테이블(TSI0~5)을 거부해서 사용 불가 */
+/* 210 라임체: 선택 화면 "요요 선택하기"/"치즈 선택하기" 타이틀 전용 (스펙: 라임폰트_볼드) */
+@font-face {
+  font-family: "LimeFont";
+  src: url("assets/fonts/210 라임OTF B.otf") format("opentype");
+  font-weight: 700; font-display: swap;
+}
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -82,7 +88,7 @@ body[data-screen="select"] #app { max-width: none; padding: 0; }
 /* 이름/설명: 정확한 좌표가 따로 없어서 일단 고양이 사진 위쪽에 겹치도록 임시 배치 */
 .pick-name {
   position: absolute; top: 470px; z-index: 3; text-align: center;
-  font-family: "Jalnan", system-ui, sans-serif; font-weight: 400;
+  font-family: "LimeFont", "Jalnan", system-ui, sans-serif; font-weight: 700;
   font-size: 40px; text-shadow: 0 2px 4px rgba(255, 255, 255, .8);
 }
 .pick-desc {
