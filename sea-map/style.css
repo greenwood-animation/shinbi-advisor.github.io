@@ -121,14 +121,12 @@ body[data-screen="select"] #app { max-width: none; padding: 0; }
   width: auto; height: auto; display: block; pointer-events: none;
 }
 
+/* OR 텍스트: 원 배경 없이 냥발바닥.png 위에 바로 겹쳐서 표시 (좌표는 .select-paw-print와 동일) */
 .or-badge {
-  position: absolute; left: 50%; top: 750px; z-index: 6;
-  transform: translate(-50%, -50%);
-  width: 104px; height: 104px; border-radius: 50%;
-  background: linear-gradient(160deg, #ffffff, #eaf7fb);
-  border: 3px solid #fff; box-shadow: 0 8px 20px rgba(20, 60, 75, .3);
+  position: absolute; left: 427px; top: 1033px; z-index: 4;
+  width: 226px; height: 219px; pointer-events: none;
   display: grid; place-items: center;
-  font-family: "Nanum Gothic", sans-serif; font-weight: 700; font-size: 34px; color: #1f4a57;
+  font-family: "Nanum Gothic", sans-serif; font-weight: 700; font-size: 28px; color: #1f4a57;
 }
 
 /* 하단 고정 채팅 입력창 (디자인만, 기능 없음) */
@@ -258,8 +256,6 @@ body[data-screen="select"] #app { max-width: none; padding: 0; }
 
 .map-wrap {
   position: relative; width: 100%; aspect-ratio: 2388 / 1668;
-  border-radius: 20px; overflow: hidden; box-shadow: var(--shadow);
-  background: var(--sea);
 }
 .map-bg { width: 100%; height: 100%; object-fit: cover; display: block; }
 .map-empty {

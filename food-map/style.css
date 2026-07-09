@@ -196,8 +196,6 @@ body {
 
 .map-wrap {
   position: relative; width: 100%; aspect-ratio: 3 / 2;
-  border-radius: 20px; overflow: hidden; box-shadow: var(--shadow);
-  background: var(--sea);
 }
 .map-bg { width: 100%; height: 100%; object-fit: cover; display: block; }
 .map-empty {
