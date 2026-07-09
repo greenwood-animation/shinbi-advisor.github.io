@@ -41,111 +41,108 @@ body {
 .screen.is-active { display: block; animation: fadeIn .35s ease; }
 
 /* 풀스크린에서 세로로 꽉 차게 */
-#screen-select.is-active,
 #screen-map.is-active {
   min-height: calc(100dvh - 40px);
   display: flex; flex-direction: column;
+  justify-content: center; position: relative;
 }
-#screen-map.is-active { justify-content: center; position: relative; }
 #screen-map .back-btn { position: absolute; top: 0; left: 0; z-index: 5; }
 
-/* ── 0단계: 안내자 선택 — 좌(요요)·우(치즈) 분할 화면 (1080×1920 캔버스 기준) ── */
+/* ── 0단계: 안내자 선택 — 전부 #screen-select(1080×1920) 기준 절대좌표 배치 ── */
 body[data-screen="select"] #app { max-width: none; padding: 0; }
-#screen-select.is-active {
-  min-height: 100%; position: relative; padding: 0; gap: 0;
-  display: flex; flex-direction: column;
-}
+#screen-select.is-active { min-height: 100%; position: relative; padding: 0; }
 
 /* 배경: 바다/하늘 + 하단 모래사장, 원본 아트 통째로 1장 */
 .select-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
 .select-bg img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 
-/* 상단 장식 줄(물고기·돌고래·고양이 달리기) — 원본 크기 그대로, 화면 중앙 정렬 */
-.select-deco-row {
-  position: relative; z-index: 2; align-self: center;
-  margin-top: 24px; width: 900px; max-width: 92%; height: auto; display: block;
-}
-
-/* 안내 말풍선: 말풍선_메인.png 프레임 위에 대사 텍스트를 얹음 */
-.select-intro {
-  position: relative; z-index: 3; align-self: center;
-  width: 940px; max-width: 92%; margin: 24px 0 0;
-  display: flex; align-items: center; box-sizing: border-box;
-  padding: 22px 30px 22px 74px; aspect-ratio: 5 / 1;
-}
+/* 안내 말풍선: 말풍선_메인.png 프레임(원본 크기 그대로) 위에 대사 텍스트를 얹음.
+   프레임 실제 픽셀 크기를 몰라 텍스트 박스는 1030×206(5:1) 가정 — 프레임 크기 알면 조정 */
 .select-intro-bg {
-  position: absolute; inset: 0; z-index: -1;
-  width: 100%; height: 100%; object-fit: fill;
+  position: absolute; left: 25px; top: 62px; z-index: 2;
+  width: auto; height: auto; display: block;
 }
-.select-intro .magnifier {
+.select-intro-text {
+  position: absolute; left: 25px; top: 62px; z-index: 3;
+  width: 1031px; height: 282px; box-sizing: border-box;
+  display: flex; align-items: center; padding: 0 30px 0 74px;
+}
+.select-intro-text .magnifier {
   position: absolute; left: 24px; top: 50%; transform: translateY(-50%);
   font-size: 2.4rem;
 }
-.select-intro p {
+.select-intro-text p {
   margin: 0; width: 100%;
   font-family: "NanumGothic", "Malgun Gothic", sans-serif;
-  font-size: 30px; line-height: 1.4; font-weight: 700; text-align: center;
+  font-size: 28px; line-height: 1.35; font-weight: 700; text-align: center;
   color: #3a3a6a;
 }
 
-.picks { flex: 1; display: flex; gap: 24px; overflow: hidden; position: relative; z-index: 2; padding: 32px 32px 0; }
+/* 상단 장식 줄(물고기·돌고래·고양이 달리기) — 원본 크기 그대로 */
+.select-deco-row {
+  position: absolute; left: 28px; top: 320px; z-index: 1;
+  width: auto; height: auto; display: block; pointer-events: none;
+}
+
+.picks { position: absolute; inset: 0; z-index: 2; }
+
+/* 클릭 영역: 화면 절반을 덮는 투명 버튼 — 실제 그림(이름/설명/고양이/말풍선)은 전부
+   별도 요소로 얹혀 있고 이 버튼은 히트 영역 역할만 함 */
+.guide-pick {
+  position: absolute; top: 0; bottom: 0; z-index: 5;
+  background: none; border: none; padding: 0; margin: 0; cursor: pointer;
+}
+
+/* 이름/설명: 정확한 좌표가 따로 없어서 일단 고양이 사진 위쪽에 겹치도록 임시 배치 */
+.pick-name {
+  position: absolute; top: 470px; z-index: 3; text-align: center;
+  font-family: "Jalnan", system-ui, sans-serif; font-weight: 400;
+  font-size: 40px; text-shadow: 0 2px 4px rgba(255, 255, 255, .8);
+}
+.pick-desc {
+  position: absolute; top: 535px; z-index: 3; text-align: center; box-sizing: border-box;
+  padding: 0 24px;
+  font-family: "NanumGothic", "Malgun Gothic", sans-serif;
+  font-size: 22px; line-height: 1.5; font-weight: 400; color: #1f4a57;
+  text-shadow: 0 1px 3px rgba(255, 255, 255, .8);
+}
+
+/* 고양이 메인 사진 — 원본 크기 그대로, 절대좌표 */
+.pick-cat {
+  position: absolute; z-index: 1; width: auto; height: auto; display: block;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, .28));
+}
+.pick-cat--emoji {
+  width: 400px; height: 400px; display: grid; place-items: center; font-size: 160px;
+  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, .28));
+}
+
+/* 고양이 발바닥(입) 옆 짧은 대사 — 안내자별 말풍선 프레임(요요_말풍선.png/치즈_말풍선.png) 위에
+   대사 텍스트를 얹음, 고양이 사진 위에 겹치도록 z-index를 더 높게 */
+.paw-bubble { position: absolute; z-index: 2; }
+.paw-bubble-bg { display: block; width: auto; height: auto; }
+.paw-bubble-text {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  padding: 14%; box-sizing: border-box;
+  font-family: "NanumGothic", "Malgun Gothic", sans-serif;
+  font-size: 22px; line-height: 1.3; font-weight: 400; text-align: center;
+  color: #1f4a57;
+}
+
+/* 냥발바닥(공용 장식) — 두 고양이 사진 경계에 겹치는 위치, 원본 크기 그대로 */
+.select-paw-print {
+  position: absolute; left: 427px; top: 1033px; z-index: 3;
+  width: auto; height: auto; display: block; pointer-events: none;
+}
+
 .or-badge {
-  position: absolute; left: 50%; top: 60%; z-index: 5;
+  position: absolute; left: 50%; top: 750px; z-index: 6;
   transform: translate(-50%, -50%);
   width: 104px; height: 104px; border-radius: 50%;
   background: linear-gradient(160deg, #ffffff, #eaf7fb);
   border: 3px solid #fff; box-shadow: 0 8px 20px rgba(20, 60, 75, .3);
   display: grid; place-items: center;
   font-family: "NanumGothic", sans-serif; font-weight: 700; font-size: 34px; color: #1f4a57;
-}
-
-.guide-pick {
-  flex: 1; min-width: 0; border: none; cursor: pointer; color: #1f4a57;
-  background: var(--guide-tint, rgba(255,255,255,.4));
-  border: 2px solid var(--guide-border, rgba(255,255,255,.6));
-  border-radius: 36px; backdrop-filter: blur(2px);
-  padding: 44px 20px 140px;
-  display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 18px;
-  box-shadow: 0 10px 30px rgba(20, 60, 75, .18);
-  transition: transform .18s;
-}
-.guide-pick:hover { transform: translateY(-6px); }
-
-.pick-cat {
-  width: 88%; max-width: 300px; aspect-ratio: 543 / 633;
-  background-color: transparent; background-size: contain;
-  background-position: center bottom; background-repeat: no-repeat;
-  border-radius: 0; box-shadow: none;
-  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, .28));
-}
-.pick-cat--emoji {
-  aspect-ratio: 1 / 1; display: grid; place-items: center; font-size: 160px; background: none;
-  filter: drop-shadow(0 10px 18px rgba(0, 0, 0, .28));
-}
-.pick-name {
-  font-family: "Jalnan", system-ui, sans-serif; font-weight: 400;
-  font-size: 42px; color: var(--guide, #1f4a57);
-  text-shadow: 0 2px 4px rgba(255, 255, 255, .7);
-}
-.pick-desc {
-  font-family: "NanumGothic", "Malgun Gothic", sans-serif;
-  font-size: 26px; line-height: 1.5; font-weight: 400; text-align: center;
-  max-width: 320px; color: #1f4a57;
-}
-
-/* 고양이 발바닥(입) 옆 짧은 대사 — 안내자별 말풍선 프레임(요요_말풍선.png/치즈_말풍선.png) 위에
-   대사 텍스트를 얹음. 사진 위에 살짝 겹쳐 앉도록 guide-pick 쪽에서 margin-bottom을 음수로 뺌 */
-.paw-bubble {
-  position: relative; max-width: 90%; margin-bottom: -14px; z-index: 2;
-  display: inline-flex; align-items: center; justify-content: center;
-}
-.paw-bubble-bg { display: block; width: auto; height: auto; max-width: 100%; }
-.paw-bubble-text {
-  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
-  padding: 14% 14%; box-sizing: border-box;
-  font-family: "NanumGothic", "Malgun Gothic", sans-serif;
-  font-size: 24px; line-height: 1.3; font-weight: 400; text-align: center;
-  color: #1f4a57;
 }
 
 /* 하단 고정 채팅 입력창 (디자인만, 기능 없음) */

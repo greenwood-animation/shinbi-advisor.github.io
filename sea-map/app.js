@@ -24,47 +24,48 @@ async function init() {
 }
 
 // ── 0단계: 안내자 선택 카드 ─────────────────────────
-// #hex -> rgba(): 안내자 색을 패널/말풍선 반투명 톤으로 쓰기 위한 변환
-function hexToRgba(hex, alpha) {
-  const h = hex.replace("#", "");
-  const full = h.length === 3 ? h.split("").map((c) => c + c).join("") : h;
-  const n = parseInt(full, 16);
-  return `rgba(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}, ${alpha})`;
-}
+// 안내자별 아트(고양이 메인/발바닥 말풍선) 절대좌표 — 전부 #screen-select(1080×1920) 기준,
+// 사용자가 Figma에서 읽어준 정확한 left/top 값 그대로 사용. 이름/설명 텍스트는 좌표가
+// 따로 없어서 각 고양이 사진 위쪽에 겹쳐 보이도록 임시로 배치 — 정확한 위치 받으면 조정 예정.
+const GUIDE_POS = {
+  yoyo:   { btnLeft: 0,   btnWidth: 540, catLeft: 11,  catTop: 445, pawLeft: 93,  pawTop: 896 },
+  cheese: { btnLeft: 540, btnWidth: 540, catLeft: 536, catTop: 445, pawLeft: 618, pawTop: 892 },
+};
 
 function renderPicks() {
   const wrap = $("#picks");
   wrap.innerHTML = "";
 
   DATA.guides.forEach((guide) => {
+    const pos = GUIDE_POS[guide.id] || { btnLeft: 0, btnWidth: 540, catLeft: 11, catTop: 445, pawLeft: 93, pawTop: 896 };
+
     const cat = guide.image
-      ? `<div class="pick-cat" style="background-image:url('${guide.image}'); aspect-ratio:${guide.frameAspect || "1 / 1"}"></div>`
-      : `<div class="pick-cat pick-cat--emoji">${guide.emoji || "🐱"}</div>`;
+      ? `<img class="pick-cat" src="${guide.image}" alt="${guide.name}" style="left:${pos.catLeft}px; top:${pos.catTop}px" onerror="this.style.display='none'">`
+      : `<div class="pick-cat pick-cat--emoji" style="left:${pos.catLeft}px; top:${pos.catTop}px">${guide.emoji || "🐱"}</div>`;
 
     // 발바닥 옆 말풍선: 안내자별 말풍선 프레임(요요_말풍선.png/치즈_말풍선.png) 위에 대사 텍스트를 얹음
     const pawBubble = guide.catQuote
-      ? `<div class="paw-bubble">
+      ? `<div class="paw-bubble" style="left:${pos.pawLeft}px; top:${pos.pawTop}px">
           <img class="paw-bubble-bg" src="${guide.pawBubbleImage || ""}" alt="" onerror="this.style.display='none'">
           <span class="paw-bubble-text">${guide.catQuote}</span>
         </div>`
       : "";
 
-    const pick = document.createElement("button");
-    pick.className = `guide-pick guide-pick--${guide.side}`;
-    pick.style.setProperty("--guide", guide.color);
-    pick.style.setProperty("--guide-tint", hexToRgba(guide.color, 0.22));
-    pick.style.setProperty("--guide-border", hexToRgba(guide.color, 0.55));
-    pick.innerHTML = `
-      <div class="pick-name">${guide.name} 선택하기</div>
-      <p class="pick-desc">${guide.desc || ""}</p>
+    wrap.insertAdjacentHTML("beforeend", `
+      <div class="pick-name" style="left:${pos.btnLeft}px; width:${pos.btnWidth}px; color:${guide.color}">${guide.name} 선택하기</div>
+      <p class="pick-desc" style="left:${pos.btnLeft}px; width:${pos.btnWidth}px">${guide.desc || ""}</p>
       ${pawBubble}
-      ${cat}`;
-    pick.addEventListener("click", () => selectGuide(guide));
-    wrap.appendChild(pick);
-  });
+      ${cat}
+    `);
 
-  // 각 guide-pick이 --guide/--guide-tint/--guide-border 변수로 자체 톤을 가짐
-  $("#screen-select").style.background = "";
+    // 실제 클릭 영역: 이미지 위에 얹히는 투명 버튼 (보이지 않고 해당 절반 전체를 덮음)
+    const btn = document.createElement("button");
+    btn.className = `guide-pick guide-pick--${guide.side}`;
+    btn.style.left = `${pos.btnLeft}px`;
+    btn.style.width = `${pos.btnWidth}px`;
+    btn.addEventListener("click", () => selectGuide(guide));
+    wrap.appendChild(btn);
+  });
 }
 
 // ── 안내자 확정 → 캐릭터/테마 세팅 후 지도로 ─────────
