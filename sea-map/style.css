@@ -4,6 +4,17 @@
   src: url("../food-map/assets/fonts/Jalnan2TTF.ttf") format("truetype");
   font-weight: normal; font-display: swap;
 }
+/* 나눔고딕: 선택 화면 말풍선/본문/발바닥 대사용. 폰트 파일 도착 전엔 시스템 고딕으로 폴백 */
+@font-face {
+  font-family: "NanumGothic";
+  src: url("assets/fonts/NanumGothic-Regular.ttf") format("truetype");
+  font-weight: 400; font-display: swap;
+}
+@font-face {
+  font-family: "NanumGothic";
+  src: url("assets/fonts/NanumGothic-Bold.ttf") format("truetype");
+  font-weight: 700; font-display: swap;
+}
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -38,43 +49,70 @@ body {
 #screen-map.is-active { justify-content: center; position: relative; }
 #screen-map .back-btn { position: absolute; top: 0; left: 0; z-index: 5; }
 
-/* ── 0단계: 안내자 선택 — 좌(요요)·우(치즈) 분할 화면 ───────── */
+/* ── 0단계: 안내자 선택 — 좌(요요)·우(치즈) 분할 화면 (1080×1920 캔버스 기준) ── */
 body[data-screen="select"] #app { max-width: none; padding: 0; }
-#screen-select.is-active { min-height: 100dvh; position: relative; padding: 0; gap: 0; }
+#screen-select.is-active {
+  min-height: 100%; position: relative; padding: 0; gap: 0;
+  display: flex; flex-direction: column;
+}
 
+/* 배경: 바다/하늘 + 하단 모래사장, 원본 아트 통째로 1장 */
+.select-bg { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.select-bg img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+/* 상단 장식 줄(물고기·돌고래·고양이 달리기) — 원본 크기 그대로, 화면 중앙 정렬 */
+.select-deco-row {
+  position: relative; z-index: 2; align-self: center;
+  margin-top: 24px; width: 900px; max-width: 92%; height: auto; display: block;
+}
+
+/* 안내 말풍선: 말풍선_메인.png 프레임 위에 대사 텍스트를 얹음 */
 .select-intro {
   position: relative; z-index: 3; align-self: center;
-  max-width: 620px; margin: 18px 16px 0;
-  background: #fff; border-radius: 20px; padding: 16px 22px 16px 52px;
-  font-size: 1rem; line-height: 1.55; font-weight: 700; text-align: center;
-  color: #3a3a6a; box-shadow: 0 8px 22px rgba(0, 0, 0, .18);
+  width: 940px; max-width: 92%; margin: 24px 0 0;
+  display: flex; align-items: center; box-sizing: border-box;
+  padding: 22px 30px 22px 74px; aspect-ratio: 5 / 1;
+}
+.select-intro-bg {
+  position: absolute; inset: 0; z-index: -1;
+  width: 100%; height: 100%; object-fit: fill;
 }
 .select-intro .magnifier {
-  position: absolute; left: 16px; top: 50%; transform: translateY(-50%);
-  font-size: 1.7rem;
+  position: absolute; left: 24px; top: 50%; transform: translateY(-50%);
+  font-size: 2.4rem;
+}
+.select-intro p {
+  margin: 0; width: 100%;
+  font-family: "NanumGothic", "Malgun Gothic", sans-serif;
+  font-size: 30px; line-height: 1.4; font-weight: 700; text-align: center;
+  color: #3a3a6a;
 }
 
-.picks { flex: 1; display: flex; gap: 0; overflow: hidden; position: relative; }
-@media (max-width: 560px) { .picks { flex-direction: column; } }
+.picks { flex: 1; display: flex; gap: 24px; overflow: hidden; position: relative; z-index: 2; padding: 32px 32px 0; }
+.or-badge {
+  position: absolute; left: 50%; top: 60%; z-index: 5;
+  transform: translate(-50%, -50%);
+  width: 104px; height: 104px; border-radius: 50%;
+  background: linear-gradient(160deg, #ffffff, #eaf7fb);
+  border: 3px solid #fff; box-shadow: 0 8px 20px rgba(20, 60, 75, .3);
+  display: grid; place-items: center;
+  font-family: "NanumGothic", sans-serif; font-weight: 700; font-size: 34px; color: #1f4a57;
+}
 
 .guide-pick {
-  flex: 1; border: none; cursor: pointer; color: #fff; background: var(--guide, #ccc);
-  padding: 16px 16px 44px;
-  display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 14px;
+  flex: 1; min-width: 0; border: none; cursor: pointer; color: #1f4a57;
+  background: var(--guide-tint, rgba(255,255,255,.4));
+  border: 2px solid var(--guide-border, rgba(255,255,255,.6));
+  border-radius: 36px; backdrop-filter: blur(2px);
+  padding: 44px 20px 140px;
+  display: flex; flex-direction: column; align-items: center; justify-content: flex-end; gap: 18px;
+  box-shadow: 0 10px 30px rgba(20, 60, 75, .18);
   transition: transform .18s;
 }
 .guide-pick:hover { transform: translateY(-6px); }
 
-/* 흰색 번개(Z자형) 분할선: picks 전체 기준으로 중앙에 오버레이 */
-.picks::after {
-  content: ""; position: absolute; inset: 0;
-  pointer-events: none; z-index: 4; background: #fff;
-  clip-path: polygon(48% 0, 56% 0, 56% 38%, 52% 62%, 52% 100%, 44% 100%, 44% 62%, 48% 38%);
-  filter: drop-shadow(0 0 10px rgba(255,255,255,0.6));
-}
-
 .pick-cat {
-  width: min(30vw, 300px); aspect-ratio: 543 / 633;
+  width: 88%; max-width: 300px; aspect-ratio: 543 / 633;
   background-color: transparent; background-size: contain;
   background-position: center bottom; background-repeat: no-repeat;
   border-radius: 0; box-shadow: none;
@@ -86,12 +124,47 @@ body[data-screen="select"] #app { max-width: none; padding: 0; }
 }
 .pick-name {
   font-family: "Jalnan", system-ui, sans-serif; font-weight: 400;
-  font-size: 1.5rem; color: #fff; background: #373737;
-  padding: 9px 26px; border-radius: 999px; box-shadow: 0 5px 12px rgba(0, 0, 0, .35);
+  font-size: 42px; color: var(--guide, #1f4a57);
+  text-shadow: 0 2px 4px rgba(255, 255, 255, .7);
 }
 .pick-desc {
-  font-size: .92rem; line-height: 1.55; font-weight: 700; text-align: center;
-  max-width: 300px; color: #fff; text-shadow: 0 1px 3px rgba(0, 0, 0, .3);
+  font-family: "NanumGothic", "Malgun Gothic", sans-serif;
+  font-size: 26px; line-height: 1.5; font-weight: 400; text-align: center;
+  max-width: 320px; color: #1f4a57;
+}
+
+/* 고양이 발바닥(입) 옆 짧은 대사 — 안내자별 말풍선 프레임(요요_말풍선.png/치즈_말풍선.png) 위에
+   대사 텍스트를 얹음. 사진 위에 살짝 겹쳐 앉도록 guide-pick 쪽에서 margin-bottom을 음수로 뺌 */
+.paw-bubble {
+  position: relative; max-width: 90%; margin-bottom: -14px; z-index: 2;
+  display: inline-flex; align-items: center; justify-content: center;
+}
+.paw-bubble-bg { display: block; width: auto; height: auto; max-width: 100%; }
+.paw-bubble-text {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  padding: 14% 14%; box-sizing: border-box;
+  font-family: "NanumGothic", "Malgun Gothic", sans-serif;
+  font-size: 24px; line-height: 1.3; font-weight: 400; text-align: center;
+  color: #1f4a57;
+}
+
+/* 하단 고정 채팅 입력창 (디자인만, 기능 없음) */
+.menu-chatbar {
+  position: fixed; left: 0; bottom: 0; width: 1080px; z-index: 10;
+  padding: 20px 28px 30px; box-sizing: border-box;
+  display: flex; align-items: center; gap: 14px;
+}
+.chat-send-icon {
+  flex: none; width: 60px; height: 60px; border-radius: 50%;
+  background: #4fb8d1; display: grid; place-items: center;
+  box-shadow: 0 4px 10px rgba(20, 60, 75, .3);
+}
+.chat-placeholder {
+  flex: 1; height: 60px; border-radius: 999px; background: #fff;
+  display: flex; align-items: center; padding: 0 26px;
+  font-family: "NanumGothic", "Malgun Gothic", sans-serif;
+  font-size: 22px; font-weight: 400; color: #9fb3ba;
+  box-shadow: 0 4px 12px rgba(20, 60, 75, .15);
 }
 
 @keyframes fadeIn {
@@ -322,10 +395,11 @@ body[data-screen="map"] #screen-map.is-active { display: block; min-height: 100d
 body[data-screen="map"] .map-head { display: none; }
 body[data-screen="map"] .back-btn { top: 12px; left: 12px; z-index: 6; }
 
-/* 지도: 우측, 실제 이미지 비율(2388/1668)로 */
+/* 지도: 상단 중앙, 실제 이미지 비율(2388/1668)로.
+   ※ 임시 배치 — 지도 아트 확정되면 forest-map처럼 map-card 방식으로 다시 잡을 예정 */
 body[data-screen="map"] .map-wrap {
-  position: absolute; top: 50%; right: 2vw; transform: translateY(-50%);
-  width: min(58vw, 880px); aspect-ratio: 2388 / 1668;
+  position: absolute; left: 50%; top: 140px; transform: translateX(-50%);
+  width: 940px; aspect-ratio: 2388 / 1668;
   background: none; box-shadow: none; border-radius: 0; overflow: visible;
 }
 body[data-screen="map"] .map-bg {
@@ -333,12 +407,13 @@ body[data-screen="map"] .map-bg {
   filter: drop-shadow(0 8px 20px rgba(0, 0, 0, .22));
 }
 
-/* 캐릭터+말풍선: 좌측 세로 */
+/* 캐릭터+말풍선: 지도 아래 가로 배치 (임시) */
 body[data-screen="map"] #charStage {
-  flex-direction: column; align-items: flex-start; justify-content: space-between;
-  left: 2vw; top: 16px; bottom: 0; gap: 12px; max-width: 360px;
+  flex-direction: row; align-items: flex-end; justify-content: center;
+  left: 50%; top: 920px; bottom: auto; transform: translateX(-50%);
+  gap: 20px; max-width: 940px; width: 940px;
 }
-body[data-screen="map"] .char-img { width: min(26vw, 320px); }
+body[data-screen="map"] .char-img { width: 260px; }
 
 /* 말풍선: 연한 풍선 + 따옴표, 꼬리는 아래로 */
 body[data-screen="map"] .speech-bubble {
@@ -357,15 +432,15 @@ body[data-screen="map"] .speech-bubble::after {
 }
 
 
-/* ══ 1920×1080 고정 해상도 ══════════════════════════════ */
+/* ══ 1080×1920 고정 해상도(세로) — food-map/forest-map과 동일 ═══════════ */
 html, body {
   width: 100vw; height: 100vh; overflow: hidden;
   display: flex; align-items: center; justify-content: center;
-  background: #000;
+  background: #0b2733; /* PC 등 캔버스 밖 여백 */
   min-height: unset;
 }
 #app {
-  width: 1920px !important; height: 1080px !important;
+  width: 1080px !important; height: 1920px !important;
   max-width: unset !important; min-height: unset !important;
   margin: 0 !important; padding: 0 !important;
   flex-shrink: 0; overflow: hidden;

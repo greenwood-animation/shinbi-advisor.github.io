@@ -4,18 +4,34 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>신비할망의 바당 지도</title>
-  <link rel="stylesheet" href="style.css?v=2" />
+  <link rel="stylesheet" href="style.css?v=4" />
 </head>
 <body>
   <div id="app">
 
     <!-- ── 0단계: 안내자(고양이) 선택 ──────────────────── -->
     <section id="screen-select" class="screen is-active">
+      <div class="select-bg" aria-hidden="true">
+        <img src="assets/background_sea_main.png" alt="" onerror="this.style.display='none'" />
+      </div>
+
+      <img class="select-deco-row" src="assets/고양이 달리기.png" alt="" onerror="this.style.display='none'" />
+
       <div class="select-intro">
+        <img class="select-intro-bg" src="assets/말풍선_메인.png" alt="" onerror="this.style.display='none'" />
         <span class="magnifier">🔍</span>
         <p id="selectIntroText"></p>
       </div>
+
       <div class="picks" id="picks"></div>
+      <div class="or-badge">OR</div>
+
+      <div class="menu-chatbar">
+        <span class="chat-send-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="#fff"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+        </span>
+        <span class="chat-placeholder">궁금한 걸 물어보세요</span>
+      </div>
     </section>
 
     <!-- ── 1단계: 제주 바다 지도 + 핀 ─────────────────── -->
@@ -45,6 +61,6 @@
     </div>
 
   </div>
-  <script src="app.js?v=2"></script>
+  <script src="app.js?v=4"></script>
 </body>
 </html>

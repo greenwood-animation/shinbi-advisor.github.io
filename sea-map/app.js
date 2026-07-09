@@ -24,6 +24,14 @@ async function init() {
 }
 
 // ── 0단계: 안내자 선택 카드 ─────────────────────────
+// #hex -> rgba(): 안내자 색을 패널/말풍선 반투명 톤으로 쓰기 위한 변환
+function hexToRgba(hex, alpha) {
+  const h = hex.replace("#", "");
+  const full = h.length === 3 ? h.split("").map((c) => c + c).join("") : h;
+  const n = parseInt(full, 16);
+  return `rgba(${(n >> 16) & 255}, ${(n >> 8) & 255}, ${n & 255}, ${alpha})`;
+}
+
 function renderPicks() {
   const wrap = $("#picks");
   wrap.innerHTML = "";
@@ -33,18 +41,29 @@ function renderPicks() {
       ? `<div class="pick-cat" style="background-image:url('${guide.image}'); aspect-ratio:${guide.frameAspect || "1 / 1"}"></div>`
       : `<div class="pick-cat pick-cat--emoji">${guide.emoji || "🐱"}</div>`;
 
+    // 발바닥 옆 말풍선: 안내자별 말풍선 프레임(요요_말풍선.png/치즈_말풍선.png) 위에 대사 텍스트를 얹음
+    const pawBubble = guide.catQuote
+      ? `<div class="paw-bubble">
+          <img class="paw-bubble-bg" src="${guide.pawBubbleImage || ""}" alt="" onerror="this.style.display='none'">
+          <span class="paw-bubble-text">${guide.catQuote}</span>
+        </div>`
+      : "";
+
     const pick = document.createElement("button");
     pick.className = `guide-pick guide-pick--${guide.side}`;
     pick.style.setProperty("--guide", guide.color);
+    pick.style.setProperty("--guide-tint", hexToRgba(guide.color, 0.22));
+    pick.style.setProperty("--guide-border", hexToRgba(guide.color, 0.55));
     pick.innerHTML = `
-      ${cat}
       <div class="pick-name">${guide.name} 선택하기</div>
-      <p class="pick-desc">${guide.desc || ""}</p>`;
+      <p class="pick-desc">${guide.desc || ""}</p>
+      ${pawBubble}
+      ${cat}`;
     pick.addEventListener("click", () => selectGuide(guide));
     wrap.appendChild(pick);
   });
 
-  // 각 guide-pick이 --guide 변수로 자체 배경색을 가짐 (CSS clip-path로 번개 분할)
+  // 각 guide-pick이 --guide/--guide-tint/--guide-border 변수로 자체 톤을 가짐
   $("#screen-select").style.background = "";
 }
 
@@ -169,9 +188,9 @@ function showScreen(name) {
 
 init();
 
-// ── 1920×1080 고정 스케일 ─────────────────────────────
+// ── 1080×1920 고정 스케일 ─────────────────────────────
 function fitScreen() {
-  const s = Math.min(window.innerWidth / 1920, window.innerHeight / 1080);
+  const s = Math.min(window.innerWidth / 1080, window.innerHeight / 1920);
   document.getElementById("app").style.transform = `scale(${s})`;
 }
 window.addEventListener("resize", fitScreen);
