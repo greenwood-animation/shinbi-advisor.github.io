@@ -87,9 +87,9 @@ body[data-screen="select"] #app { max-width: none; padding: 0; }
 }
 .pick-desc {
   position: absolute; top: 535px; z-index: 3; text-align: center; box-sizing: border-box;
-  padding: 0 24px;
+  padding: 0 34px;
   font-family: "Nanum Gothic", "Malgun Gothic", sans-serif;
-  font-size: 22px; line-height: 1.5; font-weight: 400; color: #1f4a57;
+  font-size: 21px; line-height: 1.55; font-weight: 400; color: #1f4a57;
   text-shadow: 0 1px 3px rgba(255, 255, 255, .8);
 }
 

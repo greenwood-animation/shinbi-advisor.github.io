@@ -25,16 +25,18 @@ async function init() {
 // 사용자가 Figma에서 읽어준 정확한 left/top 값 그대로 사용. 이름/설명 텍스트는 좌표가
 // 따로 없어서 각 고양이 사진 위쪽에 겹쳐 보이도록 임시로 배치 — 정확한 위치 받으면 조정 예정.
 const GUIDE_POS = {
-  yoyo:   { btnLeft: 0,   btnWidth: 540, catLeft: 11,  catTop: 445, pawLeft: 93,  pawTop: 896 },
-  cheese: { btnLeft: 540, btnWidth: 540, catLeft: 536, catTop: 445, pawLeft: 618, pawTop: 892 },
+  yoyo:   { catLeft: 11,  catTop: 445, pawLeft: 93,  pawTop: 896 },
+  cheese: { catLeft: 536, catTop: 445, pawLeft: 618, pawTop: 892 },
 };
+const CAT_WIDTH = 533; // 이름/설명 텍스트를 고양이 사진과 같은 폭·좌우 위치로 정렬
 
 function renderPicks() {
   const wrap = $("#picks");
   wrap.innerHTML = "";
 
   DATA.guides.forEach((guide) => {
-    const pos = GUIDE_POS[guide.id] || { btnLeft: 0, btnWidth: 540, catLeft: 11, catTop: 445, pawLeft: 93, pawTop: 896 };
+    const pos = GUIDE_POS[guide.id] || { catLeft: 11, catTop: 445, pawLeft: 93, pawTop: 896 };
+    const btnLeft = guide.side === "calm" ? 0 : 540;
 
     const cat = guide.image
       ? `<img class="pick-cat" src="${guide.image}" alt="${guide.name}" style="left:${pos.catLeft}px; top:${pos.catTop}px" onerror="this.style.display='none'">`
@@ -48,9 +50,10 @@ function renderPicks() {
         </div>`
       : "";
 
+    // 이름/설명은 버튼(클릭 영역, 화면 절반)이 아니라 고양이 사진과 같은 폭·좌표에 맞춰 배치
     wrap.insertAdjacentHTML("beforeend", `
-      <div class="pick-name" style="left:${pos.btnLeft}px; width:${pos.btnWidth}px; color:${guide.color}">${guide.name} 선택하기</div>
-      <p class="pick-desc" style="left:${pos.btnLeft}px; width:${pos.btnWidth}px">${guide.desc || ""}</p>
+      <div class="pick-name" style="left:${pos.catLeft}px; width:${CAT_WIDTH}px; color:${guide.color}">${guide.name} 선택하기</div>
+      <p class="pick-desc" style="left:${pos.catLeft}px; width:${CAT_WIDTH}px">${guide.desc || ""}</p>
       ${pawBubble}
       ${cat}
     `);
@@ -58,8 +61,8 @@ function renderPicks() {
     // 실제 클릭 영역: 이미지 위에 얹히는 투명 버튼 (보이지 않고 해당 절반 전체를 덮음)
     const btn = document.createElement("button");
     btn.className = `guide-pick guide-pick--${guide.side}`;
-    btn.style.left = `${pos.btnLeft}px`;
-    btn.style.width = `${pos.btnWidth}px`;
+    btn.style.left = `${btnLeft}px`;
+    btn.style.width = "540px";
     btn.addEventListener("click", () => selectGuide(guide));
     wrap.appendChild(btn);
   });
