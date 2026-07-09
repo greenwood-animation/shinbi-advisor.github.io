@@ -18,9 +18,6 @@ async function init() {
   document.querySelectorAll("[data-back]").forEach((btn) =>
     btn.addEventListener("click", () => showScreen(btn.dataset.back))
   );
-
-  $("#detailClose").addEventListener("click", closeDetail);
-  $("#overlay").addEventListener("click", closeDetail);
 }
 
 // ── 0단계: 안내자 선택 카드 ─────────────────────────
@@ -68,7 +65,7 @@ function renderPicks() {
   });
 }
 
-// ── 안내자 확정 → 캐릭터/테마 세팅 후 지도로 ─────────
+// ── 안내자 확정 → 지도로 ─────────────────────────────
 function selectGuide(guide) {
   currentGuide = guide;
   document.body.dataset.guide = guide.id; // 안내자별 지도 배경 (yoyo/cheese)
@@ -76,26 +73,34 @@ function selectGuide(guide) {
   // 강조색을 안내자 색으로 교체
   document.documentElement.style.setProperty("--accent", guide.color);
 
-  // 캐릭터 이미지 세팅 (스프라이트 or 이모지 폴백)
-  const img = $("#charImg");
-  if (guide.image) {
-    img.style.backgroundImage = `url('${guide.image}')`;
-    img.style.aspectRatio = guide.frameAspect || "1 / 1";
-    img.classList.remove("char-img--emoji");
-    img.textContent = "";
-  } else {
-    img.style.backgroundImage = "none";
-    img.style.aspectRatio = "1 / 1";
-    img.classList.add("char-img--emoji");
-    img.textContent = guide.emoji || "🐱";
-  }
-
   openMap(guide);
 }
 
+// 안내자별 말풍선/캐릭터 절대좌표 — 전부 #screen-map(1080×1920) 기준, 사용자가 Figma에서
+// 읽어준 정확한 left/top 값 그대로 사용.
+const MAP_POS = {
+  yoyo:   { bubbleLeft: 53, bubbleTop: 119, charLeft: 521, charTop: 119 },
+  cheese: { bubbleLeft: 53, bubbleTop: 118, charLeft: 517, charTop: 115 },
+};
+
 // ── 1단계: 제주 바다 지도 + 핀 ──────────────────────
 function openMap(guide) {
-  $("#mapMenuName").textContent = guide.mapTitle || guide.name;
+  const pos = MAP_POS[guide.id] || MAP_POS.yoyo;
+
+  $("#mapMenuName").textContent = `${guide.mapTitle || guide.name} 지도`;
+
+  // 캐릭터 (원본 크기 그대로, 안내자별 절대좌표)
+  const charImg = $("#charImg");
+  charImg.src = guide.mapCharImage || guide.image || "";
+  charImg.style.left = `${pos.charLeft}px`;
+  charImg.style.top = `${pos.charTop}px`;
+
+  // 말풍선 프레임 (안내자별 이미지) + 좌표
+  const bubble = $("#mapSpeechBubble");
+  bubble.style.left = `${pos.bubbleLeft}px`;
+  bubble.style.top = `${pos.bubbleTop}px`;
+  $("#mapSpeechBg").src = guide.mapBubbleImage || "";
+
   speak(guide.mapIntro || "");
 
   const pins = $("#pins");
@@ -115,39 +120,43 @@ function openMap(guide) {
     pins.appendChild(pin);
   });
 
+  // 새 안내자로 들어오면 추천 명소 패널은 핀을 클릭하기 전까지 비워둠
+  $("#recommendList").innerHTML = "";
+  $(".reco-panel").classList.remove("is-open");
+
   showScreen("map");
 }
 
-// ── 2단계: 바다 상세 ────────────────────────────────
+// ── 2단계: 바다 상세 (지도 핀 클릭 시 추천 명소 패널에 표시) ──
 function openDetail(s) {
   const photo = s.photo
-    ? `<img class="detail-photo" src="${s.photo}" alt="${s.name}">`
-    : `<div class="detail-photo placeholder">🌊</div>`;
+    ? `<img class="reco-photo" src="${s.photo}" alt="${s.name}">`
+    : `<div class="reco-photo placeholder">🌊</div>`;
 
-  const tags = (s.tags || [])
-    .map((t) => `<span class="tag-chip">${t}</span>`)
-    .join("");
+  const tags = (s.tags || []).slice(0, 3).map((t) => `<span class="reco-tag">${t}</span>`).join("");
 
-  $("#detailBody").innerHTML = `
-    ${photo}
-    <div class="detail-name">${s.name}</div>
-    ${s.rating ? `<div class="detail-rating">★ ${s.rating}</div>` : ""}
-    ${tags ? `<div class="tag-row">${tags}</div>` : ""}
-    <div class="detail-info">
-      ${s.address ? `<div class="row"><span class="ic">📍</span><span>${s.address}</span></div>` : ""}
-      ${s.hours ? `<div class="row"><span class="ic">🕒</span><span>${s.hours}</span></div>` : ""}
+  $("#recommendList").innerHTML = `
+    <div class="reco-card"${s.naverPlaceUrl ? ' role="link" tabindex="0"' : ""}>
+      <img class="reco-item-bg" src="assets/공통_지도패널_상세_명소.png" alt="" onerror="this.style.display='none'">
+      <div class="reco-card-inner">
+        ${photo}
+        <div class="reco-body">
+          <div class="reco-name">${s.name}</div>
+          <div class="reco-meta">📍 ${s.address || ""} ${s.hours ? "· " + s.hours : ""}</div>
+          <div class="reco-tags">${tags}</div>
+        </div>
+      </div>
     </div>
-    ${s.desc ? `<blockquote class="detail-quote">${s.desc}</blockquote>` : ""}
-    ${s.naverPlaceUrl ? `<a class="naver-btn" href="${s.naverPlaceUrl}" target="_blank" rel="noopener">네이버 지도에서 보기 →</a>` : ""}
   `;
 
-  $("#detailPanel").classList.add("is-open");
-  $("#overlay").classList.add("is-open");
-}
+  if (s.naverPlaceUrl) {
+    $(".reco-card").addEventListener("click", () => window.open(s.naverPlaceUrl, "_blank", "noopener"));
+  }
 
-function closeDetail() {
-  $("#detailPanel").classList.remove("is-open");
-  $("#overlay").classList.remove("is-open");
+  const panel = $(".reco-panel");
+  panel.classList.remove("is-open");
+  void panel.offsetWidth; // 리플로우 후 클래스 재적용 → 다시 열어도 애니메이션 보임
+  panel.classList.add("is-open");
 }
 
 // ── 안내자 말하기 (타이핑 + 입 모션) ─────────────────
@@ -163,7 +172,7 @@ function speak(text) {
   img.classList.add("talking");
   const cursor = document.createElement("span");
   cursor.className = "cursor";
-  $("#speechBubble").appendChild(cursor);
+  span.parentElement.appendChild(cursor);
 
   let i = 0;
   speakTimer = setInterval(() => {
@@ -182,9 +191,6 @@ function showScreen(name) {
   $(`#screen-${name}`).classList.add("is-active");
   document.body.dataset.screen = name; // 화면별 장식 배경 적용용
   window.scrollTo({ top: 0, behavior: "smooth" });
-
-  // 선택 화면에서는 하단 캐릭터 숨김 (양쪽 고양이를 크게 보여주므로)
-  $("#charStage").style.display = name === "select" ? "none" : "flex";
 }
 
 init();

@@ -40,13 +40,8 @@ body {
 .screen { display: none; }
 .screen.is-active { display: block; animation: fadeIn .35s ease; }
 
-/* 풀스크린에서 세로로 꽉 차게 */
-#screen-map.is-active {
-  min-height: calc(100dvh - 40px);
-  display: flex; flex-direction: column;
-  justify-content: center; position: relative;
-}
-#screen-map .back-btn { position: absolute; top: 0; left: 0; z-index: 5; }
+/* 지도 화면도 선택 화면과 동일하게 #screen-map(1080×1920) 기준 절대좌표 배치 */
+#screen-map.is-active { min-height: 100%; position: relative; }
 
 /* ── 0단계: 안내자 선택 — 전부 #screen-select(1080×1920) 기준 절대좌표 배치 ── */
 body[data-screen="select"] #app { max-width: none; padding: 0; }
@@ -203,20 +198,72 @@ body[data-screen="select"] #app { max-width: none; padding: 0; }
 .menu-thumb img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
 .menu-name { font-size: .82rem; font-weight: 700; color: var(--accent); }
 
-/* ── 2단계: 지도 ────────────────────────────────────── */
+/* ── 1단계: 제주 바다 지도 (전부 #screen-map(1080×1920) 기준 절대좌표) ── */
+.map-bg-full { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+.map-bg-full img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
 .back-btn {
-  background: #fff; border: none; border-radius: 999px; padding: 8px 16px;
-  font-size: .85rem; font-weight: 700; color: var(--ink); cursor: pointer;
-  box-shadow: var(--shadow); margin-bottom: 12px;
+  position: absolute; left: 20px; top: 20px; z-index: 10;
+  background: #fff; border: none; border-radius: 999px; padding: 10px 18px;
+  font-size: 16px; font-weight: 700; color: var(--ink); cursor: pointer;
+  box-shadow: var(--shadow);
 }
 .back-btn:hover { background: #f0f9ff; }
 
-.map-head { text-align: center; margin-bottom: 12px; }
-.map-title { font-size: 1.3rem; font-weight: 800; }
-.map-desc {
-  margin-top: 8px; font-size: .88rem; line-height: 1.5; color: #4a6a82;
-  background: rgba(255,255,255,.7); border-radius: 14px; padding: 10px 14px;
+/* 안내자별 말풍선 프레임(말풍선_요요.png/말풍선_치즈.png) — 원본 크기 그대로,
+   JS(MAP_POS)가 안내자별 좌표 지정. 내부 텍스트 박스는 정확한 좌표 없어 %패딩으로 추정 배치 */
+.map-speech-bubble { position: absolute; z-index: 3; }
+.map-speech-bg { display: block; width: auto; height: auto; }
+.map-speech-text {
+  position: absolute; inset: 0; margin: 0; box-sizing: border-box;
+  padding: 24% 16% 30%;
+  font-family: "NanumGothic", "Malgun Gothic", sans-serif;
+  font-size: 24px; line-height: 1.5; font-weight: 700; text-align: center; color: #1f4a57;
 }
+.map-speech-text .cursor {
+  display: inline-block; width: 2px; height: 1em; vertical-align: text-bottom;
+  background: var(--accent); margin-left: 1px; animation: blink .8s steps(1) infinite;
+}
+@keyframes blink { 0%, 50% { opacity: 1; } 50.01%, 100% { opacity: 0; } }
+
+/* 안내자별 캐릭터(요요_바다맵.png/치즈_바다맵.png) — 원본 크기 그대로, JS가 안내자별 좌표 지정 */
+.map-char-img {
+  position: absolute; z-index: 2; width: auto; height: auto; display: block;
+  animation: breathe 3.6s ease-in-out infinite;
+}
+.map-char-img.talking { animation: breathe 1.8s ease-in-out infinite; }
+@keyframes breathe {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-4px); }
+}
+
+/* 지도 패널: 공통_지도패널.png(원본 크기 그대로) 위에 타이틀 아이콘/제목/지도를 얹음.
+   내부 지도 여백·더보기 버튼 위치는 정확한 좌표가 아직 없어서 임시 배치 — 받으면 조정 예정 */
+.map-panel { position: absolute; left: 53px; top: 595px; z-index: 1; }
+.map-panel-bg { display: block; width: auto; height: auto; }
+.map-panel-icon { position: absolute; left: 28px; top: 27px; z-index: 2; width: auto; height: auto; display: block; }
+.map-panel-title {
+  position: absolute; left: 80px; top: 24px; z-index: 2; margin: 0;
+  font-family: "Jalnan", system-ui, sans-serif; font-weight: 400;
+  font-size: 32px; color: #2b4a52;
+}
+.map-panel-inner, .reco-panel-inner {
+  position: absolute; inset: 0; overflow: hidden;
+  display: flex; flex-direction: column;
+}
+.map-panel-inner { padding: 150px 40px 40px; }
+.reco-panel-inner { padding: 115px 40px 40px; }
+
+.more-btn {
+  position: absolute; z-index: 2; background: none; border: none; padding: 0; cursor: pointer; line-height: 0;
+}
+.more-btn img { display: block; width: auto; height: auto; }
+.more-btn-fallback {
+  display: inline-block; font-size: .78rem; font-weight: 700; color: var(--ink);
+  background: #fff; border: 1px solid var(--sea); border-radius: 999px; padding: 6px 12px;
+}
+.map-more-btn { right: 30px; top: 30px; }
+.reco-more-btn { right: 30px; top: 30px; }
 
 .map-wrap {
   position: relative; width: 100%; aspect-ratio: 2388 / 1668;
@@ -256,178 +303,42 @@ body[data-screen="select"] #app { max-width: none; padding: 0; }
   100% { opacity: 1; transform: translate(-50%, -100%); }
 }
 
-/* ── 3단계: 상세 패널 ───────────────────────────────── */
-.overlay {
-  position: fixed; inset: 0; background: rgba(20,40,60,.45);
-  opacity: 0; pointer-events: none; transition: opacity .3s; z-index: 20;
+/* ── 2단계: 추천 명소 패널 — 공통_지도패널_상세.png, 핀 클릭 시 카드가 뜸 ──
+   처음엔 자리도 차지하지 않다가 핀 클릭 시 떠오르며 등장 (forest-map과 동일 패턴) */
+.reco-panel { position: absolute; left: 53px; top: 1253px; z-index: 1; display: none; }
+.reco-panel.is-open { display: block; animation: recoPopIn .4s ease forwards; }
+@keyframes recoPopIn {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
-.overlay.is-open { opacity: 1; pointer-events: auto; }
+.reco-panel-bg { display: block; width: auto; height: auto; }
+.recommend-list { flex: 1; min-height: 0; overflow-y: auto; }
 
-.detail-panel {
-  position: fixed; top: 0; right: 0; width: min(420px, 92vw); height: 100%;
-  background: #fff; box-shadow: -8px 0 24px rgba(0,0,0,.2); z-index: 30;
-  transform: translateX(100%); transition: transform .32s cubic-bezier(.4,0,.2,1);
-  overflow-y: auto; padding: 24px 20px;
+.reco-card { position: relative; }
+.reco-card[role="link"] { cursor: pointer; }
+.reco-card[role="link"]:hover .reco-item-bg { filter: brightness(1.03); }
+.reco-item-bg { display: block; width: 100%; height: auto; }
+.reco-card-inner {
+  position: absolute; inset: 0; padding: 14px 18px;
+  display: flex; align-items: center; gap: 14px;
 }
-.detail-panel.is-open { transform: translateX(0); }
-
-.detail-close {
-  position: absolute; top: 12px; right: 14px; border: none; background: none;
-  font-size: 1.8rem; line-height: 1; color: #99aab8; cursor: pointer;
+.reco-photo {
+  width: 130px; height: 130px; flex: none; border-radius: 14px; object-fit: cover;
+  background: var(--sea);
 }
-.detail-name { font-size: 1.4rem; font-weight: 800; margin-bottom: 4px; }
-.detail-rating { color: #ff9f1a; font-weight: 700; font-size: .9rem; margin-bottom: 14px; }
-.detail-photo {
-  width: 100%; aspect-ratio: 16/10; border-radius: 14px; object-fit: cover;
-  background: var(--sea); margin-bottom: 16px;
-}
-.detail-photo.placeholder { display: grid; place-items: center; font-size: 2.4rem; color: var(--sea-deep); }
-
-.detail-info { font-size: .9rem; line-height: 1.7; }
-.detail-info .row { display: flex; gap: 8px; margin-bottom: 4px; }
-.detail-info .row .ic { width: 18px; flex: none; }
-
-/* 태그 칩 (난이도/거리/소요시간 등) */
-.tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 14px; }
-.tag-chip {
-  font-size: .76rem; font-weight: 700; color: #3a5a64;
-  background: #eaf3f6; border-radius: 999px; padding: 3px 10px;
-}
-
-/* 안내자 한마디 (인용구) */
-.detail-quote {
-  margin-top: 16px; padding: 12px 14px; border-left: 3px solid var(--accent);
-  background: #eef6f8; border-radius: 0 12px 12px 0;
-  font-size: .9rem; line-height: 1.6; color: #36474d; font-style: italic;
-}
-
-.naver-btn {
-  display: block; text-align: center; margin-top: 20px; padding: 12px;
-  background: #03c75a; color: #fff; font-weight: 800; border-radius: 12px;
-  text-decoration: none;
-}
-.naver-btn:hover { background: #02b350; }
-
-/* ── 안내자 캐릭터 + 말풍선 ──────────────────────────── */
-.char-stage {
-  position: fixed; left: max(16px, calc(50vw - 380px + 8px)); bottom: 0;
-  z-index: 15; display: flex; align-items: flex-end; gap: 8px;
-  pointer-events: none;
-}
-
-.char-img {
-  width: 150px; flex: none; aspect-ratio: 1 / 1;   /* 비율은 JS가 안내자별로 지정 */
-  background-repeat: no-repeat; background-size: contain;
-  background-position: center bottom;       /* 단일 이미지 전체 표시 */
-  border-radius: 18px 18px 0 0;
-  filter: drop-shadow(0 4px 12px rgba(20, 60, 75, .26));
-  animation: breathe 3.6s ease-in-out infinite;
-}
-/* 치즈처럼 스프라이트가 없을 때 이모지 폴백 */
-.char-img--emoji {
-  display: grid; place-items: center; font-size: 104px; line-height: 1;
-  background: rgba(255,255,255,.55); backdrop-filter: blur(2px);
-}
-/* 말하는 중: 입을 빠르게 여닫음 (왼/오 프레임 토글) */
-.char-img.talking {
-  animation: breathe 1.8s ease-in-out infinite; /* 말할 때 살짝 빠른 들썩임 (단일 이미지) */
-}
-@keyframes mouthFlap {
-  0%   { background-position: 0% 0%; }    /* 다문 */
-  50%  { background-position: 100% 0%; }   /* 벌린 */
-  100% { background-position: 0% 0%; }
-}
-@keyframes breathe {
-  0%, 100% { transform: translateY(0); }
-  50%      { transform: translateY(-4px); }
-}
-
-.speech-bubble {
-  position: relative; max-width: 230px; margin-bottom: 70px;
-  background: #fff; border-radius: 16px; padding: 11px 14px;
-  font-size: .84rem; line-height: 1.45; color: var(--ink);
-  box-shadow: var(--shadow); min-height: 1em;
-}
-/* 꼬리 (캐릭터 쪽으로) */
-.speech-bubble::after {
-  content: ""; position: absolute; bottom: 14px; right: -8px;
-  border: 8px solid transparent; border-left-color: #fff; border-right: 0;
-}
-/* 타이핑 커서 */
-.speech-bubble .cursor {
-  display: inline-block; width: 2px; height: 1em; vertical-align: text-bottom;
-  background: var(--accent); margin-left: 1px; animation: blink .8s steps(1) infinite;
-}
-@keyframes blink { 0%, 50% { opacity: 1; } 50.01%, 100% { opacity: 0; } }
-
-@media (max-width: 560px) {
-  .char-stage { left: 8px; }
-  .char-img { width: 112px; }
-  .speech-bubble { max-width: 180px; margin-bottom: 56px; font-size: .8rem; }
+.reco-photo.placeholder { display: grid; place-items: center; font-size: 2rem; color: var(--sea-deep); }
+.reco-body { min-width: 0; }
+.reco-name { font-weight: 800; font-size: 1.2rem; color: var(--ink); }
+.reco-meta { font-size: .92rem; color: #4a6a82; margin-top: 4px; }
+.reco-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.reco-tag {
+  font-size: .85rem; font-weight: 700; color: var(--ink); background: #fff;
+  border: 1px solid var(--sea); border-radius: 999px; padding: 4px 12px;
 }
 
 /* ── 화면별 장식 배경 ─────────────────────────────────── */
-body[data-screen="select"] {
-  background-color: #cdeef6;
-  background-image: url("assets/bg-select.png");
-  background-size: cover; background-position: center;
-  background-repeat: no-repeat; background-attachment: fixed;
-}
-body[data-screen="map"][data-guide="yoyo"] {
-  background-color: #bfe3ea;
-  background-image: url("assets/bg-map-yoyo.png");
-  background-size: cover; background-position: center;
-  background-repeat: no-repeat; background-attachment: fixed;
-}
-body[data-screen="map"][data-guide="cheese"] {
-  background-color: #f5ddd0;
-  background-image: url("assets/bg-map-cheese.png");
-  background-size: cover; background-position: center;
-  background-repeat: no-repeat; background-attachment: fixed;
-}
-
-/* ═══ 지도 씬: 바다 배경 + 지도 우측 + 말풍선/캐릭터 좌측 ═══════════ */
-body[data-screen="map"] #app { max-width: none; padding: 0; }
-body[data-screen="map"] #screen-map.is-active { display: block; min-height: 100dvh; }
-body[data-screen="map"] .map-head { display: none; }
-body[data-screen="map"] .back-btn { top: 12px; left: 12px; z-index: 6; }
-
-/* 지도: 상단 중앙, 실제 이미지 비율(2388/1668)로.
-   ※ 임시 배치 — 지도 아트 확정되면 forest-map처럼 map-card 방식으로 다시 잡을 예정 */
-body[data-screen="map"] .map-wrap {
-  position: absolute; left: 50%; top: 140px; transform: translateX(-50%);
-  width: 940px; aspect-ratio: 2388 / 1668;
-  background: none; box-shadow: none; border-radius: 0; overflow: visible;
-}
-body[data-screen="map"] .map-bg {
-  object-fit: contain;
-  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, .22));
-}
-
-/* 캐릭터+말풍선: 지도 아래 가로 배치 (임시) */
-body[data-screen="map"] #charStage {
-  flex-direction: row; align-items: flex-end; justify-content: center;
-  left: 50%; top: 920px; bottom: auto; transform: translateX(-50%);
-  gap: 20px; max-width: 940px; width: 940px;
-}
-body[data-screen="map"] .char-img { width: 260px; }
-
-/* 말풍선: 연한 풍선 + 따옴표, 꼬리는 아래로 */
-body[data-screen="map"] .speech-bubble {
-  max-width: 340px; margin: 0; padding: 24px 22px 20px;
-  background: rgba(255, 255, 255, .93); border-radius: 22px;
-  font-size: 1rem; line-height: 1.6; font-weight: 700; text-align: center;
-  color: #1c6b86; box-shadow: 0 8px 22px rgba(0, 0, 0, .18);
-}
-body[data-screen="map"] .speech-bubble::before {
-  content: "\201C"; position: absolute; top: 2px; left: 14px;
-  font-family: Georgia, serif; font-size: 2.4rem; line-height: 1; color: #6fc3e8;
-}
-body[data-screen="map"] .speech-bubble::after {
-  top: auto; bottom: -10px; left: 44px; right: auto;
-  border: 10px solid transparent; border-top-color: rgba(255, 255, 255, .93); border-bottom: 0;
-}
-
+/* 배경은 이제 각 화면 안의 <img class="select-bg"/"map-bg-full"> 레이어가 전담 —
+   letterbox(캔버스 밖 여백)만 body 배경으로 채움 */
 
 /* ══ 1080×1920 고정 해상도(세로) — food-map/forest-map과 동일 ═══════════ */
 html, body {

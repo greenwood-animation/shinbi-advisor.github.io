@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>신비할망의 바당 지도</title>
-  <link rel="stylesheet" href="style.css?v=5" />
+  <link rel="stylesheet" href="style.css?v=6" />
 </head>
 <body>
   <div id="app">
@@ -37,33 +37,58 @@
       </div>
     </section>
 
-    <!-- ── 1단계: 제주 바다 지도 + 핀 ─────────────────── -->
+    <!-- ── 1단계: 제주 바다 지도 + 핀 + 추천 명소 ─────────── -->
     <section id="screen-map" class="screen">
-      <button class="back-btn" data-back="select">← 안내자 다시 고르기</button>
-      <div class="map-head">
-        <h2 class="map-title" id="mapMenuName"></h2>
+      <div class="map-bg-full" aria-hidden="true">
+        <img src="assets/background_sea_map.png" alt="" onerror="this.style.display='none'" />
       </div>
-      <div class="map-wrap" id="mapWrap">
-        <img class="map-bg" id="mapBg" src="assets/jeju-map.png" alt="제주 바다 지도" />
-        <div class="pins" id="pins"></div>
-        <p class="map-empty" id="mapEmpty" hidden>아직 등록된 바다가 없어요 🐚</p>
+
+      <button class="back-btn" data-back="select">← 안내자 다시 고르기</button>
+
+      <!-- 안내자별 말풍선 + 캐릭터 (요요/치즈에 따라 src를 JS로 교체) -->
+      <div class="map-speech-bubble" id="mapSpeechBubble">
+        <img class="map-speech-bg" id="mapSpeechBg" alt="" onerror="this.style.display='none'" />
+        <p class="map-speech-text" id="speechText"></p>
+      </div>
+      <img class="map-char-img" id="charImg" alt="" onerror="this.style.display='none'" />
+
+      <!-- 지도 패널 -->
+      <div class="map-panel">
+        <img class="map-panel-bg" src="assets/공통_지도패널.png" alt="" onerror="this.style.display='none'" />
+        <img class="map-panel-icon" src="assets/공통_지도패널_타이틀_아이콘.png" alt="" onerror="this.style.display='none'" />
+        <h2 class="map-panel-title" id="mapMenuName"></h2>
+        <button class="more-btn map-more-btn" type="button">
+          <img src="assets/힐링숲 가이드_버튼.png" alt="지도 더보기 >" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'more-btn-fallback',textContent:'지도 더보기 >'}))" />
+        </button>
+        <div class="map-panel-inner">
+          <div class="map-wrap" id="mapWrap">
+            <img class="map-bg" id="mapBg" src="assets/jeju-map.png" alt="제주 바다 지도" />
+            <div class="pins" id="pins"></div>
+            <p class="map-empty" id="mapEmpty" hidden>아직 등록된 바다가 없어요 🐚</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 추천 명소 패널: 핀 클릭 시 그 명소 카드가 여기 표시됨 -->
+      <div class="reco-panel">
+        <img class="reco-panel-bg" src="assets/공통_지도패널_상세.png" alt="" onerror="this.style.display='none'" />
+        <button class="more-btn reco-more-btn" type="button">
+          <img src="assets/힐링숲 가게 상세_버튼.png" alt="더보기 >" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'more-btn-fallback',textContent:'더보기 >'}))" />
+        </button>
+        <div class="reco-panel-inner">
+          <div class="recommend-list" id="recommendList"></div>
+        </div>
+      </div>
+
+      <div class="menu-chatbar">
+        <span class="chat-send-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="#fff"><path d="M2 21l21-9L2 3v7l15 2-15 2z"/></svg>
+        </span>
+        <span class="chat-placeholder">궁금한 걸 물어보세요</span>
       </div>
     </section>
 
-    <!-- ── 2단계: 바다 상세 패널 ──────────────────────── -->
-    <aside id="detailPanel" class="detail-panel">
-      <button class="detail-close" id="detailClose">×</button>
-      <div class="detail-body" id="detailBody"></div>
-    </aside>
-    <div id="overlay" class="overlay"></div>
-
-    <!-- ── 안내자 캐릭터 + 말풍선 (지도/상세 화면) ──────── -->
-    <div id="charStage" class="char-stage">
-      <div class="speech-bubble" id="speechBubble"><span id="speechText"></span></div>
-      <div class="char-img" id="charImg"></div>
-    </div>
-
   </div>
-  <script src="app.js?v=5"></script>
+  <script src="app.js?v=6"></script>
 </body>
 </html>
