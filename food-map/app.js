@@ -67,6 +67,7 @@ function openMap(menu) {
   $("#recommendList").innerHTML = "";
   $(".recommend-card").classList.remove("is-open");
 
+  resetMapZoom();
   showScreen("map");
 }
 
@@ -156,6 +157,118 @@ function showScreen(name) {
   window.scrollTo({ top: 0, behavior: "smooth" });
   if (name === "menu" && DATA) speak(DATA.intro || "");
 }
+
+// ── 지도 확대/축소 + 이동 (마우스 휠·드래그, 터치 핀치·드래그) ──────
+// .map-frame(투명 창, overflow:hidden) 안에서 #mapWrap을 transform으로 확대/이동시킴.
+// 드래그·핀치 중에는 다음 클릭 1번을 무시해서 핀이 실수로 눌리는 걸 막음.
+let resetMapZoom = () => {};
+(function initMapZoom() {
+  const frame = document.querySelector(".map-frame");
+  const wrap = document.getElementById("mapWrap");
+  if (!frame || !wrap) return;
+
+  const MIN_SCALE = 1, MAX_SCALE = 2.5;
+  let scale = 1, panX = 0, panY = 0;
+  let suppressNextClick = false;
+
+  wrap.style.transformOrigin = "0 0";
+  frame.style.touchAction = "none";
+
+  function apply() {
+    wrap.style.transform = `translate(${panX}px, ${panY}px) scale(${scale})`;
+  }
+  function clampPan() {
+    const w = wrap.offsetWidth * scale, h = wrap.offsetHeight * scale;
+    const minX = Math.min(0, frame.clientWidth - w), minY = Math.min(0, frame.clientHeight - h);
+    panX = Math.min(0, Math.max(panX, minX));
+    panY = Math.min(0, Math.max(panY, minY));
+  }
+  function zoomAt(clientX, clientY, newScale) {
+    newScale = Math.min(MAX_SCALE, Math.max(MIN_SCALE, newScale));
+    const rect = frame.getBoundingClientRect();
+    const cx = clientX - rect.left, cy = clientY - rect.top;
+    panX = cx - ((cx - panX) / scale) * newScale;
+    panY = cy - ((cy - panY) / scale) * newScale;
+    scale = newScale;
+    clampPan();
+    apply();
+  }
+  resetMapZoom = () => { scale = 1; panX = 0; panY = 0; apply(); };
+
+  frame.addEventListener("wheel", (e) => {
+    e.preventDefault();
+    zoomAt(e.clientX, e.clientY, scale * (1 - e.deltaY * 0.0015));
+  }, { passive: false });
+
+  // 마우스 드래그 이동
+  let dragging = false, dragMoved = false, startX = 0, startY = 0, startPanX = 0, startPanY = 0;
+  frame.addEventListener("pointerdown", (e) => {
+    if (e.pointerType === "touch") return; // 터치는 아래 touch 이벤트에서 처리
+    dragging = true; dragMoved = false;
+    startX = e.clientX; startY = e.clientY;
+    startPanX = panX; startPanY = panY;
+    frame.setPointerCapture(e.pointerId);
+  });
+  frame.addEventListener("pointermove", (e) => {
+    if (!dragging) return;
+    const dx = e.clientX - startX, dy = e.clientY - startY;
+    if (Math.abs(dx) > 4 || Math.abs(dy) > 4) dragMoved = true;
+    if (dragMoved) { panX = startPanX + dx; panY = startPanY + dy; clampPan(); apply(); }
+  });
+  frame.addEventListener("pointerup", () => {
+    if (!dragging) return;
+    dragging = false;
+    if (dragMoved) suppressNextClick = true;
+  });
+
+  // 드래그/핀치 직후 첫 클릭은 캡처 단계에서 가로채서 핀 오클릭 방지
+  frame.addEventListener("click", (e) => {
+    if (suppressNextClick) { e.stopPropagation(); e.preventDefault(); suppressNextClick = false; }
+  }, true);
+
+  // 터치: 한 손가락 드래그 이동 + 두 손가락 핀치 줌
+  let touchMode = null, touchMoved = false;
+  let touchStartX = 0, touchStartY = 0, touchStartPanX = 0, touchStartPanY = 0;
+  let pinchStartDist = 0, pinchStartScale = 1;
+  const dist = (t1, t2) => Math.hypot(t1.clientX - t2.clientX, t1.clientY - t2.clientY);
+  const mid = (t1, t2) => ({ x: (t1.clientX + t2.clientX) / 2, y: (t1.clientY + t2.clientY) / 2 });
+
+  frame.addEventListener("touchstart", (e) => {
+    if (e.touches.length === 1) {
+      touchMode = "pan"; touchMoved = false;
+      touchStartX = e.touches[0].clientX; touchStartY = e.touches[0].clientY;
+      touchStartPanX = panX; touchStartPanY = panY;
+    } else if (e.touches.length === 2) {
+      touchMode = "pinch";
+      pinchStartDist = dist(e.touches[0], e.touches[1]);
+      pinchStartScale = scale;
+    }
+  }, { passive: true });
+  frame.addEventListener("touchmove", (e) => {
+    if (touchMode === "pan" && e.touches.length === 1) {
+      e.preventDefault();
+      const dx = e.touches[0].clientX - touchStartX, dy = e.touches[0].clientY - touchStartY;
+      if (Math.abs(dx) > 4 || Math.abs(dy) > 4) touchMoved = true;
+      if (touchMoved) { panX = touchStartPanX + dx; panY = touchStartPanY + dy; clampPan(); apply(); }
+    } else if (touchMode === "pinch" && e.touches.length === 2) {
+      e.preventDefault();
+      const d = dist(e.touches[0], e.touches[1]);
+      const m = mid(e.touches[0], e.touches[1]);
+      zoomAt(m.x, m.y, pinchStartScale * (d / pinchStartDist));
+      touchMoved = true;
+    }
+  }, { passive: false });
+  frame.addEventListener("touchend", () => {
+    if (touchMoved) suppressNextClick = true;
+    touchMode = null; touchMoved = false;
+  });
+
+  // 더블클릭/더블탭: 확대 ↔ 원상태 토글
+  frame.addEventListener("dblclick", (e) => {
+    if (scale > 1.01) resetMapZoom();
+    else zoomAt(e.clientX, e.clientY, 2);
+  });
+})();
 
 init();
 

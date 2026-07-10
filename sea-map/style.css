@@ -259,12 +259,15 @@ body[data-screen="select"] #app { max-width: none; padding: 0; }
 .map-more-btn { right: 30px; top: 30px; }
 .reco-more-btn { right: 30px; top: 30px; }
 
-/* 지도 프레임: 패널 위에 얹히는 투명 창(902×484), 화면 기준 (88,747), 넘치는 부분은 잘라냄 */
+/* 지도 프레임: 패널 위에 얹히는 투명 창(902×484), 화면 기준 (88,747), 넘치는 부분은 잘라냄.
+   줌/드래그 핸들러(app.js initMapZoom)가 이 요소에 wheel/pointer/touch 이벤트를 건다 */
 .map-frame {
   position: absolute; left: 88px; top: 747px; z-index: 2;
-  width: 902px; height: 484px; overflow: hidden;
+  width: 902px; height: 484px; overflow: hidden; cursor: grab;
 }
-/* 지도(jeju-map-2.png): 원본 크기(701×531) 그대로, 프레임 기준 (100,-47) 로컬 좌표 */
+.map-frame:active { cursor: grabbing; }
+/* 지도(jeju-map-2.png): 원본 크기(701×531), 프레임 기준 (100,-47) 로컬 좌표.
+   transform(scale/translate)은 JS가 줌/이동 때 얹음 */
 .map-wrap {
   position: absolute; left: 100px; top: -47px;
   width: 701px; height: 531px;
