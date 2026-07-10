@@ -264,8 +264,10 @@ body[data-screen="select"] #app { max-width: none; padding: 0; }
 .map-frame {
   position: absolute; left: 88px; top: 747px; z-index: 2;
   width: 902px; height: 484px; overflow: hidden; cursor: grab;
+  user-select: none; -webkit-user-select: none;
 }
 .map-frame:active { cursor: grabbing; }
+.map-frame img { -webkit-user-drag: none; user-drag: none; }
 /* 지도(jeju-map-2.png): 원본 크기(701×531), 프레임 기준 (100,-47) 로컬 좌표.
    transform(scale/translate)은 JS가 줌/이동 때 얹음 */
 .map-wrap {

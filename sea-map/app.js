@@ -243,6 +243,7 @@ let resetMapZoom = () => {};
   let dragging = false, dragMoved = false, startX = 0, startY = 0, startPanX = 0, startPanY = 0;
   frame.addEventListener("pointerdown", (e) => {
     if (e.pointerType === "touch") return; // 터치는 아래 touch 이벤트에서 처리
+    e.preventDefault(); // 기본 이미지 드래그/텍스트 선택(파란 하이라이트) 방지
     dragging = true; dragMoved = false;
     startX = e.clientX; startY = e.clientY;
     startPanX = panX; startPanY = panY;
