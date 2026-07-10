@@ -243,6 +243,7 @@ let resetMapZoom = () => {};
   let dragging = false, dragMoved = false, startX = 0, startY = 0, startPanX = 0, startPanY = 0;
   frame.addEventListener("pointerdown", (e) => {
     if (e.pointerType === "touch") return; // 터치는 아래 touch 이벤트에서 처리
+    if (e.target.closest(".pin")) return; // 핀 위에서 시작한 클릭은 지도 이동 로직을 타지 않음
     e.preventDefault(); // 기본 이미지 드래그/텍스트 선택(파란 하이라이트) 방지
     dragging = true; dragMoved = false;
     startX = e.clientX; startY = e.clientY;
@@ -274,6 +275,7 @@ let resetMapZoom = () => {};
   const mid = (t1, t2) => ({ x: (t1.clientX + t2.clientX) / 2, y: (t1.clientY + t2.clientY) / 2 });
 
   frame.addEventListener("touchstart", (e) => {
+    if (e.target.closest(".pin")) return; // 핀 위에서 시작한 터치는 지도 이동 로직을 타지 않음
     if (e.touches.length === 1) {
       touchMode = "pan"; touchMoved = false;
       touchStartX = e.touches[0].clientX; touchStartY = e.touches[0].clientY;
