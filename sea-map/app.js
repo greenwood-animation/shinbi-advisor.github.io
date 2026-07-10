@@ -11,7 +11,11 @@ async function init() {
   const res = await fetch("data/sea.json", { cache: "no-store" });
   DATA = await res.json();
 
-  $("#selectIntroText").textContent = DATA.intro || "";
+  // 줄바꿈은 introLines 배열로 직접 지정, 마지막 줄은 강조색으로 표시
+  const introLines = DATA.introLines || [DATA.intro || ""];
+  $("#selectIntroText").innerHTML = introLines
+    .map((line, i) => (i === introLines.length - 1 ? `<span class="intro-highlight">${line}</span>` : line))
+    .join("<br>");
   document.body.dataset.screen = "select"; // 첫 화면 배경
   renderPicks();
 

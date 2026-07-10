@@ -66,9 +66,10 @@ body[data-screen="select"] #app { max-width: none; padding: 0; }
 .select-intro-text p {
   margin: 0; width: 100%;
   font-family: "Nanum Gothic", "Malgun Gothic", sans-serif;
-  font-size: 28px; line-height: 1.35; font-weight: 700; text-align: center;
+  font-size: 28px; line-height: 1.5; font-weight: 700; text-align: center;
   color: #3a3a6a;
 }
+.select-intro-text .intro-highlight { color: #2f6fed; }
 
 /* 상단 장식 줄(물고기·돌고래·고양이 달리기) — 원본 크기 그대로 */
 .select-deco-row {
