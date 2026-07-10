@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>신비할망의 바당 맛 지도</title>
-  <link rel="stylesheet" href="style.css?v=21" />
+  <link rel="stylesheet" href="style.css?v=22" />
 </head>
 <body>
   <div id="app">
@@ -53,13 +53,13 @@
         <button class="more-btn map-more-btn" type="button">
           <img src="assets/map_more_btn.png" alt="지도 더보기 >" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'more-btn-fallback',textContent:'지도 더보기 >'}))" />
         </button>
-        <div class="map-card-inner">
-          <div class="map-wrap" id="mapWrap">
-            <img class="map-bg" id="mapBg" src="assets/jeju-map.png" alt="제주 지도" />
-            <div class="pins" id="pins"></div>
-            <p class="map-empty" id="mapEmpty" hidden>아직 등록된 식당이 없어요 🐚</p>
-          </div>
-        </div>
+      </div>
+
+      <!-- 지도 이미지: 원본 크기(701×531) 그대로, 화면 기준 절대좌표 -->
+      <div class="map-wrap" id="mapWrap">
+        <img class="map-bg" id="mapBg" src="assets/jeju-map-2.png" alt="제주 지도" />
+        <div class="pins" id="pins"></div>
+        <p class="map-empty" id="mapEmpty" hidden>아직 등록된 식당이 없어요 🐚</p>
       </div>
 
       <!-- detail_window_2.png 안에 제목이 이미 그려져 있어 텍스트는 따로 안 넣음 -->
