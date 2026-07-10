@@ -259,9 +259,14 @@ body[data-screen="select"] #app { max-width: none; padding: 0; }
 .map-more-btn { right: 30px; top: 30px; }
 .reco-more-btn { right: 30px; top: 30px; }
 
-/* 지도(jeju-map-2.png): 원본 크기(701×531) 그대로, 화면 기준 절대좌표 */
+/* 지도 프레임: 패널 위에 얹히는 투명 창(902×484), 화면 기준 (88,747), 넘치는 부분은 잘라냄 */
+.map-frame {
+  position: absolute; left: 88px; top: 747px; z-index: 2;
+  width: 902px; height: 484px; overflow: hidden;
+}
+/* 지도(jeju-map-2.png): 원본 크기(701×531) 그대로, 프레임 기준 (100,-47) 로컬 좌표 */
 .map-wrap {
-  position: absolute; left: 63px; top: 604px; z-index: 2;
+  position: absolute; left: 100px; top: -47px;
   width: 701px; height: 531px;
 }
 .map-bg { width: 100%; height: 100%; object-fit: contain; display: block; }

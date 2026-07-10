@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>북차사랑의 숨은 숲 지도</title>
-  <link rel="stylesheet" href="style.css?v=14" />
+  <link rel="stylesheet" href="style.css?v=15" />
 </head>
 <body>
   <div id="app">
@@ -57,11 +57,14 @@
         </button>
       </div>
 
-      <!-- 지도 이미지: 원본 크기(701×531) 그대로, 화면 기준 절대좌표 -->
-      <div class="map-wrap" id="mapWrap">
-        <img class="map-bg" id="mapBg" src="assets/jeju-map-2.png" alt="제주 숲 지도" />
-        <div class="pins" id="pins"></div>
-        <p class="map-empty" id="mapEmpty" hidden>아직 등록된 숲이 없어요 🌱</p>
+      <!-- 지도 프레임: 패널 위에 얹히는 투명 창(902×484, 화면 기준 88,747) — 그 안에서
+           지도(701×531)를 100,-47 위치로 잡아 패널 안에 맞춰 보이도록 함 -->
+      <div class="map-frame">
+        <div class="map-wrap" id="mapWrap">
+          <img class="map-bg" id="mapBg" src="assets/jeju-map-2.png" alt="제주 숲 지도" />
+          <div class="pins" id="pins"></div>
+          <p class="map-empty" id="mapEmpty" hidden>아직 등록된 숲이 없어요 🌱</p>
+        </div>
       </div>
 
       <!-- detail_window_2.png 안에 제목("북차사의 추천 숲길")이 이미 그려져 있어 텍스트는 따로 안 넣음 -->
