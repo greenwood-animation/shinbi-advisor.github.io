@@ -115,7 +115,9 @@ function openMap(guide) {
   bubble.style.left = `${pos.bubbleLeft}px`;
   bubble.style.top = `${pos.bubbleTop}px`;
   $("#mapSpeechBg").src = guide.mapBubbleImage || "";
-  $("#speechName").textContent = `"${guide.name}"`;
+  const speechName = $("#speechName");
+  speechName.textContent = `"${guide.name}"`;
+  speechName.style.color = guide.mapNameColor || "";
 
   speak(guide.mapIntro || "");
 

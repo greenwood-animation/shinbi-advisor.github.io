@@ -217,17 +217,18 @@ body[data-screen="select"] #app { max-width: none; padding: 0; }
    JS(MAP_POS)가 안내자별 좌표 지정. 내부 텍스트 박스는 정확한 좌표 없어 %패딩으로 추정 배치 */
 .map-speech-bubble { position: absolute; z-index: 3; }
 .map-speech-bg { display: block; width: auto; height: auto; }
-/* 이름(따옴표 포함, 예: "요요") — 정확한 좌표 없어 말풍선 위쪽에 임시 배치, 좌표 받으면 조정 예정 */
+/* 이름(따옴표 포함, 예: "요요") — 정확한 좌표 없어 말풍선 위쪽에 임시 배치, 좌표 받으면 조정 예정.
+   color는 안내자별로 다름(요요 #157FD6 / 치즈 #F38306) — JS가 인라인으로 지정 */
 .map-speech-name {
   position: absolute; left: 16%; right: 16%; top: 12%; margin: 0; z-index: 1;
   font-family: "Nanum Gothic", "Malgun Gothic", sans-serif;
-  font-size: 30px; font-weight: 700; text-align: center; color: var(--accent);
+  font-size: 30px; font-weight: 700; text-align: center;
 }
 .map-speech-text {
   position: absolute; inset: 0; margin: 0; box-sizing: border-box;
   padding: 34% 16% 20%;
   font-family: "Nanum Gothic", "Malgun Gothic", sans-serif;
-  font-size: 24px; line-height: 1.5; font-weight: 700; text-align: center; color: #1f4a57;
+  font-size: 24px; line-height: 1.5; font-weight: 700; text-align: center; color: #2b3c44;
 }
 .map-speech-text .cursor {
   display: inline-block; width: 2px; height: 1em; vertical-align: text-bottom;
@@ -254,7 +255,7 @@ body[data-screen="select"] #app { max-width: none; padding: 0; }
 .map-panel-title {
   position: absolute; left: 80px; top: 24px; z-index: 2; margin: 0;
   font-family: "Jalnan", system-ui, sans-serif; font-weight: 400;
-  font-size: 32px; color: #2b4a52;
+  font-size: 32px; color: #2a3d44;
 }
 /* 추천 명소 패널 타이틀 아이콘/제목 — 지도 패널과 동일한 아이콘(공통_지도패널_타이틀_아이콘.png)
    재사용, 패널 기준 로컬 좌표 28,28 / 80,24 (화면 기준 81,1281 / 133,1277) */
@@ -262,7 +263,7 @@ body[data-screen="select"] #app { max-width: none; padding: 0; }
 .reco-panel-title {
   position: absolute; left: 80px; top: 24px; z-index: 2; margin: 0;
   font-family: "Jalnan", system-ui, sans-serif; font-weight: 400;
-  font-size: 32px; color: #2b4a52;
+  font-size: 32px; color: #2a3d44;
 }
 .reco-panel-inner {
   position: absolute; inset: 0; overflow: hidden;
