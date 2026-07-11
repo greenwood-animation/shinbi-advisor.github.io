@@ -267,15 +267,16 @@ body[data-screen="select"] #app { max-width: none; padding: 0; }
 .map-panel { position: absolute; left: 53px; top: 595px; z-index: 1; }
 .map-panel-bg { display: block; width: auto; height: auto; }
 .map-panel-icon { position: absolute; left: 28px; top: 27px; z-index: 2; width: auto; height: auto; display: block; }
-/* 타이틀: Figma 스펙 — 화면 151,636 → 패널 로컬 98,41, 374×52,
-   210 LuckysuperOTF Bold 35px, 행간 auto, 자간 0%, 왼쪽·세로 가운데 정렬 */
+/* 타이틀: Figma 스펙 — 화면 151,636 → 패널 로컬 98,41, 210 LuckysuperOTF Bold 35px,
+   행간 auto, 자간 0%, 왼쪽·세로 가운데 정렬. 폭은 원 스펙 374로는 "치즈의 신나는
+   바다 지도"가 줄바꿈돼서 590으로 확장 + nowrap */
 .map-panel-title {
   position: absolute; left: 98px; top: 41px; z-index: 2; margin: 0;
-  width: 374px; height: 52px; box-sizing: border-box;
+  width: 590px; height: 52px; box-sizing: border-box;
   display: flex; align-items: center; justify-content: flex-start;
   font-family: "LuckySuper", "Jalnan", system-ui, sans-serif; font-weight: 700;
   font-size: 35px; line-height: normal; letter-spacing: normal;
-  text-align: left; color: #2a3d44;
+  text-align: left; white-space: nowrap; color: #2a3d44;
 }
 /* 타이틀 아래 작은 코멘트: Figma 스펙 — 화면 104,690 → 패널 로컬 51,95, 590×52,
    NanumGothic Bold 23px, 행간 auto, 자간 0%, 왼쪽·세로 가운데 정렬, #54A4B4 */
