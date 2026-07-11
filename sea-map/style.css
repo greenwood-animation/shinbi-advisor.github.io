@@ -54,20 +54,22 @@ body[data-screen="select"] #app { max-width: none; padding: 0; }
   position: absolute; left: 25px; top: 62px; z-index: 2;
   width: auto; height: auto; display: block;
 }
-.select-intro-text {
-  position: absolute; left: 25px; top: 62px; z-index: 3;
-  width: 1031px; height: 282px; box-sizing: border-box;
-  display: flex; align-items: center; padding: 0 30px 0 74px;
+/* 돋보기 아이콘: 말풍선 프레임 기준 원래 위치 유지 (텍스트 박스와 분리) */
+.magnifier {
+  position: absolute; left: 49px; top: 203px; z-index: 3;
+  transform: translateY(-50%); font-size: 2.4rem;
 }
-.select-intro-text .magnifier {
-  position: absolute; left: 24px; top: 50%; transform: translateY(-50%);
-  font-size: 2.4rem;
+/* Figma 스펙 그대로 — 163,111, 762×138, NanumGothic Bold 32px, 자간 0%, 줄높이 auto */
+.select-intro-text {
+  position: absolute; left: 163px; top: 111px; z-index: 3;
+  width: 762px; height: 138px; box-sizing: border-box;
+  display: flex; align-items: center; justify-content: center;
 }
 .select-intro-text p {
   margin: 0; width: 100%;
   font-family: "Nanum Gothic", "Malgun Gothic", sans-serif;
-  font-size: 28px; line-height: 1.5; font-weight: 700; text-align: center;
-  color: #3a3a6a;
+  font-size: 32px; line-height: normal; font-weight: 700; letter-spacing: normal;
+  text-align: center; color: #3a3a6a;
 }
 .select-intro-text .intro-highlight { color: #2f6fed; }
 
@@ -92,7 +94,7 @@ body[data-screen="select"] #app { max-width: none; padding: 0; }
   position: absolute; z-index: 3; box-sizing: border-box; overflow: hidden;
   display: flex; align-items: flex-start; justify-content: center;
   font-family: "LimeFont", "Jalnan", system-ui, sans-serif; font-weight: 700;
-  font-size: 60px; line-height: normal; letter-spacing: -0.1em; white-space: nowrap;
+  font-size: 60px; line-height: normal; letter-spacing: -0.05em; white-space: nowrap;
   text-align: center; text-shadow: 0 2px 4px rgba(255, 255, 255, .8);
 }
 /* 설명: 정확한 좌표·크기(93,639 370×198 / 610,639 370×198) 지정값, JS가 인라인으로 지정 */
