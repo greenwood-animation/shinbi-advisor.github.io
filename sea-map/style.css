@@ -277,11 +277,11 @@ body[data-screen="select"] #app { max-width: none; padding: 0; }
   font-size: 35px; line-height: normal; letter-spacing: normal;
   text-align: left; color: #2a3d44;
 }
-/* 타이틀 아래 작은 코멘트: Figma 스펙 — 화면 104,690 → 패널 로컬 51,95, 374×52,
+/* 타이틀 아래 작은 코멘트: Figma 스펙 — 화면 104,690 → 패널 로컬 51,95, 590×52,
    NanumGothic Bold 23px, 행간 auto, 자간 0%, 왼쪽·세로 가운데 정렬, #54A4B4 */
 .map-panel-comment {
   position: absolute; left: 51px; top: 95px; z-index: 2; margin: 0;
-  width: 374px; height: 52px; box-sizing: border-box;
+  width: 590px; height: 52px; box-sizing: border-box;
   display: flex; align-items: center; justify-content: flex-start;
   font-family: "Nanum Gothic", "Malgun Gothic", sans-serif; font-weight: 700;
   font-size: 23px; line-height: normal; letter-spacing: normal;
