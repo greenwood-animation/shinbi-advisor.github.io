@@ -102,6 +102,7 @@ function openMap(guide) {
   const pos = MAP_POS[guide.id] || MAP_POS.yoyo;
 
   $("#mapMenuName").textContent = `${guide.mapTitle || guide.name} 지도`;
+  $("#recoMenuName").textContent = `${guide.name}의 추천 명소냥!`;
 
   // 캐릭터 (원본 크기 그대로, 안내자별 절대좌표)
   const charImg = $("#charImg");
@@ -114,6 +115,7 @@ function openMap(guide) {
   bubble.style.left = `${pos.bubbleLeft}px`;
   bubble.style.top = `${pos.bubbleTop}px`;
   $("#mapSpeechBg").src = guide.mapBubbleImage || "";
+  $("#speechName").textContent = `"${guide.name}"`;
 
   speak(guide.mapIntro || "");
 

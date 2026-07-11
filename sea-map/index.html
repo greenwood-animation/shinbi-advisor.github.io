@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css?v=22" />
+  <link rel="stylesheet" href="style.css?v=23" />
 </head>
 <body>
   <div id="app">
@@ -50,6 +50,7 @@
       <!-- 안내자별 말풍선 + 캐릭터 (요요/치즈에 따라 src를 JS로 교체) -->
       <div class="map-speech-bubble" id="mapSpeechBubble">
         <img class="map-speech-bg" id="mapSpeechBg" alt="" onerror="this.style.display='none'" />
+        <p class="map-speech-name" id="speechName"></p>
         <p class="map-speech-text" id="speechText"></p>
       </div>
       <img class="map-char-img" id="charImg" alt="" onerror="this.style.display='none'" />
@@ -77,6 +78,8 @@
       <!-- 추천 명소 패널: 핀 클릭 시 그 명소 카드가 여기 표시됨 -->
       <div class="reco-panel">
         <img class="reco-panel-bg" src="assets/공통_지도패널_상세.png" alt="" onerror="this.style.display='none'" />
+        <img class="reco-panel-icon" src="assets/공통_지도패널_타이틀_아이콘.png" alt="" onerror="this.style.display='none'" />
+        <h2 class="reco-panel-title" id="recoMenuName"></h2>
         <button class="more-btn reco-more-btn" type="button">
           <img src="assets/힐링숲 가게 상세_버튼.png" alt="더보기 >" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'more-btn-fallback',textContent:'더보기 >'}))" />
         </button>
@@ -94,6 +97,6 @@
     </section>
 
   </div>
-  <script src="app.js?v=16"></script>
+  <script src="app.js?v=17"></script>
 </body>
 </html>
