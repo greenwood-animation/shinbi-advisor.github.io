@@ -28,11 +28,20 @@ async function init() {
 // 안내자별 아트/텍스트 절대좌표 — 전부 #screen-select(1080×1920) 기준, 사용자가 Figma에서
 // 읽어준 정확한 left/top 값 그대로 사용.
 const GUIDE_POS = {
-  yoyo:   { catLeft: 11,  catTop: 445, pawLeft: 93,  pawTop: 896, nameLeft: 65,  nameTop: 533, descLeft: 93 },
-  cheese: { catLeft: 536, catTop: 445, pawLeft: 618, pawTop: 892, nameLeft: 590, nameTop: 534, descLeft: 610 },
+  yoyo: {
+    catLeft: 11, catTop: 445, pawLeft: 93, pawTop: 896,
+    nameLeft: 65, nameTop: 533,
+    descLeft: 99, descTop: 672, descWidth: 370, descHeight: 198,
+    pawTextLeft: 163, pawTextTop: 979, pawTextWidth: 239, pawTextHeight: 83,
+  },
+  cheese: {
+    catLeft: 536, catTop: 445, pawLeft: 618, pawTop: 892,
+    nameLeft: 590, nameTop: 534,
+    descLeft: 590, descTop: 672, descWidth: 443, descHeight: 198,
+    pawTextLeft: 676, pawTextTop: 979, pawTextWidth: 256, pawTextHeight: 114,
+  },
 };
-const NAME_WIDTH = 426, NAME_HEIGHT = 74; // Figma: 210 LimeOTF Bold 60px, 자간 -10%, 가운데/위 정렬
-const DESC_TOP = 639, DESC_WIDTH = 370, DESC_HEIGHT = 198;
+const NAME_WIDTH = 426, NAME_HEIGHT = 74; // Figma: 210 LimeOTF Bold 60px, 자간 -5%, 가운데/위 정렬
 
 function renderPicks() {
   const wrap = $("#picks");
@@ -46,17 +55,16 @@ function renderPicks() {
       ? `<img class="pick-cat" src="${guide.image}" alt="${guide.name}" style="left:${pos.catLeft}px; top:${pos.catTop}px" onerror="this.style.display='none'">`
       : `<div class="pick-cat pick-cat--emoji" style="left:${pos.catLeft}px; top:${pos.catTop}px">${guide.emoji || "🐱"}</div>`;
 
-    // 발바닥 옆 말풍선: 안내자별 말풍선 프레임(요요_말풍선.png/치즈_말풍선.png) 위에 대사 텍스트를 얹음
+    // 발바닥 옆 말풍선 프레임(요요_말풍선.png/치즈_말풍선.png)과 대사 텍스트는 각각 독립된
+    // 정확한 좌표를 가짐 (프레임 안에 비례로 끼워 넣는 방식이 아님)
     const pawBubble = guide.catQuote
-      ? `<div class="paw-bubble" style="left:${pos.pawLeft}px; top:${pos.pawTop}px">
-          <img class="paw-bubble-bg" src="${guide.pawBubbleImage || ""}" alt="" onerror="this.style.display='none'">
-          <span class="paw-bubble-text">${guide.catQuote}</span>
-        </div>`
+      ? `<img class="paw-bubble-bg" src="${guide.pawBubbleImage || ""}" style="left:${pos.pawLeft}px; top:${pos.pawTop}px" alt="" onerror="this.style.display='none'">
+         <p class="paw-bubble-text" style="left:${pos.pawTextLeft}px; top:${pos.pawTextTop}px; width:${pos.pawTextWidth}px; height:${pos.pawTextHeight}px">${guide.catQuote}</p>`
       : "";
 
     wrap.insertAdjacentHTML("beforeend", `
       <div class="pick-name" style="left:${pos.nameLeft}px; top:${pos.nameTop}px; width:${NAME_WIDTH}px; height:${NAME_HEIGHT}px; color:${guide.color}">${guide.name} 선택하기</div>
-      <p class="pick-desc" style="left:${pos.descLeft}px; top:${DESC_TOP}px; width:${DESC_WIDTH}px; height:${DESC_HEIGHT}px">${guide.desc || ""}</p>
+      <p class="pick-desc" style="left:${pos.descLeft}px; top:${pos.descTop}px; width:${pos.descWidth}px; height:${pos.descHeight}px">${guide.desc || ""}</p>
       ${pawBubble}
       ${cat}
     `);
