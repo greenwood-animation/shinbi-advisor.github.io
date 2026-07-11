@@ -214,21 +214,30 @@ body[data-screen="select"] #app { max-width: none; padding: 0; }
 .back-btn:hover { background: #f0f9ff; }
 
 /* 안내자별 말풍선 프레임(말풍선_요요.png/말풍선_치즈.png) — 원본 크기 그대로,
-   JS(MAP_POS)가 안내자별 좌표 지정. 내부 텍스트 박스는 정확한 좌표 없어 %패딩으로 추정 배치 */
+   JS(MAP_POS)가 안내자별 좌표 지정. 내부 텍스트 박스도 MAP_POS의 로컬 좌표로 배치 */
 .map-speech-bubble { position: absolute; z-index: 3; }
 .map-speech-bg { display: block; width: auto; height: auto; }
-/* 이름(따옴표 포함, 예: "요요") — 정확한 좌표 없어 말풍선 위쪽에 임시 배치, 좌표 받으면 조정 예정.
+/* 이름(따옴표 포함, 예: "요요") — Figma 스펙: 화면 기준 193,177(요요)/192,180(치즈), 179×103,
+   210 LimeOTF Bold 50px, 행간 auto, 자간 0%, 가로·세로 가운데 정렬. 좌표는 JS(MAP_POS)가 지정.
    color는 안내자별로 다름(요요 #157FD6 / 치즈 #F38306) — JS가 인라인으로 지정 */
 .map-speech-name {
-  position: absolute; left: 16%; right: 16%; top: 12%; margin: 0; z-index: 1;
-  font-family: "Nanum Gothic", "Malgun Gothic", sans-serif;
-  font-size: 30px; font-weight: 700; text-align: center;
+  position: absolute; margin: 0; z-index: 1;
+  width: 179px; height: 103px; box-sizing: border-box;
+  display: flex; align-items: center; justify-content: center;
+  font-family: "LimeFont", "Jalnan", sans-serif; font-weight: 700;
+  font-size: 50px; line-height: normal; letter-spacing: normal;
+  text-align: center; white-space: nowrap;
 }
+/* 설명: Figma 스펙 — 화면 기준 113,238(요요)/117,214(치즈), 336×271,
+   NanumGothic Bold 30px, 행간 45px, 자간 0%, 가로·세로 가운데 정렬. 좌표는 JS(MAP_POS)가 지정.
+   줄바꿈은 sea.json mapIntro의 \n 그대로 렌더(pre-line) */
 .map-speech-text {
-  position: absolute; inset: 0; margin: 0; box-sizing: border-box;
-  padding: 34% 16% 20%;
+  position: absolute; margin: 0; box-sizing: border-box;
+  width: 336px; height: 271px;
+  display: flex; align-items: center; justify-content: center;
   font-family: "Nanum Gothic", "Malgun Gothic", sans-serif;
-  font-size: 24px; line-height: 1.5; font-weight: 700; text-align: center; color: #2b3c44;
+  font-size: 30px; line-height: 45px; font-weight: 700; letter-spacing: normal;
+  text-align: center; white-space: pre-line; color: #2b3c44;
 }
 .map-speech-text .cursor {
   display: inline-block; width: 2px; height: 1em; vertical-align: text-bottom;

@@ -92,9 +92,14 @@ function selectGuide(guide) {
 
 // 안내자별 말풍선/캐릭터 절대좌표 — 전부 #screen-map(1080×1920) 기준, 사용자가 Figma에서
 // 읽어준 정확한 left/top 값 그대로 사용.
+// name/text는 말풍선 컨테이너 기준 로컬 좌표 (Figma 화면좌표 - bubble 좌표):
+//   요요 이름 193,177 → 140,58 / 설명 113,238 → 60,119
+//   치즈 이름 192,180 → 139,62 / 설명 117,214 → 64,96
 const MAP_POS = {
-  yoyo:   { bubbleLeft: 53, bubbleTop: 119, charLeft: 521, charTop: 119 },
-  cheese: { bubbleLeft: 53, bubbleTop: 118, charLeft: 517, charTop: 115 },
+  yoyo:   { bubbleLeft: 53, bubbleTop: 119, charLeft: 521, charTop: 119,
+            nameLeft: 140, nameTop: 58, textLeft: 60, textTop: 119 },
+  cheese: { bubbleLeft: 53, bubbleTop: 118, charLeft: 517, charTop: 115,
+            nameLeft: 139, nameTop: 62, textLeft: 64, textTop: 96 },
 };
 
 // ── 1단계: 제주 바다 지도 + 핀 ──────────────────────
@@ -118,6 +123,11 @@ function openMap(guide) {
   const speechName = $("#speechName");
   speechName.textContent = `"${guide.name}"`;
   speechName.style.color = guide.mapNameColor || "";
+  speechName.style.left = `${pos.nameLeft}px`;
+  speechName.style.top = `${pos.nameTop}px`;
+  const speechText = $("#speechText");
+  speechText.style.left = `${pos.textLeft}px`;
+  speechText.style.top = `${pos.textTop}px`;
 
   speak(guide.mapIntro || "");
 
