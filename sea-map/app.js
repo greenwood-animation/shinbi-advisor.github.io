@@ -28,10 +28,10 @@ async function init() {
 // 안내자별 아트/텍스트 절대좌표 — 전부 #screen-select(1080×1920) 기준, 사용자가 Figma에서
 // 읽어준 정확한 left/top 값 그대로 사용.
 const GUIDE_POS = {
-  yoyo:   { catLeft: 11,  catTop: 445, pawLeft: 93,  pawTop: 896, nameLeft: 73,  descLeft: 93 },
-  cheese: { catLeft: 536, catTop: 445, pawLeft: 618, pawTop: 892, nameLeft: 582, descLeft: 610 },
+  yoyo:   { catLeft: 11,  catTop: 445, pawLeft: 93,  pawTop: 896, nameLeft: 65,  nameTop: 533, descLeft: 93 },
+  cheese: { catLeft: 536, catTop: 445, pawLeft: 618, pawTop: 892, nameLeft: 590, nameTop: 534, descLeft: 610 },
 };
-const NAME_TOP = 525;
+const NAME_WIDTH = 426, NAME_HEIGHT = 74; // Figma: 210 LimeOTF Bold 60px, 자간 -10%, 가운데/위 정렬
 const DESC_TOP = 639, DESC_WIDTH = 370, DESC_HEIGHT = 198;
 
 function renderPicks() {
@@ -55,7 +55,7 @@ function renderPicks() {
       : "";
 
     wrap.insertAdjacentHTML("beforeend", `
-      <div class="pick-name" style="left:${pos.nameLeft}px; top:${NAME_TOP}px; color:${guide.color}">${guide.name} 선택하기</div>
+      <div class="pick-name" style="left:${pos.nameLeft}px; top:${pos.nameTop}px; width:${NAME_WIDTH}px; height:${NAME_HEIGHT}px; color:${guide.color}">${guide.name} 선택하기</div>
       <p class="pick-desc" style="left:${pos.descLeft}px; top:${DESC_TOP}px; width:${DESC_WIDTH}px; height:${DESC_HEIGHT}px">${guide.desc || ""}</p>
       ${pawBubble}
       ${cat}

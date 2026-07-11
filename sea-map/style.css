@@ -86,11 +86,14 @@ body[data-screen="select"] #app { max-width: none; padding: 0; }
   background: none; border: none; padding: 0; margin: 0; cursor: pointer;
 }
 
-/* 이름: 정확한 좌표(73,525 / 582,525) 지정값, JS가 left/top 인라인으로 지정 */
+/* 이름: Figma 스펙 그대로 — 65,533(요요)/590,534(치즈), 426×74,
+   210 LimeOTF Bold 60px, 자간 -10%, 줄높이 auto, 가로 가운데·세로 위 정렬 */
 .pick-name {
-  position: absolute; z-index: 3; text-align: center; white-space: nowrap;
+  position: absolute; z-index: 3; box-sizing: border-box; overflow: hidden;
+  display: flex; align-items: flex-start; justify-content: center;
   font-family: "LimeFont", "Jalnan", system-ui, sans-serif; font-weight: 700;
-  font-size: 40px; text-shadow: 0 2px 4px rgba(255, 255, 255, .8);
+  font-size: 60px; line-height: normal; letter-spacing: -0.1em; white-space: nowrap;
+  text-align: center; text-shadow: 0 2px 4px rgba(255, 255, 255, .8);
 }
 /* 설명: 정확한 좌표·크기(93,639 370×198 / 610,639 370×198) 지정값, JS가 인라인으로 지정 */
 .pick-desc {
