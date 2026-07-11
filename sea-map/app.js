@@ -31,14 +31,14 @@ const GUIDE_POS = {
   yoyo: {
     catLeft: 11, catTop: 445, pawLeft: 93, pawTop: 896,
     nameLeft: 65, nameTop: 533,
-    descLeft: 99, descTop: 672, descWidth: 370, descHeight: 198,
-    pawTextLeft: 163, pawTextTop: 979, pawTextWidth: 239, pawTextHeight: 83,
+    descLeft: 99, descTop: 654, descWidth: 370, descHeight: 198,
+    pawTextLeft: 163, pawTextTop: 983, pawTextWidth: 239, pawTextHeight: 83,
   },
   cheese: {
     catLeft: 536, catTop: 445, pawLeft: 618, pawTop: 892,
     nameLeft: 590, nameTop: 534,
-    descLeft: 590, descTop: 672, descWidth: 443, descHeight: 198,
-    pawTextLeft: 676, pawTextTop: 979, pawTextWidth: 256, pawTextHeight: 114,
+    descLeft: 589, descTop: 655, descWidth: 443, descHeight: 198,
+    pawTextLeft: 676, pawTextTop: 969, pawTextWidth: 256, pawTextHeight: 114,
   },
 };
 const NAME_WIDTH = 426, NAME_HEIGHT = 74; // Figma: 210 LimeOTF Bold 60px, 자간 -5%, 가운데/위 정렬
@@ -63,7 +63,7 @@ function renderPicks() {
       : "";
 
     wrap.insertAdjacentHTML("beforeend", `
-      <div class="pick-name" style="left:${pos.nameLeft}px; top:${pos.nameTop}px; width:${NAME_WIDTH}px; height:${NAME_HEIGHT}px; color:${guide.color}">${guide.name} 선택하기</div>
+      <div class="pick-name" style="left:${pos.nameLeft}px; top:${pos.nameTop}px; width:${NAME_WIDTH}px; height:${NAME_HEIGHT}px; color:${guide.titleColor || guide.color}">${guide.name} 선택하기</div>
       <p class="pick-desc" style="left:${pos.descLeft}px; top:${pos.descTop}px; width:${pos.descWidth}px; height:${pos.descHeight}px; color:${guide.descColor || "#1f4a57"}">${guide.desc || ""}</p>
       ${pawBubble}
       ${cat}

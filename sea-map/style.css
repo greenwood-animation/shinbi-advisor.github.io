@@ -63,10 +63,10 @@ body[data-screen="select"] #app { max-width: none; padding: 0; }
 .select-intro-text p {
   margin: 0; width: 100%;
   font-family: "Nanum Gothic", "Malgun Gothic", sans-serif;
-  font-size: 32px; line-height: normal; font-weight: 700; letter-spacing: normal;
-  text-align: center; color: #3a3a6a;
+  font-size: 32px; line-height: normal; font-weight: 400; letter-spacing: normal;
+  text-align: center; color: #375066;
 }
-.select-intro-text .intro-highlight { color: #2f6fed; }
+.select-intro-text .intro-highlight { color: #1b7dc7; }
 
 /* 상단 장식 줄(물고기·돌고래·고양이 달리기) — 원본 크기 그대로 */
 .select-deco-row {
@@ -136,7 +136,7 @@ body[data-screen="select"] #app { max-width: none; padding: 0; }
 /* OR 텍스트: 냥발바닥.png 위, 정확한 좌표(476,1101) 지정값 */
 /* OR: Figma 스펙 그대로 — 474,1113, 128×102, 210 LimeOTF Bold 60px, 자간 -10%, 가운데 정렬 */
 .or-badge {
-  position: absolute; left: 474px; top: 1113px; z-index: 4; pointer-events: none;
+  position: absolute; left: 475px; top: 1094px; z-index: 4; pointer-events: none;
   width: 128px; height: 102px; box-sizing: border-box;
   display: flex; align-items: center; justify-content: center;
   font-family: "LimeFont", "Jalnan", sans-serif; font-weight: 700;
