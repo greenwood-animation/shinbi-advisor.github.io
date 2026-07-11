@@ -12,6 +12,12 @@
   src: url("assets/fonts/210 라임OTF B.otf") format("opentype");
   font-weight: 700; font-display: swap;
 }
+/* 210 럭키수퍼체: 지도/추천 패널 타이틀 전용 (스펙: 210 LuckysuperOTF Bold) */
+@font-face {
+  font-family: "LuckySuper";
+  src: url("assets/fonts/210 럭키수퍼OTF B.otf") format("opentype");
+  font-weight: 700; font-display: swap;
+}
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -261,18 +267,38 @@ body[data-screen="select"] #app { max-width: none; padding: 0; }
 .map-panel { position: absolute; left: 53px; top: 595px; z-index: 1; }
 .map-panel-bg { display: block; width: auto; height: auto; }
 .map-panel-icon { position: absolute; left: 28px; top: 27px; z-index: 2; width: auto; height: auto; display: block; }
+/* 타이틀: Figma 스펙 — 화면 151,636 → 패널 로컬 98,41, 374×52,
+   210 LuckysuperOTF Bold 35px, 행간 auto, 자간 0%, 왼쪽·세로 가운데 정렬 */
 .map-panel-title {
-  position: absolute; left: 80px; top: 24px; z-index: 2; margin: 0;
-  font-family: "Jalnan", system-ui, sans-serif; font-weight: 400;
-  font-size: 32px; color: #2a3d44;
+  position: absolute; left: 98px; top: 41px; z-index: 2; margin: 0;
+  width: 374px; height: 52px; box-sizing: border-box;
+  display: flex; align-items: center; justify-content: flex-start;
+  font-family: "LuckySuper", "Jalnan", system-ui, sans-serif; font-weight: 700;
+  font-size: 35px; line-height: normal; letter-spacing: normal;
+  text-align: left; color: #2a3d44;
+}
+/* 타이틀 아래 작은 코멘트: Figma 스펙 — 화면 104,690 → 패널 로컬 51,95, 374×52,
+   NanumGothic Bold 23px, 행간 auto, 자간 0%, 왼쪽·세로 가운데 정렬, #54A4B4 */
+.map-panel-comment {
+  position: absolute; left: 51px; top: 95px; z-index: 2; margin: 0;
+  width: 374px; height: 52px; box-sizing: border-box;
+  display: flex; align-items: center; justify-content: flex-start;
+  font-family: "Nanum Gothic", "Malgun Gothic", sans-serif; font-weight: 700;
+  font-size: 23px; line-height: normal; letter-spacing: normal;
+  text-align: left; color: #54a4b4;
 }
 /* 추천 명소 패널 타이틀 아이콘/제목 — 지도 패널과 동일한 아이콘(공통_지도패널_타이틀_아이콘.png)
    재사용, 패널 기준 로컬 좌표 28,28 / 80,24 (화면 기준 81,1281 / 133,1277) */
 .reco-panel-icon { position: absolute; left: 28px; top: 28px; z-index: 2; width: auto; height: auto; display: block; }
+/* 타이틀: Figma 스펙 — 화면 150,1295 → 패널 로컬 97,42, 508×52,
+   210 LuckysuperOTF Bold 35px, 행간 auto, 자간 0%, 왼쪽·세로 가운데 정렬 */
 .reco-panel-title {
-  position: absolute; left: 80px; top: 24px; z-index: 2; margin: 0;
-  font-family: "Jalnan", system-ui, sans-serif; font-weight: 400;
-  font-size: 32px; color: #2a3d44;
+  position: absolute; left: 97px; top: 42px; z-index: 2; margin: 0;
+  width: 508px; height: 52px; box-sizing: border-box;
+  display: flex; align-items: center; justify-content: flex-start;
+  font-family: "LuckySuper", "Jalnan", system-ui, sans-serif; font-weight: 700;
+  font-size: 35px; line-height: normal; letter-spacing: normal;
+  text-align: left; color: #2a3d44;
 }
 .reco-panel-inner {
   position: absolute; inset: 0; overflow: hidden;
