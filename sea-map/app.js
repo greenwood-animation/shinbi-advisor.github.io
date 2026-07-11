@@ -64,7 +64,7 @@ function renderPicks() {
 
     wrap.insertAdjacentHTML("beforeend", `
       <div class="pick-name" style="left:${pos.nameLeft}px; top:${pos.nameTop}px; width:${NAME_WIDTH}px; height:${NAME_HEIGHT}px; color:${guide.color}">${guide.name} 선택하기</div>
-      <p class="pick-desc" style="left:${pos.descLeft}px; top:${pos.descTop}px; width:${pos.descWidth}px; height:${pos.descHeight}px">${guide.desc || ""}</p>
+      <p class="pick-desc" style="left:${pos.descLeft}px; top:${pos.descTop}px; width:${pos.descWidth}px; height:${pos.descHeight}px; color:${guide.descColor || "#1f4a57"}">${guide.desc || ""}</p>
       ${pawBubble}
       ${cat}
     `);
