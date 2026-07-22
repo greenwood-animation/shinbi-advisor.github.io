@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
   <title>신비할망의 바당 맛 지도</title>
-  <link rel="stylesheet" href="style.css?v=25" />
+  <link rel="stylesheet" href="style.css?v=26" />
 </head>
 <body>
   <div id="app">
@@ -23,9 +23,9 @@
       <div class="menu-panel">
         <div class="menu-grid" id="menuGrid"></div>
       </div>
-      <div class="menu-chatbar">
+      <button class="menu-chatbar chat-open-btn" type="button">
         <img class="menu-chat-img" src="assets/menu_chat.png" alt="순덕이에게 물어보기" />
-      </div>
+      </button>
     </section>
 
     <!-- ── 2단계: 제주 지도 + 핀 + 추천 맛집 ────────────── -->
@@ -76,12 +76,31 @@
         </div>
       </div>
 
-      <div class="menu-chatbar">
+      <button class="menu-chatbar chat-open-btn" type="button">
         <img class="menu-chat-img" src="assets/menu_chat.png" alt="" />
-      </div>
+      </button>
     </section>
 
+    <!-- ── 채팅 패널: 오른쪽에서 슬라이드 인, 두 화면 위에 공통으로 얹힘 ── -->
+    <div class="chat-backdrop" id="chatBackdrop"></div>
+    <aside class="chat-panel" id="chatPanel" aria-hidden="true">
+      <header class="chat-header">
+        <img class="chat-header-avatar" src="assets/guide_character.png" alt="" onerror="this.style.display='none'" />
+        <div class="chat-header-text">
+          <div class="chat-header-name">신비</div>
+          <div class="chat-header-desc">제주를 안내해드려요!</div>
+        </div>
+        <button class="chat-close-btn" id="chatCloseBtn" type="button" aria-label="닫기">✕</button>
+      </header>
+      <div class="chat-messages" id="chatMessages"></div>
+      <div class="chat-quick-replies" id="chatQuickReplies"></div>
+      <form class="chat-input-bar" id="chatForm">
+        <input type="text" id="chatInput" placeholder="메시지를 입력하세요" autocomplete="off" />
+        <button type="submit" class="chat-send-btn" aria-label="전송">➤</button>
+      </form>
+    </aside>
+
   </div>
-  <script src="app.js?v=23"></script>
+  <script src="app.js?v=24"></script>
 </body>
 </html>
