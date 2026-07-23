@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
   <title>신비할망의 바당 맛 지도</title>
-  <link rel="stylesheet" href="style.css?v=30" />
+  <link rel="stylesheet" href="style.css?v=31" />
 </head>
 <body>
   <div id="app">
@@ -23,9 +23,6 @@
       <div class="menu-panel">
         <div class="menu-grid" id="menuGrid"></div>
       </div>
-      <button class="menu-chatbar chat-open-btn" type="button">
-        <img class="menu-chat-img" src="assets/menu_chat.png" alt="순덕이에게 물어보기" />
-      </button>
     </section>
 
     <!-- ── 2단계: 제주 지도 + 핀 + 추천 맛집 ────────────── -->
@@ -76,14 +73,12 @@
         </div>
       </div>
 
-      <button class="menu-chatbar chat-open-btn" type="button">
-        <img class="menu-chat-img" src="assets/menu_chat.png" alt="" />
-      </button>
     </section>
 
     <!-- ── 채팅 패널: 풀스크린으로 슬라이드 인, 두 화면 위에 공통으로 얹힘.
          panel_art.png(채팅방_미니패널) 원본 크기(993×1850)로 캔버스(1080×1920) 정중앙에 깔고,
-         그 위에 실제 헤더 텍스트/메시지/입력창을 얹음(아바타는 이미 아트에 그려져 있어 따로 안 넣음) -->
+         그 위에 실제 헤더 텍스트/메시지를 얹음(아바타는 이미 아트에 그려져 있어 따로 안 넣음).
+         입력창은 따로 안 만들고 맨 밑 공용 chat-bar(menu_chat.png)를 그대로 씀 -->
     <div class="chat-backdrop" id="chatBackdrop"></div>
     <aside class="chat-panel" id="chatPanel" aria-hidden="true">
       <img class="chat-panel-art" src="assets/chat/panel_art.png" alt="" />
@@ -97,14 +92,18 @@
         </header>
         <div class="chat-messages" id="chatMessages"></div>
         <div class="chat-quick-replies" id="chatQuickReplies"></div>
-        <form class="chat-input-bar" id="chatForm">
-          <input type="text" id="chatInput" placeholder="메시지를 입력하세요" autocomplete="off" />
-          <button type="submit" class="chat-send-btn" aria-label="전송">➤</button>
-        </form>
       </div>
     </aside>
 
+    <!-- 맨 밑 채팅바: 닫혀있을 땐 클릭해서 채팅 열기, 열려있을 땐 진짜 입력창+전송 버튼 역할.
+         menu_chat.png(1080×200) 한 장 위에 투명 input + 아이콘(종이비행기) 클릭 영역을 얹음 -->
+    <form class="chat-bar" id="chatBar">
+      <img class="chat-bar-img" src="assets/menu_chat.png" alt="" />
+      <button type="button" class="chat-bar-icon" id="chatBarIcon" aria-label="채팅 열기 / 전송"></button>
+      <input type="text" id="chatBarInput" class="chat-bar-input" placeholder="순덕이에게 물어보기" autocomplete="off" />
+    </form>
+
   </div>
-  <script src="app.js?v=25"></script>
+  <script src="app.js?v=26"></script>
 </body>
 </html>

@@ -305,22 +305,29 @@ let chatHistory = [];
 let chatSending = false;
 
 function initChat() {
-  document.querySelectorAll(".chat-open-btn").forEach((btn) =>
-    btn.addEventListener("click", openChat)
-  );
   $("#chatCloseBtn").addEventListener("click", closeChat);
   $("#chatBackdrop").addEventListener("click", closeChat);
 
-  $("#chatForm").addEventListener("submit", (e) => {
-    e.preventDefault();
-    const input = $("#chatInput");
-    const text = input.value.trim();
-    if (!text) return;
-    input.value = "";
-    sendChatMessage(text);
-  });
+  // 맨 밑 공용 chat-bar: 닫혀있으면 열기, 열려있으면 입력값을 실제 메시지로 전송
+  const barInput = $("#chatBarInput");
+  barInput.addEventListener("focus", () => { if (!isChatOpen()) openChat(); });
+  $("#chatBarIcon").addEventListener("click", submitBar);
+  $("#chatBar").addEventListener("submit", (e) => { e.preventDefault(); submitBar(); });
 
   renderQuickReplies();
+}
+
+function submitBar() {
+  const input = $("#chatBarInput");
+  const text = input.value.trim();
+  if (!isChatOpen()) { openChat(); }
+  if (!text) { input.focus(); return; }
+  input.value = "";
+  sendChatMessage(text);
+}
+
+function isChatOpen() {
+  return $("#chatPanel").classList.contains("is-open");
 }
 
 function openChat() {
