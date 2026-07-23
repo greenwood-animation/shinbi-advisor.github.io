@@ -351,10 +351,23 @@ function renderQuickReplies() {
 
 function addChatBubble(role, text) {
   const messages = $("#chatMessages");
+
+  const row = document.createElement("div");
+  row.className = `chat-row chat-row-${role}`;
+
+  const avatar = document.createElement("img");
+  avatar.className = "chat-avatar";
+  avatar.alt = "";
+  avatar.src = role === "bot" ? "assets/chat/bot_profile.png" : "assets/chat/user_profile.png";
+  avatar.onerror = () => { avatar.style.display = "none"; };
+  row.appendChild(avatar);
+
   const bubble = document.createElement("div");
   bubble.className = `chat-bubble chat-bubble-${role}`;
   bubble.textContent = text;
-  messages.appendChild(bubble);
+  row.appendChild(bubble);
+
+  messages.appendChild(row);
   messages.scrollTop = messages.scrollHeight;
   return bubble;
 }

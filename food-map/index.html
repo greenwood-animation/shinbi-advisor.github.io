@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
   <title>신비할망의 바당 맛 지도</title>
-  <link rel="stylesheet" href="style.css?v=26" />
+  <link rel="stylesheet" href="style.css?v=30" />
 </head>
 <body>
   <div id="app">
@@ -81,26 +81,30 @@
       </button>
     </section>
 
-    <!-- ── 채팅 패널: 오른쪽에서 슬라이드 인, 두 화면 위에 공통으로 얹힘 ── -->
+    <!-- ── 채팅 패널: 풀스크린으로 슬라이드 인, 두 화면 위에 공통으로 얹힘.
+         panel_art.png(채팅방_미니패널) 원본 크기(993×1850)로 캔버스(1080×1920) 정중앙에 깔고,
+         그 위에 실제 헤더 텍스트/메시지/입력창을 얹음(아바타는 이미 아트에 그려져 있어 따로 안 넣음) -->
     <div class="chat-backdrop" id="chatBackdrop"></div>
     <aside class="chat-panel" id="chatPanel" aria-hidden="true">
-      <header class="chat-header">
-        <img class="chat-header-avatar" src="assets/guide_character.png" alt="" onerror="this.style.display='none'" />
-        <div class="chat-header-text">
-          <div class="chat-header-name">신비</div>
-          <div class="chat-header-desc">제주를 안내해드려요!</div>
-        </div>
-        <button class="chat-close-btn" id="chatCloseBtn" type="button" aria-label="닫기">✕</button>
-      </header>
-      <div class="chat-messages" id="chatMessages"></div>
-      <div class="chat-quick-replies" id="chatQuickReplies"></div>
-      <form class="chat-input-bar" id="chatForm">
-        <input type="text" id="chatInput" placeholder="메시지를 입력하세요" autocomplete="off" />
-        <button type="submit" class="chat-send-btn" aria-label="전송">➤</button>
-      </form>
+      <img class="chat-panel-art" src="assets/chat/panel_art.png" alt="" />
+      <div class="chat-panel-content">
+        <header class="chat-header">
+          <div class="chat-header-text">
+            <div class="chat-header-name">신비</div>
+            <div class="chat-header-desc">제주를 안내해드려요!</div>
+          </div>
+          <button class="chat-close-btn" id="chatCloseBtn" type="button" aria-label="닫기">✕</button>
+        </header>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-quick-replies" id="chatQuickReplies"></div>
+        <form class="chat-input-bar" id="chatForm">
+          <input type="text" id="chatInput" placeholder="메시지를 입력하세요" autocomplete="off" />
+          <button type="submit" class="chat-send-btn" aria-label="전송">➤</button>
+        </form>
+      </div>
     </aside>
 
   </div>
-  <script src="app.js?v=24"></script>
+  <script src="app.js?v=25"></script>
 </body>
 </html>
