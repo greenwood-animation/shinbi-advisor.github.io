@@ -4,7 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
   <title>신비에게 물어보기</title>
-  <link rel="stylesheet" href="style.css?v=5" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css?v=6" />
 </head>
 <body>
   <div id="app">
@@ -16,13 +19,10 @@
     <div class="chat-panel" id="chatPanel">
       <img class="chat-panel-art" src="assets/chat/panel_art.png" alt="" />
       <div class="chat-panel-content">
-        <header class="chat-header">
-          <button class="chat-back-btn" id="chatBackBtn" type="button" aria-label="뒤로가기">←</button>
-          <div class="chat-header-text">
-            <div class="chat-header-name" id="chatName">신비</div>
-            <div class="chat-header-desc" id="chatDesc">제주를 안내해드려요!</div>
-          </div>
-        </header>
+        <button class="chat-back-btn" id="chatBackBtn" type="button" aria-label="뒤로가기">←</button>
+        <div class="chat-name" id="chatName">신비</div>
+        <div class="chat-desc" id="chatDesc">제주를 안내해드려요!</div>
+        <div class="chat-greeting">신비는 제주에 대해 무엇이든 알려드려요</div>
         <!-- 선택지(.chat-suggestions)는 고정 엘리먼트가 아니라 app.js가 마지막 말풍선 다음에
              동적으로 붙였다 뗐다 하는 채팅 로그의 일부라 여기 마크업엔 없음 -->
         <div class="chat-messages" id="chatMessages"></div>

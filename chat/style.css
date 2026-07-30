@@ -1,5 +1,12 @@
 /* 신비 챗봇 — 독립 채팅 페이지 (food-map의 슬라이드 패널 CSS를 그대로 떼어옴) */
 
+/* 210 럭키수퍼체: "신비" 이름 전용. sea-map에 이미 있는 폰트 파일을 그대로 재사용 */
+@font-face {
+  font-family: "LuckySuper";
+  src: url("../sea-map/assets/fonts/210 럭키수퍼OTF B.otf") format("opentype");
+  font-weight: 700; font-display: swap;
+}
+
 * { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
@@ -28,19 +35,34 @@ body {
 }
 .chat-panel-content {
   position: relative; z-index: 1; height: 100%;
-  display: flex; flex-direction: column;
 }
 
-.chat-header {
-  display: flex; align-items: center; gap: 18px; flex: none;
-  padding: 55px 50px 20px 380px; background: none; border: none;
-}
-.chat-header-text { flex: 1; min-width: 0; }
-.chat-header-name { font-weight: 800; font-size: 1.9rem; color: var(--ink); }
-.chat-header-desc { font-size: 1.15rem; color: #6a8aa2; margin-top: 4px; }
 .chat-back-btn {
-  flex: none; border: none; background: none; font-size: 2rem; color: #6a8aa2;
+  position: absolute; top: 20px; right: 30px; z-index: 2;
+  border: none; background: none; font-size: 2rem; color: #6a8aa2;
   cursor: pointer; line-height: 1; padding: 8px;
+}
+
+/* 헤더 텍스트 3종 — 전부 캔버스 기준 절대좌표, 색상 #6BBDFA로 통일.
+   "신비"만 럭키수퍼 Bold, 나머지 둘은 나눔고딕 Regular */
+.chat-name {
+  position: absolute; left: 393px; top: 54px; width: 121px; height: 53px;
+  display: flex; align-items: center;
+  font-family: "LuckySuper", sans-serif; font-weight: 700; font-size: 50px; line-height: 1;
+  color: #6BBDFA;
+}
+.chat-desc {
+  position: absolute; left: 393px; top: 119px; width: 284px; height: 45px;
+  display: flex; align-items: center;
+  font-family: "Nanum Gothic", "Malgun Gothic", sans-serif; font-weight: 400; font-size: 30px; line-height: 1;
+  color: #6BBDFA;
+}
+/* panel_art.png 안의 빈 알약 모양 위에 얹는 인사 문구 */
+.chat-greeting {
+  position: absolute; left: 274px; top: 261px; width: 532px; height: 45px;
+  display: flex; align-items: center;
+  font-family: "Nanum Gothic", "Malgun Gothic", sans-serif; font-weight: 400; font-size: 30px; line-height: 1;
+  color: #6BBDFA;
 }
 
 /* 채팅 로그: 캔버스 기준 (90,341) 위치에 900×1400 크기로 고정된 스크롤 영역.
