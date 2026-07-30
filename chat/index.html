@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
+  <title>신비에게 물어보기</title>
+  <link rel="stylesheet" href="style.css?v=1" />
+</head>
+<body>
+  <div id="app">
+
+    <!-- ── 신비 챗봇: food-map/forest-map/sea-map 공통으로 쓰는 독립 채팅 페이지.
+         원래 food-map 안에 풀스크린 슬라이드 패널로 붙어있던 걸 그대로 떼어내
+         항상 열려있는 페이지로 만듦. ?from=food|forest|sea 로 어느 지도에서
+         왔는지 받아 뒤로가기 대상과 퀵리플라이만 바꿔줌(캐릭터는 신비로 고정). -->
+    <div class="chat-panel" id="chatPanel">
+      <img class="chat-panel-art" src="assets/chat/panel_art.png" alt="" />
+      <div class="chat-panel-content">
+        <header class="chat-header">
+          <button class="chat-back-btn" id="chatBackBtn" type="button" aria-label="뒤로가기">←</button>
+          <div class="chat-header-text">
+            <div class="chat-header-name" id="chatName">신비</div>
+            <div class="chat-header-desc" id="chatDesc">제주를 안내해드려요!</div>
+          </div>
+        </header>
+        <div class="chat-messages" id="chatMessages"></div>
+        <div class="chat-quick-replies" id="chatQuickReplies"></div>
+      </div>
+    </div>
+
+    <!-- 맨 밑 채팅바: menu_chat.png(1080×200) 위에 투명 input + 전송 버튼 -->
+    <form class="chat-bar" id="chatBar">
+      <img class="chat-bar-img" src="assets/menu_chat.png" alt="" />
+      <button type="button" class="chat-bar-icon" id="chatBarIcon" aria-label="전송"></button>
+      <input type="text" id="chatBarInput" class="chat-bar-input" placeholder="신비에게 물어보기" autocomplete="off" />
+    </form>
+
+  </div>
+  <script src="app.js?v=1"></script>
+</body>
+</html>

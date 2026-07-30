@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
   <title>신비할망의 바당 맛 지도</title>
-  <link rel="stylesheet" href="style.css?v=31" />
+  <link rel="stylesheet" href="style.css?v=33" />
 </head>
 <body>
   <div id="app">
@@ -75,35 +75,15 @@
 
     </section>
 
-    <!-- ── 채팅 패널: 풀스크린으로 슬라이드 인, 두 화면 위에 공통으로 얹힘.
-         panel_art.png(채팅방_미니패널) 원본 크기(993×1850)로 캔버스(1080×1920) 정중앙에 깔고,
-         그 위에 실제 헤더 텍스트/메시지를 얹음(아바타는 이미 아트에 그려져 있어 따로 안 넣음).
-         입력창은 따로 안 만들고 맨 밑 공용 chat-bar(menu_chat.png)를 그대로 씀 -->
-    <div class="chat-backdrop" id="chatBackdrop"></div>
-    <aside class="chat-panel" id="chatPanel" aria-hidden="true">
-      <img class="chat-panel-art" src="assets/chat/panel_art.png" alt="" />
-      <div class="chat-panel-content">
-        <header class="chat-header">
-          <div class="chat-header-text">
-            <div class="chat-header-name">신비</div>
-            <div class="chat-header-desc">제주를 안내해드려요!</div>
-          </div>
-          <button class="chat-close-btn" id="chatCloseBtn" type="button" aria-label="닫기">✕</button>
-        </header>
-        <div class="chat-messages" id="chatMessages"></div>
-        <div class="chat-quick-replies" id="chatQuickReplies"></div>
-      </div>
-    </aside>
-
-    <!-- 맨 밑 채팅바: 닫혀있을 땐 클릭해서 채팅 열기, 열려있을 땐 진짜 입력창+전송 버튼 역할.
-         menu_chat.png(1080×200) 한 장 위에 투명 input + 아이콘(종이비행기) 클릭 영역을 얹음 -->
-    <form class="chat-bar" id="chatBar">
+    <!-- ── 채팅 진입 바: 신비와의 채팅은 이 안에 슬라이드로 붙어있지 않고
+         별도 페이지(/chat/)로 분리됨. menu_chat.png(1080×200) 위에
+         투명 텍스트만 얹은 링크라 클릭하면 바로 채팅 페이지로 이동함 -->
+    <a class="chat-bar" id="chatBar" href="../chat/index.html?from=food">
       <img class="chat-bar-img" src="assets/menu_chat.png" alt="" />
-      <button type="button" class="chat-bar-icon" id="chatBarIcon" aria-label="채팅 열기 / 전송"></button>
-      <input type="text" id="chatBarInput" class="chat-bar-input" placeholder="순덕이에게 물어보기" autocomplete="off" />
-    </form>
+      <span class="chat-bar-input chat-bar-placeholder">순덕이에게 물어보기</span>
+    </a>
 
   </div>
-  <script src="app.js?v=26"></script>
+  <script src="app.js?v=27"></script>
 </body>
 </html>

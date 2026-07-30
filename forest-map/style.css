@@ -111,9 +111,10 @@ body {
   font-size: 1.1rem; color: var(--ink);
 }
 
-/* 하단 고정 채팅 입력창 (디자인만, 기능 없음) — food-map과 동일 */
+/* 하단 고정 채팅바 — 클릭하면 /chat/ 페이지로 이동하는 링크 */
 .menu-chatbar {
   position: fixed; left: 0; bottom: 0; width: 1080px; padding: 0; z-index: 10;
+  display: block; text-decoration: none;
 }
 .menu-chat-img { width: 100%; height: auto; display: block; }
 
