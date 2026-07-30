@@ -43,14 +43,17 @@ body {
   cursor: pointer; line-height: 1; padding: 8px;
 }
 
-/* 헤더 아래 art(말풍선 + 발바닥 장식)를 다 지나서 시작하도록 위쪽 여백을 넉넉히 둠 */
+/* 채팅 로그: 캔버스 기준 (90,341) 위치에 900×1400 크기로 고정된 스크롤 영역.
+   메시지가 늘어나면 이 안에서만 스크롤됨(패널 자체는 안 움직임) */
 .chat-messages {
-  flex: 1; min-height: 0; overflow-y: auto; padding: 280px 50px 20px;
+  position: absolute; left: 90px; top: 341px; width: 900px; height: 1400px;
+  overflow-y: auto; padding: 23px 12px 20px;
   display: flex; flex-direction: column; gap: 22px;
 }
 
-/* 메시지 한 줄 = 프로필(bot_profile.png/user_profile.png, 109×108) + 말풍선 */
-.chat-row { display: flex; align-items: flex-start; gap: 14px; max-width: 92%; }
+/* 메시지 한 줄 = 프로필(bot_profile.png/user_profile.png, 109×108, 캔버스 기준 첫 줄 104,364) + 말풍선(230,416).
+   아바타-말풍선 가로 간격 17px(126-109), 말풍선은 아바타 상단보다 52px 아래에서 시작 */
+.chat-row { display: flex; align-items: flex-start; gap: 17px; max-width: 92%; }
 .chat-row-bot { align-self: flex-start; flex-direction: row; }
 .chat-row-user { align-self: flex-end; flex-direction: row-reverse; }
 .chat-avatar {
@@ -59,6 +62,7 @@ body {
 }
 
 .chat-bubble {
+  margin-top: 52px;
   max-width: 100%; padding: 20px 26px; border-radius: 26px;
   font-size: 1.25rem; line-height: 1.55; white-space: pre-wrap; word-break: break-word;
   background-size: 100% 100%; background-repeat: no-repeat;
@@ -74,9 +78,11 @@ body {
 }
 .chat-bubble-typing { color: #9ab3c4; font-style: italic; }
 
-/* 아래쪽 220px는 맨 밑 공용 chat-bar(높이 200px)한테 안 가리게 비워둠 */
+/* 채팅 로그 박스와 같은 가로 폭(90~990)으로 맞추고, 맨 밑 공용 chat-bar(높이 200px)
+   위 220px 지점에 고정 — 채팅 로그가 absolute로 빠지면서 header 아래로 붙지 않게 함 */
 .chat-quick-replies {
-  flex: none; padding: 0 50px 220px; display: flex; flex-direction: column; gap: 14px;
+  position: absolute; left: 90px; width: 900px; bottom: 220px;
+  display: flex; flex-direction: column; gap: 14px;
 }
 .chat-quick-btn {
   text-align: left; padding: 18px 60px; border-radius: 999px; border: 1px solid #d9e6ee;
