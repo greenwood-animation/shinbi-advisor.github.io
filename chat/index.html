@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes" />
   <title>신비에게 물어보기</title>
-  <link rel="stylesheet" href="style.css?v=3" />
+  <link rel="stylesheet" href="style.css?v=5" />
 </head>
 <body>
   <div id="app">
@@ -23,8 +23,9 @@
             <div class="chat-header-desc" id="chatDesc">제주를 안내해드려요!</div>
           </div>
         </header>
+        <!-- 선택지(.chat-suggestions)는 고정 엘리먼트가 아니라 app.js가 마지막 말풍선 다음에
+             동적으로 붙였다 뗐다 하는 채팅 로그의 일부라 여기 마크업엔 없음 -->
         <div class="chat-messages" id="chatMessages"></div>
-        <div class="chat-quick-replies" id="chatQuickReplies"></div>
       </div>
     </div>
 
@@ -36,6 +37,6 @@
     </form>
 
   </div>
-  <script src="app.js?v=1"></script>
+  <script src="app.js?v=2"></script>
 </body>
 </html>

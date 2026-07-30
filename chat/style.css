@@ -78,20 +78,28 @@ body {
 }
 .chat-bubble-typing { color: #9ab3c4; font-style: italic; }
 
-/* 채팅 로그 박스와 같은 가로 폭(90~990)으로 맞추고, 맨 밑 공용 chat-bar(높이 200px)
-   위 220px 지점에 고정 — 채팅 로그가 absolute로 빠지면서 header 아래로 붙지 않게 함 */
-.chat-quick-replies {
-  position: absolute; left: 90px; width: 900px; bottom: 220px;
-  display: flex; flex-direction: column; gap: 14px;
+/* 선택지: 고정 바가 아니라 채팅 로그 안에 마지막 말풍선 다음 줄로 뜨는 메시지 취급.
+   .chat-messages가 stretch로 늘려주는 폭 안에서 버튼은 원본 이미지 크기(841×73)를 유지하며
+   가운데 정렬. 클릭하면 JS가 이 블록 자체를 지우고, 답변이 오면 새 선택지가 다시 이 자리에 붙음 */
+.chat-suggestions {
+  display: flex; flex-direction: column; align-items: center; gap: 14px;
 }
 .chat-quick-btn {
-  text-align: left; padding: 18px 60px; border-radius: 999px; border: 1px solid #d9e6ee;
+  width: 841px; height: 73px; flex: none;
+  display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: 0 40px; border-radius: 999px; border: 1px solid #d9e6ee;
   background-image: url("assets/chat/select_panel.png");
-  background-size: 100% 100%; background-repeat: no-repeat;
+  background-size: auto; background-repeat: no-repeat; background-position: center;
   background-color: #fff; color: var(--ink); font-weight: 700; font-size: 1.2rem;
   cursor: pointer; transition: opacity .15s;
+  opacity: 0; animation: chipPopIn .4s cubic-bezier(.34, 1.56, .64, 1) forwards;
 }
 .chat-quick-btn:hover { opacity: .85; }
+@keyframes chipPopIn {
+  0%   { opacity: 0; transform: scale(.6) translateY(10px); }
+  60%  { opacity: 1; }
+  100% { opacity: 1; transform: scale(1) translateY(0); }
+}
 
 /* 맨 밑 공용 채팅바 — menu_chat.png(1080×200) */
 .chat-bar {

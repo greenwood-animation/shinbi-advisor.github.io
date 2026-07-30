@@ -51,8 +51,13 @@ const CHAT_SYSTEM_PROMPT =
   "- 축제: 🎉[제주들불축제 · 3월 1~3일]\n" +
   "- 코스: 🗺️[올레길 1코스]\n" +
   "- 데이터 항목들은 한 줄씩 나열하고 앞뒤 빈 줄로 대화 텍스트와 구분하세요.\n" +
-  "- 데이터 나열 후 추가 코멘트는 2~3줄 이내로만 하세요.";
+  "- 데이터 나열 후 추가 코멘트는 2~3줄 이내로만 하세요.\n\n" +
+  "[다음 질문 제안 — 반드시 지킬 것]\n" +
+  "답변을 마친 뒤 맨 마지막 줄에 방금 대화 맥락과 자연스럽게 이어지는 후속 질문 2~3개를\n" +
+  "정확히 아래 형식 한 줄로만 추가하세요(이모지·설명 없이, 방문객이 실제로 물어볼 법한 짧은 문장으로):\n" +
+  "SUGGESTIONS: 질문1|질문2|질문3";
 const CHAT_WELCOME = "아이고~ 반가워라! 여행에서 궁금한 게 있으면 뭐든 물어봐~";
+const SUGGESTIONS_RE = /\n*SUGGESTIONS:\s*(.+)\s*$/i;
 
 let chatHistory = [];
 let chatSending = false;
@@ -61,8 +66,8 @@ function initChat() {
   $("#chatBarIcon").addEventListener("click", submitBar);
   $("#chatBar").addEventListener("submit", (e) => { e.preventDefault(); submitBar(); });
 
-  renderQuickReplies();
   addChatBubble("bot", CHAT_WELCOME);
+  renderSuggestions(persona.quick);
 
   // 지도 페이지에서 이미 텍스트를 입력하고 넘어온 경우(?q=) 바로 전송
   const initialQuery = params.get("q");
@@ -77,17 +82,39 @@ function submitBar() {
   sendChatMessage(text);
 }
 
-function renderQuickReplies() {
-  const wrap = $("#chatQuickReplies");
-  wrap.innerHTML = "";
-  persona.quick.forEach((label) => {
+// 답변 끝의 "SUGGESTIONS: ..." 한 줄을 떼어내 화면엔 안 보이는 후속 질문 후보로 분리
+function extractSuggestions(reply) {
+  const match = reply.match(SUGGESTIONS_RE);
+  if (!match) return { text: reply, suggestions: [] };
+  const text = reply.slice(0, match.index).trim();
+  const suggestions = match[1].split("|").map((s) => s.trim()).filter(Boolean).slice(0, 3);
+  return { text, suggestions };
+}
+
+// 선택지는 고정 바가 아니라 채팅 로그 맨 밑에 뜨는 메시지 취급 — 새로 뜨기 전에 이전 걸 지움
+function renderSuggestions(list) {
+  removeSuggestions();
+  if (!list.length) return;
+  const messages = $("#chatMessages");
+  const wrap = document.createElement("div");
+  wrap.className = "chat-suggestions";
+  wrap.id = "chatSuggestions";
+  list.forEach((label, i) => {
     const btn = document.createElement("button");
     btn.type = "button";
     btn.className = "chat-quick-btn";
     btn.textContent = label;
+    btn.style.animationDelay = `${i * 0.08}s`;
     btn.addEventListener("click", () => sendChatMessage(label));
     wrap.appendChild(btn);
   });
+  messages.appendChild(wrap);
+  messages.scrollTop = messages.scrollHeight;
+}
+
+function removeSuggestions() {
+  const el = $("#chatSuggestions");
+  if (el) el.remove();
 }
 
 function addChatBubble(role, text) {
@@ -117,6 +144,8 @@ async function sendChatMessage(text) {
   if (chatSending) return;
   chatSending = true;
 
+  // 선택지를 고르든 직접 타이핑하든, 다음 턴으로 넘어가는 순간 이전 선택지는 사라짐
+  removeSuggestions();
   addChatBubble("user", text);
   chatHistory.push({ role: "user", content: text });
 
@@ -134,11 +163,15 @@ async function sendChatMessage(text) {
       }),
     });
     const data = await res.json();
-    const reply = data?.choices?.[0]?.message?.content?.trim() || CHAT_WELCOME;
+    const raw = data?.choices?.[0]?.message?.content?.trim() || CHAT_WELCOME;
+    const { text: reply, suggestions } = extractSuggestions(raw);
     typing.textContent = reply;
     chatHistory.push({ role: "assistant", content: reply });
+    // 맥락 제안이 파싱 안 되면(모델이 형식을 안 지킨 경우) 기본 퀵리플라이로 대체
+    renderSuggestions(suggestions.length ? suggestions : persona.quick);
   } catch (err) {
     typing.textContent = "아이고, 지금은 대답을 못 하겠구나... 잠시 후 다시 물어봐줘!";
+    renderSuggestions(persona.quick);
   } finally {
     typing.classList.remove("chat-bubble-typing");
     $("#chatMessages").scrollTop = $("#chatMessages").scrollHeight;
