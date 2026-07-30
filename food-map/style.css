@@ -295,7 +295,7 @@ body[data-screen="map"] { background-color: #bfe3ea; }
 html, body {
   width: 100vw; height: 100vh; overflow: hidden;
   display: flex; align-items: center; justify-content: center;
-  background: #000;
+  background: var(--sea); /* PC 등 캔버스 밖 여백 — 연한 하늘색 (검정 대신) */
   min-height: unset;
 }
 #app {
