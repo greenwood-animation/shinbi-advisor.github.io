@@ -38,7 +38,7 @@ body {
 }
 
 .chat-back-btn {
-  position: absolute; top: 20px; right: 30px; z-index: 2;
+  position: absolute; top: 20px; left: 30px; z-index: 2;
   border: none; background: none; font-size: 2rem; color: #6a8aa2;
   cursor: pointer; line-height: 1; padding: 8px;
 }
@@ -46,20 +46,20 @@ body {
 /* 헤더 텍스트 3종 — 전부 캔버스 기준 절대좌표, 색상 #6BBDFA로 통일.
    "신비"만 럭키수퍼 Bold, 나머지 둘은 나눔고딕 Regular */
 .chat-name {
-  position: absolute; left: 393px; top: 54px; width: 121px; height: 53px;
+  position: absolute; left: 393px; top: 64px; width: 121px; height: 53px;
   display: flex; align-items: center;
   font-family: "LuckySuper", sans-serif; font-weight: 700; font-size: 50px; line-height: 1;
   color: #6BBDFA;
 }
 .chat-desc {
-  position: absolute; left: 393px; top: 119px; width: 284px; height: 45px;
+  position: absolute; left: 393px; top: 129px; width: 284px; height: 45px;
   display: flex; align-items: center;
   font-family: "Nanum Gothic", "Malgun Gothic", sans-serif; font-weight: 400; font-size: 30px; line-height: 1;
   color: #6BBDFA;
 }
 /* panel_art.png 안의 빈 알약 모양 위에 얹는 인사 문구 */
 .chat-greeting {
-  position: absolute; left: 274px; top: 261px; width: 532px; height: 45px;
+  position: absolute; left: 279px; top: 256px; width: 532px; height: 45px;
   display: flex; align-items: center;
   font-family: "Nanum Gothic", "Malgun Gothic", sans-serif; font-weight: 400; font-size: 30px; line-height: 1;
   color: #6BBDFA;
