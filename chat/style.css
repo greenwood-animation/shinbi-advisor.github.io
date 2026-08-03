@@ -46,8 +46,8 @@ body {
 /* 헤더 텍스트 3종 — 전부 캔버스 기준 절대좌표, 색상 #6BBDFA로 통일.
    "신비"만 럭키수퍼 Bold, 나머지 둘은 나눔고딕 Regular */
 .chat-name {
-  position: absolute; left: 393px; top: 64px; width: 121px; height: 53px;
-  display: flex; align-items: center;
+  position: absolute; left: 393px; top: 64px; width: 220px; height: 53px;
+  display: flex; align-items: center; white-space: nowrap;
   font-family: "LuckySuper", sans-serif; font-weight: 700; font-size: 50px; line-height: 1;
   color: #6BBDFA;
 }
