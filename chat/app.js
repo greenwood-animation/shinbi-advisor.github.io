@@ -46,10 +46,13 @@ const CHAT_SYSTEM_PROMPT =
   "- 87년 삶의 경험으로 지혜롭지만 새로운 것에 해맑게 감탄합니다\n" +
   "- 베풀기를 좋아하고, 먼저 손 내미는 따뜻한 심성입니다\n\n" +
   "[역할과 절대 규칙]\n" +
-  "제주 여행 전반을 안내합니다. 관광지, 맛집, 체험, 이동 방법, 날씨, 여행 코스 등을 안내합니다.\n" +
-  "★ 장소·가게·행사·코스 이름은 반드시 아래 '제주 관광 데이터'에 있는 것만 언급하세요.\n" +
-  "★ 데이터에 없는 장소명은 절대 지어내거나 추측하지 마세요.\n" +
-  "★ 해당 카테고리 데이터가 없으면 '아이고, 지금 당장 딱 맞는 정보가 없구나~ 비짓제주 사이트(visitjeju.net)에서 더 찾아보렴!' 이라고만 하세요.\n\n" +
+  "제주 여행 전반을 안내합니다. 관광지, 맛집, 체험, 이동 방법, 날씨, 여행 코스는 물론 제주 문화·역사·음식 상식 등\n" +
+  "일반적인 질문에도 얼버무리지 말고 아는 대로 바로, 구체적으로 답합니다.\n" +
+  "★ '장소·가게·행사·코스의 구체적인 이름'을 추천할 때는 반드시 아래 '제주 관광 데이터'에 있는 것만 언급하세요.\n" +
+  "★ 데이터에 없는 장소명·가게명은 절대 지어내거나 추측하지 마세요.\n" +
+  "★ 반면 특정 장소 추천이 아니라 일반 지식(제주 문화, 역사, 음식 상식, 날씨 경향, 여행 팁 등)을 묻는 질문에는\n" +
+  "다른 사이트로 떠넘기지 말고 당신이 아는 대로 바로 답하세요.\n" +
+  "★ 구체적인 장소 추천을 원하는데 해당 카테고리 데이터가 정말 없을 때만 '아이고, 지금 당장 딱 맞는 장소가 없구나~ 비짓제주 사이트(visitjeju.net)에서 더 찾아보렴!' 이라고 답하세요.\n\n" +
   "[답변 포맷 규칙]\n" +
   "- 장소/가게: 이모지 + 대괄호. 예) 🏝️[성산일출봉], 🍽️[흑돼지거리]\n" +
   "- 날씨: 🌤️[제주시 맑음 · 18°C · 바람 3m/s]\n" +
@@ -64,13 +67,43 @@ const CHAT_SYSTEM_PROMPT =
 const CHAT_WELCOME = "아이고~ 반가워라! 여행에서 궁금한 게 있으면 뭐든 물어봐~";
 const SUGGESTIONS_RE = /\n*SUGGESTIONS:\s*(.+)\s*$/i;
 
+// ── 관리자 키 ("manager" 입력 → 키 요청 → 이후 X-Admin-Key 헤더로 전송) ──
+// 하루 대화 제한(5회/IP)은 Worker(RATE_LIMIT KV)가 서버에서 직접 세고 있어서
+// 클라이언트가 흉내낼 수 없음. Worker는 X-Admin-Key 헤더가 env.ADMIN_PASSWORD와
+// 일치하면 그 요청의 제한을 건너뛰므로, 여기서는 그 실제 키를 물어봐서 저장해뒀다가
+// 매 요청마다 헤더로 실어 보내기만 하면 됨. 틀린 키를 저장해도 Worker가 조용히
+// 무시하고 평소대로 제한을 적용할 뿐이라 안전함.
+const ADMIN_KEY_STORAGE_KEY = "sinbiAdminKey";
+const MANAGER_TRIGGER_RE = /^manager$/i;
+let awaitingManagerKey = false;
+
+function getAdminKey() {
+  return localStorage.getItem(ADMIN_KEY_STORAGE_KEY) || "";
+}
+
+function handleManagerTrigger() {
+  removeSuggestions();
+  addChatBubble("user", "manager");
+  awaitingManagerKey = true;
+  addChatBubble("bot", "허이쿠, 관리자시구나! 키를 입력해줘~");
+}
+
+function handleManagerKeyEntry(rawKey) {
+  awaitingManagerKey = false;
+  removeSuggestions();
+  addChatBubble("user", "•".repeat(Math.min(rawKey.length, 10) || 4));
+  localStorage.setItem(ADMIN_KEY_STORAGE_KEY, rawKey);
+  addChatBubble("bot", "키를 저장했어~ 이 브라우저는 이제부터 그 키로 접속할 거야!");
+  renderSuggestions(persona.quick);
+}
+
 // ── food 페르소나 전용: 음식 대화 모드 + 그라운딩 데이터 ──────
 // food-map이 지도에 쓰는 restaurants.json을 그대로 재사용해서, 챗봇이
 // 지도에 없는 메뉴·맛집을 지어내지 않고 실제 데이터 기준으로만 답하게 함.
 const FOOD_DATA_URL = "../food-map/data/restaurants.json";
 const FOOD_CONVO_PROMPT =
   "[음식 대화 모드 — food 페르소나 전용]\n" +
-  "아래 '[음식 데이터]'에 있는 메뉴에 대해서만 다음 방식으로 답합니다. 데이터에 없는 메뉴·맛집은 절대 지어내지 마세요.\n" +
+  "아래 '[음식 데이터]'에 있는 메뉴는 다음 방식으로 답합니다. 이때도 맛집·가게 이름은 데이터에 있는 것만 언급하고 지어내지 마세요.\n" +
   "- 음식 설명: desc를 자연스럽게 풀어서 말합니다\n" +
   "- '제주에서 먹어야 하는 이유'를 물으면 whyJeju를 활용합니다\n" +
   "- 맛이 궁금하면 taste로 상상되게 표현합니다\n" +
@@ -83,7 +116,8 @@ const FOOD_CONVO_PROMPT =
   "- 유래나 이야기를 물으면 story를 2~3문장으로 들려줍니다(story가 '없음'이면 지어내지 말고 다른 메뉴를 대신 권합니다)\n" +
   "- 궁합 음식을 물으면 pairsWith를 추천합니다\n" +
   "- '오늘 뭐 먹지' 같은 상황·일정 기반 질문에는 recommendFor·season·beginnerStars를 종합해 1~2개 메뉴를 골라 이유와 함께 추천합니다\n" +
-  "- 데이터에 아예 없는 음식(예: 몸국, 각재기국 등)을 물으면 지어내지 말고 '아이고, 그건 순덕이 지도엔 없는 음식이란다~'라고 솔직히 말한 뒤 데이터에 있는 비슷한 메뉴를 대신 권하세요\n";
+  "- 데이터 목록에 없는 음식(예: 몸국, 각재기국 등)에 대해 물으면 얼버무리지 말고 당신이 아는 일반 지식으로 바로 설명하세요.\n" +
+  "  다만 그 음식을 파는 '구체적인 맛집 이름'은 지어내지 말고, 데이터에 있는 비슷한 메뉴가 있다면 함께 추천하세요\n";
 
 let foodDataBlock = "";
 function normalizeName(s) { return String(s).replace(/\s/g, ""); }
@@ -219,6 +253,19 @@ function addChatBubble(role, text) {
 
 async function sendChatMessage(text) {
   if (chatSending) return;
+
+  const trimmed = text.trim();
+
+  // "manager" 입력 → 키 입력 대기 → 다음 메시지를 키로 저장. 둘 다 AI로는 보내지 않음
+  if (MANAGER_TRIGGER_RE.test(trimmed)) {
+    handleManagerTrigger();
+    return;
+  }
+  if (awaitingManagerKey) {
+    handleManagerKeyEntry(trimmed);
+    return;
+  }
+
   chatSending = true;
 
   // 선택지를 고르든 직접 타이핑하든, 다음 턴으로 넘어가는 순간 이전 선택지는 사라짐
@@ -236,9 +283,13 @@ async function sendChatMessage(text) {
         ? "\n\n" + FOOD_CONVO_PROMPT + "\n[음식 데이터]\n" + foodDataBlock
         : "");
 
+    const adminKey = getAdminKey();
     const res = await fetch(CHAT_WORKER_URL, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        ...(adminKey ? { "X-Admin-Key": adminKey } : {}),
+      },
       body: JSON.stringify({
         model: "gpt-4o-mini",
         messages: [{ role: "system", content: systemPrompt }, ...chatHistory],
