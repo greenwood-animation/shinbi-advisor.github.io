@@ -104,6 +104,8 @@ const FOOD_DATA_URL = "../food-map/data/restaurants.json";
 const FOOD_CONVO_PROMPT =
   "[음식 대화 모드 — food 페르소나 전용]\n" +
   "아래 '[음식 데이터]'에 있는 메뉴는 다음 방식으로 답합니다. 이때도 맛집·가게 이름은 데이터에 있는 것만 언급하고 지어내지 마세요.\n" +
+  "- '맛집 추천'을 물으면 얼버무리거나 비짓제주로 떠넘기지 말고, 그 메뉴의 '맛집' 목록에 있는 가게를\n" +
+  "  🍽️[가게이름] 형식으로 바로 추천하세요(맛집 목록이 '정보 없음'인 메뉴만 예외적으로 안내가 없다고 답합니다)\n" +
   "- 음식 설명: desc를 자연스럽게 풀어서 말합니다\n" +
   "- '제주에서 먹어야 하는 이유'를 물으면 whyJeju를 활용합니다\n" +
   "- 맛이 궁금하면 taste로 상상되게 표현합니다\n" +
@@ -122,39 +124,57 @@ const FOOD_CONVO_PROMPT =
 let foodDataBlock = "";
 function normalizeName(s) { return String(s).replace(/\s/g, ""); }
 
-function priceRangeOf(menu) {
+// 메뉴명과 매칭되는 restaurants[].menu[] 항목들 — 가격대 계산과 맛집 목록 둘 다 여기서 뽑음
+function matchedMenuEntries(menu) {
   const target = normalizeName(menu.name);
-  const prices = [];
+  const entries = [];
   (menu.restaurants || []).forEach((r) => {
     (r.menu || []).forEach((m) => {
       if (normalizeName(m.name).includes(target)) {
         const num = parseInt(String(m.price).replace(/[^0-9]/g, ""), 10);
-        if (!isNaN(num)) prices.push(num);
+        entries.push({ restaurant: r.name, price: isNaN(num) ? null : num });
       }
     });
   });
+  return entries;
+}
+
+function priceRangeOf(entries) {
+  const prices = entries.map((e) => e.price).filter((p) => p !== null);
   if (!prices.length) return "정보 없음";
   const min = Math.min(...prices), max = Math.max(...prices);
   const fmt = (n) => n.toLocaleString("ko-KR");
   return min === max ? `${fmt(min)}원` : `${fmt(min)}~${fmt(max)}원`;
 }
 
+// 실제 맛집 이름 — 없는 곳을 지어내지 않도록, 이 목록에 있는 이름만 추천하게 함
+function restaurantListOf(entries) {
+  if (!entries.length) return "정보 없음";
+  return entries
+    .map((e) => e.restaurant + (e.price ? `(${e.price.toLocaleString("ko-KR")}원)` : ""))
+    .join(", ");
+}
+
 function buildFoodDataBlock(menus) {
-  return menus.map((m) => [
-    `- ${m.name} ${m.emoji || ""}`,
-    `  설명: ${m.desc}`,
-    `  제주에서 먹는 이유: ${m.whyJeju || "정보 없음"}`,
-    `  맛 표현: ${m.taste || "정보 없음"}`,
-    `  추천 대상: ${(m.recommendFor || []).join(", ") || "정보 없음"}`,
-    `  제철: ${m.season || "정보 없음"}`,
-    `  제주어: ${m.jejuWord || "없음(표준어와 동일)"}`,
-    `  알레르기 주의: ${m.allergy || "정보 없음"}`,
-    `  아이 동반 안내: ${m.kidNote || "정보 없음"}`,
-    `  유래/이야기: ${m.story || "없음"}`,
-    `  궁합 음식: ${(m.pairsWith || []).join(", ") || "정보 없음"}`,
-    `  초보자 난이도: ${"⭐".repeat(m.beginnerStars || 0) || "정보 없음"}`,
-    `  가격대: ${priceRangeOf(m)}`,
-  ].join("\n")).join("\n\n");
+  return menus.map((m) => {
+    const entries = matchedMenuEntries(m);
+    return [
+      `- ${m.name} ${m.emoji || ""}`,
+      `  설명: ${m.desc}`,
+      `  제주에서 먹는 이유: ${m.whyJeju || "정보 없음"}`,
+      `  맛 표현: ${m.taste || "정보 없음"}`,
+      `  추천 대상: ${(m.recommendFor || []).join(", ") || "정보 없음"}`,
+      `  제철: ${m.season || "정보 없음"}`,
+      `  제주어: ${m.jejuWord || "없음(표준어와 동일)"}`,
+      `  알레르기 주의: ${m.allergy || "정보 없음"}`,
+      `  아이 동반 안내: ${m.kidNote || "정보 없음"}`,
+      `  유래/이야기: ${m.story || "없음"}`,
+      `  궁합 음식: ${(m.pairsWith || []).join(", ") || "정보 없음"}`,
+      `  초보자 난이도: ${"⭐".repeat(m.beginnerStars || 0) || "정보 없음"}`,
+      `  가격대: ${priceRangeOf(entries)}`,
+      `  맛집: ${restaurantListOf(entries)}`,
+    ].join("\n");
+  }).join("\n\n");
 }
 
 async function loadFoodData() {
