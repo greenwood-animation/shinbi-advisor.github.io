@@ -7,7 +7,12 @@ const $ = (sel) => document.querySelector(sel);
 const PERSONAS = {
   food: {
     from: "food-map",
-    quick: ["오늘 뭐 먹을지 추천해줘", "이 근처 맛집 알려줘", "제철 음식이 뭐야?"],
+    quick: [
+      "오늘 몸 상태에 맞는 음식 추천해줘",
+      "제주에서 꼭 먹어야 할 음식은?",
+      "지금 제철 해산물이 뭐야?",
+      "현지인들은 뭘 많이 드세요?",
+    ],
   },
   forest: {
     from: "forest-map",
@@ -58,6 +63,78 @@ const CHAT_SYSTEM_PROMPT =
   "SUGGESTIONS: 질문1|질문2|질문3";
 const CHAT_WELCOME = "아이고~ 반가워라! 여행에서 궁금한 게 있으면 뭐든 물어봐~";
 const SUGGESTIONS_RE = /\n*SUGGESTIONS:\s*(.+)\s*$/i;
+
+// ── food 페르소나 전용: 음식 대화 모드 + 그라운딩 데이터 ──────
+// food-map이 지도에 쓰는 restaurants.json을 그대로 재사용해서, 챗봇이
+// 지도에 없는 메뉴·맛집을 지어내지 않고 실제 데이터 기준으로만 답하게 함.
+const FOOD_DATA_URL = "../food-map/data/restaurants.json";
+const FOOD_CONVO_PROMPT =
+  "[음식 대화 모드 — food 페르소나 전용]\n" +
+  "아래 '[음식 데이터]'에 있는 메뉴에 대해서만 다음 방식으로 답합니다. 데이터에 없는 메뉴·맛집은 절대 지어내지 마세요.\n" +
+  "- 음식 설명: desc를 자연스럽게 풀어서 말합니다\n" +
+  "- '제주에서 먹어야 하는 이유'를 물으면 whyJeju를 활용합니다\n" +
+  "- 맛이 궁금하면 taste로 상상되게 표현합니다\n" +
+  "- 컨디션·상황(피곤함, 숙취, 아이 동반, 부모님, 비 오는 날 등)에 맞는 추천을 물으면 recommendFor가 겹치는 메뉴를 추천합니다\n" +
+  "- 제철을 물으면 season 기준으로 답합니다\n" +
+  "- 제주어를 물으면 jejuWord를 알려주고, 없으면 '이건 표준어랑 똑같단다~'라고 답합니다\n" +
+  "- 처음 먹는 사람 추천을 물으면 beginnerStars를 ⭐ 개수로 보여주고, 5면 '누구나 좋아함', 3이면 '호불호 있음'이라 덧붙입니다\n" +
+  "- 알레르기·아이 동반 질문에는 allergy, kidNote를 알려주되, 의학적 진단이 아니라 참고용임을 한 줄로 덧붙입니다\n" +
+  "- 가격을 물으면 데이터의 가격대를 알려주되 매장마다 다를 수 있음을 짧게 언급합니다\n" +
+  "- 유래나 이야기를 물으면 story를 2~3문장으로 들려줍니다(story가 '없음'이면 지어내지 말고 다른 메뉴를 대신 권합니다)\n" +
+  "- 궁합 음식을 물으면 pairsWith를 추천합니다\n" +
+  "- '오늘 뭐 먹지' 같은 상황·일정 기반 질문에는 recommendFor·season·beginnerStars를 종합해 1~2개 메뉴를 골라 이유와 함께 추천합니다\n" +
+  "- 데이터에 아예 없는 음식(예: 몸국, 각재기국 등)을 물으면 지어내지 말고 '아이고, 그건 순덕이 지도엔 없는 음식이란다~'라고 솔직히 말한 뒤 데이터에 있는 비슷한 메뉴를 대신 권하세요\n";
+
+let foodDataBlock = "";
+function normalizeName(s) { return String(s).replace(/\s/g, ""); }
+
+function priceRangeOf(menu) {
+  const target = normalizeName(menu.name);
+  const prices = [];
+  (menu.restaurants || []).forEach((r) => {
+    (r.menu || []).forEach((m) => {
+      if (normalizeName(m.name).includes(target)) {
+        const num = parseInt(String(m.price).replace(/[^0-9]/g, ""), 10);
+        if (!isNaN(num)) prices.push(num);
+      }
+    });
+  });
+  if (!prices.length) return "정보 없음";
+  const min = Math.min(...prices), max = Math.max(...prices);
+  const fmt = (n) => n.toLocaleString("ko-KR");
+  return min === max ? `${fmt(min)}원` : `${fmt(min)}~${fmt(max)}원`;
+}
+
+function buildFoodDataBlock(menus) {
+  return menus.map((m) => [
+    `- ${m.name} ${m.emoji || ""}`,
+    `  설명: ${m.desc}`,
+    `  제주에서 먹는 이유: ${m.whyJeju || "정보 없음"}`,
+    `  맛 표현: ${m.taste || "정보 없음"}`,
+    `  추천 대상: ${(m.recommendFor || []).join(", ") || "정보 없음"}`,
+    `  제철: ${m.season || "정보 없음"}`,
+    `  제주어: ${m.jejuWord || "없음(표준어와 동일)"}`,
+    `  알레르기 주의: ${m.allergy || "정보 없음"}`,
+    `  아이 동반 안내: ${m.kidNote || "정보 없음"}`,
+    `  유래/이야기: ${m.story || "없음"}`,
+    `  궁합 음식: ${(m.pairsWith || []).join(", ") || "정보 없음"}`,
+    `  초보자 난이도: ${"⭐".repeat(m.beginnerStars || 0) || "정보 없음"}`,
+    `  가격대: ${priceRangeOf(m)}`,
+  ].join("\n")).join("\n\n");
+}
+
+async function loadFoodData() {
+  try {
+    const res = await fetch(FOOD_DATA_URL, { cache: "no-store" });
+    const data = await res.json();
+    foodDataBlock = buildFoodDataBlock(data.menus || []);
+  } catch (err) {
+    foodDataBlock = "";
+  }
+}
+
+// food 페르소나면 초기 렌더와 동시에 백그라운드로 로드 시작, 첫 전송 시 await로 대기
+const foodDataPromise = personaKey === "food" ? loadFoodData() : Promise.resolve();
 
 let chatHistory = [];
 let chatSending = false;
@@ -153,12 +230,18 @@ async function sendChatMessage(text) {
   typing.classList.add("chat-bubble-typing");
 
   try {
+    if (personaKey === "food") await foodDataPromise;
+    const systemPrompt = CHAT_SYSTEM_PROMPT +
+      (personaKey === "food" && foodDataBlock
+        ? "\n\n" + FOOD_CONVO_PROMPT + "\n[음식 데이터]\n" + foodDataBlock
+        : "");
+
     const res = await fetch(CHAT_WORKER_URL, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         model: "gpt-4o-mini",
-        messages: [{ role: "system", content: CHAT_SYSTEM_PROMPT }, ...chatHistory],
+        messages: [{ role: "system", content: systemPrompt }, ...chatHistory],
         temperature: 0.8,
       }),
     });
