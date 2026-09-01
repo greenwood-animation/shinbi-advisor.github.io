@@ -51,10 +51,10 @@ body {
   color: #6BBDFA;
 }
 
-/* 채팅 로그: 캔버스 기준 (90,321) 위치에 900×1420 크기로 고정된 스크롤 영역.
+/* 채팅 로그: 하늘색 본문 상단과 첫 프로필 사이도 좌우 여백(약 60px)과 같도록 배치.
    메시지가 늘어나면 이 안에서만 스크롤됨(패널 자체는 안 움직임) */
 .chat-messages {
-  position: absolute; left: 90px; top: 321px; width: 900px; height: 1420px;
+  position: absolute; left: 90px; top: 256px; width: 900px; height: 1485px;
   overflow-y: auto; padding: 23px 12px 20px;
   display: flex; flex-direction: column; gap: 22px;
 }
