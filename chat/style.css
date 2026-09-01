@@ -45,16 +45,16 @@ body {
 
 /* 헤더 이름 — 캔버스 기준 절대좌표, 럭키수퍼 Bold, 색상 #6BBDFA */
 .chat-name {
-  position: absolute; left: 393px; top: 64px; width: 220px; height: 53px;
+  position: absolute; left: 393px; top: 104px; width: 220px; height: 53px;
   display: flex; align-items: center; white-space: nowrap;
   font-family: "LuckySuper", sans-serif; font-weight: 700; font-size: 50px; line-height: 1;
   color: #6BBDFA;
 }
 
-/* 채팅 로그: 캔버스 기준 (90,341) 위치에 900×1400 크기로 고정된 스크롤 영역.
+/* 채팅 로그: 캔버스 기준 (90,321) 위치에 900×1420 크기로 고정된 스크롤 영역.
    메시지가 늘어나면 이 안에서만 스크롤됨(패널 자체는 안 움직임) */
 .chat-messages {
-  position: absolute; left: 90px; top: 341px; width: 900px; height: 1400px;
+  position: absolute; left: 90px; top: 321px; width: 900px; height: 1420px;
   overflow-y: auto; padding: 23px 12px 20px;
   display: flex; flex-direction: column; gap: 22px;
 }

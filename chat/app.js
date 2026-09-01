@@ -11,7 +11,7 @@ const PERSONAS = {
   food: {
     from: "food-map",
     name: "순덕",
-    panelArt: "assets/chat/panel_art.png",
+    panelArt: "assets/chat/채팅방_미니패널_순덕.png",
     avatar: "assets/chat/bot_profile.png",
     quick: [
       "오늘 몸 상태에 맞는 음식 추천해줘",
