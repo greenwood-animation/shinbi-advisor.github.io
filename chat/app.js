@@ -1,12 +1,18 @@
-// 신비 챗봇 — 독립 채팅 페이지
-// food-map/forest-map/sea-map 어디서 와도 캐릭터(신비)와 대화 로직은 동일하고,
-// ?from=food|forest|sea 값에 따라 뒤로가기 대상과 인사말 퀵리플라이만 다르게 보여줌.
+// 챗봇 — 독립 채팅 페이지
+// food-map/forest-map/sea-map 어디서 와도 대화 로직(그라운딩, 후속 질문 등)은 동일하고,
+// ?from=food|forest|sea 값에 따라 뒤로가기 대상, 캐릭터 이미지/이름, 퀵리플라이만 다르게 보여줌.
 
 const $ = (sel) => document.querySelector(sel);
 
+// 캐릭터별 이미지: 채팅 패널 상단 아트(panelArt)와 말풍선 옆 프로필(avatar).
+// food/forest는 캐릭터가 하나뿐이라 persona에 바로 두고, sea는 요요/치즈 중
+// ?char= 값(없으면 요요로 통일)에 따라 chars 아래에서 골라 씀.
 const PERSONAS = {
   food: {
     from: "food-map",
+    name: "순덕",
+    panelArt: "assets/chat/panel_art.png",
+    avatar: "assets/chat/bot_profile.png",
     quick: [
       "오늘 몸 상태에 맞는 음식 추천해줘",
       "제주에서 꼭 먹어야 할 음식은?",
@@ -16,10 +22,17 @@ const PERSONAS = {
   },
   forest: {
     from: "forest-map",
+    name: "북차사",
+    panelArt: "assets/chat/채팅방_미니패널_북차사.png",
+    avatar: "assets/chat/챗봇_프로필_북차사.png",
     quick: ["힐링되는 숲길 추천해줘", "숲에서 뭘 볼 수 있어?", "가볍게 걷기 좋은 코스 알려줘"],
   },
   sea: {
     from: "sea-map",
+    chars: {
+      yoyo: { name: "요요", panelArt: "assets/chat/채팅방_미니패널_요요.png", avatar: "assets/chat/챗봇_프로필_요요.png" },
+      cheese: { name: "치즈", panelArt: "assets/chat/채팅방_미니패널_치즈.png", avatar: "assets/chat/챗봇_프로필_치즈.png" },
+    },
     quick: ["바다 구경하기 좋은 곳 알려줘", "물놀이하기 좋은 곳은 어디야?", "노을 명소 추천해줘"],
   },
 };
@@ -28,23 +41,27 @@ const params = new URLSearchParams(location.search);
 const personaKey = PERSONAS[params.get("from")] ? params.get("from") : "food";
 const persona = PERSONAS[personaKey];
 
+// sea만 캐릭터가 둘이라 ?char=로 구분. 값이 없거나(첫 화면에서 선택 없이 바로 넘어온 경우)
+// 모르는 값이면 요요로 통일.
+const seaChar = personaKey === "sea"
+  ? persona.chars[params.get("char")] ? params.get("char") : "yoyo"
+  : null;
+const character = seaChar ? persona.chars[seaChar] : persona;
+
+const BOT_NAME = character.name;
+const BOT_AVATAR = character.avatar;
+
+$("#chatName").textContent = BOT_NAME;
+$("#chatPanelArt").src = character.panelArt;
+
 $("#chatBackBtn").addEventListener("click", () => {
   location.href = `../${persona.from}/index.html`;
 });
 
-// ── 챗봇 (신비할망, Cloudflare Worker → OpenAI 프록시) ──────
+// ── 챗봇 (Cloudflare Worker → OpenAI 프록시) ──────
 const CHAT_WORKER_URL = "https://wispy-unit-c9aa.yongmalyang.workers.dev/";
 const CHAT_SYSTEM_PROMPT =
-  "당신은 신비할망입니다. 본명은 고순덕, 87년 제주 해녀로 살다 환생한 21세 외모의 차사로 동백마을 해녀식당을 운영합니다.\n\n" +
-  "[말투]\n" +
-  "- \"아이고\", \"허이쿠\", \"하이고\", \"이를 어쩌나\" 같은 감탄사를 자연스럽게 씁니다\n" +
-  "- \"~구나\", \"~이란다\", \"~이지\", \"~해봐야겠어\" 같은 따뜻하고 친근한 어미를 씁니다\n" +
-  "- 제주 방언 뉘앙스를 가끔 섞습니다 (과하지 않게)\n" +
-  "- 음식이나 바다 얘기가 나오면 더 신나고 생생하게 말합니다\n" +
-  "- 방문객을 손주 대하듯 반깁니다\n\n" +
-  "[성격]\n" +
-  "- 87년 삶의 경험으로 지혜롭지만 새로운 것에 해맑게 감탄합니다\n" +
-  "- 베풀기를 좋아하고, 먼저 손 내미는 따뜻한 심성입니다\n\n" +
+  "당신은 제주 여행 안내 챗봇입니다.\n\n" +
   "[역할과 절대 규칙]\n" +
   "제주 여행 전반을 안내합니다. 관광지, 맛집, 체험, 이동 방법, 날씨, 여행 코스는 물론 제주 문화·역사·음식 상식 등\n" +
   "일반적인 질문에도 얼버무리지 말고 아는 대로 바로, 구체적으로 답합니다.\n" +
@@ -52,7 +69,7 @@ const CHAT_SYSTEM_PROMPT =
   "★ 데이터에 없는 장소명·가게명은 절대 지어내거나 추측하지 마세요.\n" +
   "★ 반면 특정 장소 추천이 아니라 일반 지식(제주 문화, 역사, 음식 상식, 날씨 경향, 여행 팁 등)을 묻는 질문에는\n" +
   "다른 사이트로 떠넘기지 말고 당신이 아는 대로 바로 답하세요.\n" +
-  "★ 구체적인 장소 추천을 원하는데 해당 카테고리 데이터가 정말 없을 때만 '아이고, 지금 당장 딱 맞는 장소가 없구나~ 비짓제주 사이트(visitjeju.net)에서 더 찾아보렴!' 이라고 답하세요.\n\n" +
+  "★ 구체적인 장소 추천을 원하는데 해당 카테고리 데이터가 정말 없을 때만 '지금 딱 맞는 장소를 찾지 못했어요. 비짓제주 사이트(visitjeju.net)에서 더 찾아보세요!' 라고 답하세요.\n\n" +
   "[답변 포맷 규칙]\n" +
   "- 장소/가게: 이모지 + 대괄호. 예) 🏝️[성산일출봉], 🍽️[흑돼지거리]\n" +
   "- 날씨: 🌤️[제주시 맑음 · 18°C · 바람 3m/s]\n" +
@@ -64,7 +81,7 @@ const CHAT_SYSTEM_PROMPT =
   "답변을 마친 뒤 맨 마지막 줄에 방금 대화 맥락과 자연스럽게 이어지는 후속 질문 2~3개를\n" +
   "정확히 아래 형식 한 줄로만 추가하세요(이모지·설명 없이, 방문객이 실제로 물어볼 법한 짧은 문장으로):\n" +
   "SUGGESTIONS: 질문1|질문2|질문3";
-const CHAT_WELCOME = "아이고~ 반가워라! 여행에서 궁금한 게 있으면 뭐든 물어봐~";
+const CHAT_WELCOME = "안녕하세요! 여행에서 궁금한 점이 있으면 무엇이든 물어보세요.";
 const SUGGESTIONS_RE = /\n*SUGGESTIONS:\s*(.+)\s*$/i;
 
 // ── 관리자 키 ("manager" 입력 → 키 요청 → 이후 X-Admin-Key 헤더로 전송) ──
@@ -85,7 +102,7 @@ function handleManagerTrigger() {
   removeSuggestions();
   addChatBubble("user", "manager");
   awaitingManagerKey = true;
-  addChatBubble("bot", "허이쿠, 관리자시구나! 키를 입력해줘~");
+  addChatBubble("bot", "관리자시군요. 키를 입력해주세요.");
 }
 
 function handleManagerKeyEntry(rawKey) {
@@ -93,7 +110,7 @@ function handleManagerKeyEntry(rawKey) {
   removeSuggestions();
   addChatBubble("user", "•".repeat(Math.min(rawKey.length, 10) || 4));
   localStorage.setItem(ADMIN_KEY_STORAGE_KEY, rawKey);
-  addChatBubble("bot", "키를 저장했어~ 이 브라우저는 이제부터 그 키로 접속할 거야!");
+  addChatBubble("bot", "키를 저장했습니다. 이 브라우저는 이제부터 해당 키로 접속합니다.");
   renderSuggestions(persona.quick);
 }
 
@@ -111,7 +128,7 @@ const FOOD_CONVO_PROMPT =
   "- 맛이 궁금하면 taste로 상상되게 표현합니다\n" +
   "- 컨디션·상황(피곤함, 숙취, 아이 동반, 부모님, 비 오는 날 등)에 맞는 추천을 물으면 recommendFor가 겹치는 메뉴를 추천합니다\n" +
   "- 제철을 물으면 season 기준으로 답합니다\n" +
-  "- 제주어를 물으면 jejuWord를 알려주고, 없으면 '이건 표준어랑 똑같단다~'라고 답합니다\n" +
+  "- 제주어를 물으면 jejuWord를 알려주고, 없으면 '이건 표준어와 동일합니다'라고 답합니다\n" +
   "- 처음 먹는 사람 추천을 물으면 beginnerStars를 ⭐ 개수로 보여주고, 5면 '누구나 좋아함', 3이면 '호불호 있음'이라 덧붙입니다\n" +
   "- 알레르기·아이 동반 질문에는 allergy, kidNote를 알려주되, 의학적 진단이 아니라 참고용임을 한 줄로 덧붙입니다\n" +
   "- 가격을 물으면 데이터의 가격대를 알려주되 매장마다 다를 수 있음을 짧게 언급합니다\n" +
@@ -257,7 +274,7 @@ function addChatBubble(role, text) {
   const avatar = document.createElement("img");
   avatar.className = "chat-avatar";
   avatar.alt = "";
-  avatar.src = role === "bot" ? "assets/chat/bot_profile.png" : "assets/chat/user_profile.png";
+  avatar.src = role === "bot" ? BOT_AVATAR : "assets/chat/user_profile.png";
   avatar.onerror = () => { avatar.style.display = "none"; };
   row.appendChild(avatar);
 
@@ -324,7 +341,7 @@ async function sendChatMessage(text) {
     // 맥락 제안이 파싱 안 되면(모델이 형식을 안 지킨 경우) 기본 퀵리플라이로 대체
     renderSuggestions(suggestions.length ? suggestions : persona.quick);
   } catch (err) {
-    typing.textContent = "아이고, 지금은 대답을 못 하겠구나... 잠시 후 다시 물어봐줘!";
+    typing.textContent = "죄송합니다, 지금은 답변을 드릴 수 없어요. 잠시 후 다시 시도해주세요.";
     renderSuggestions(persona.quick);
   } finally {
     typing.classList.remove("chat-bubble-typing");

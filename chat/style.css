@@ -43,25 +43,11 @@ body {
   cursor: pointer; line-height: 1; padding: 8px;
 }
 
-/* 헤더 텍스트 3종 — 전부 캔버스 기준 절대좌표, 색상 #6BBDFA로 통일.
-   "신비"만 럭키수퍼 Bold, 나머지 둘은 나눔고딕 Regular */
+/* 헤더 이름 — 캔버스 기준 절대좌표, 럭키수퍼 Bold, 색상 #6BBDFA */
 .chat-name {
   position: absolute; left: 393px; top: 64px; width: 220px; height: 53px;
   display: flex; align-items: center; white-space: nowrap;
   font-family: "LuckySuper", sans-serif; font-weight: 700; font-size: 50px; line-height: 1;
-  color: #6BBDFA;
-}
-.chat-desc {
-  position: absolute; left: 393px; top: 129px; width: 284px; height: 45px;
-  display: flex; align-items: center;
-  font-family: "Nanum Gothic", "Malgun Gothic", sans-serif; font-weight: 400; font-size: 30px; line-height: 1;
-  color: #6BBDFA;
-}
-/* panel_art.png 안의 빈 알약 모양 위에 얹는 인사 문구 */
-.chat-greeting {
-  position: absolute; left: 279px; top: 256px; width: 532px; height: 45px;
-  display: flex; align-items: center;
-  font-family: "Nanum Gothic", "Malgun Gothic", sans-serif; font-weight: 400; font-size: 30px; line-height: 1;
   color: #6BBDFA;
 }
 

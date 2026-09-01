@@ -12,17 +12,16 @@
 <body>
   <div id="app">
 
-    <!-- ── 신비 챗봇: food-map/forest-map/sea-map 공통으로 쓰는 독립 채팅 페이지.
+    <!-- ── 챗봇: food-map/forest-map/sea-map 공통으로 쓰는 독립 채팅 페이지.
          원래 food-map 안에 풀스크린 슬라이드 패널로 붙어있던 걸 그대로 떼어내
          항상 열려있는 페이지로 만듦. ?from=food|forest|sea 로 어느 지도에서
-         왔는지 받아 뒤로가기 대상과 퀵리플라이만 바꿔줌(캐릭터는 신비로 고정). -->
+         왔는지 받아 뒤로가기 대상, 퀵리플라이, 캐릭터 이미지/이름을 바꿔줌
+         (sea는 ?char=yoyo|cheese로 요요/치즈 중 하나 더 구분). -->
     <div class="chat-panel" id="chatPanel">
-      <img class="chat-panel-art" src="assets/chat/panel_art.png" alt="" />
+      <img class="chat-panel-art" id="chatPanelArt" src="assets/chat/panel_art.png" alt="" />
       <div class="chat-panel-content">
         <button class="chat-back-btn" id="chatBackBtn" type="button" aria-label="뒤로가기">←</button>
         <div class="chat-name" id="chatName">신비할망</div>
-        <div class="chat-desc" id="chatDesc">제주를 안내해드려요!</div>
-        <div class="chat-greeting">신비는 제주에 대해 무엇이든 알려드려요</div>
         <!-- 선택지(.chat-suggestions)는 고정 엘리먼트가 아니라 app.js가 마지막 말풍선 다음에
              동적으로 붙였다 뗐다 하는 채팅 로그의 일부라 여기 마크업엔 없음 -->
         <div class="chat-messages" id="chatMessages"></div>
@@ -37,6 +36,6 @@
     </form>
 
   </div>
-  <script src="app.js?v=4"></script>
+  <script src="app.js?v=7"></script>
 </body>
 </html>

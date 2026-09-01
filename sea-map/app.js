@@ -87,6 +87,10 @@ function selectGuide(guide) {
   // 강조색을 안내자 색으로 교체
   document.documentElement.style.setProperty("--accent", guide.color);
 
+  // 지도 화면의 채팅바는 선택한 안내자(요요/치즈)를 그대로 챗봇 캐릭터로 넘김
+  const chatBar = $("#mapChatBar");
+  if (chatBar) chatBar.href = `../chat/index.html?from=sea&char=${guide.id}`;
+
   openMap(guide);
 }
 
